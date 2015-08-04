@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ include file="../includes/tags.jsp"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0-SNAPSHOT Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,9 +13,13 @@
 	<div id="ui-container">
 		<div class="ui-header ui-highlight-bar">
 			<div class="ui-topnav ui-container">
-				<div class="ui-logo"><img src="${staticResPath}/images/logo.png"/><h1 title="${_appName }">${_appName }</h1></div>
+				<div class="ui-logo">
+					<img src="${staticResPath}/images/logo.png" />
+					<h1 title="${_appName }">${_appName }</h1>
+				</div>
 				<div class="ui-accounts">
-					${jeeAccount.nick}(${jeeAccount.userid })<a href="${ctxPath }/cas_security_logout">注销</a>
+					${jeeAccount.nick}(${jeeAccount.userid })<a
+						href="${ctxPath }/logout">注销</a>
 				</div>
 			</div>
 		</div>
@@ -22,26 +27,38 @@
 			<div class="ui-container">
 				<div class="ui-layout-left ui-aside-container">
 					<sec:authorize ifAnyGranted="ROLE_SUPER, ROLE_user_admin">
-					<h3><a href="#">基础管理</a></h3>
-					<div>
-						<ul>
-							<li><a href="javascript:_account_admin()">账号管理</a></li>
-							<li><a href="javascript:_access_admin()">权限管理</a></li>
-							<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
-							<li><a href="javascript:_shop_admin()">店铺管理</a></li>
-							<li><a href="javascript:_classes_admin()">课程管理</a></li>
-						</ul>
-					</div>
+						<h3>
+							<a href="#">系统管理</a>
+						</h3>
+						<div>
+							<ul>
+								<li><a href="javascript:_account_admin()">账号管理</a></li>
+								<li><a href="javascript:_access_admin()">权限管理</a></li>
+								<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
+								<li><a href="javascript:_shop_admin()">门店管理</a></li>
+								<li><a href="javascript:_classes_admin()">课程管理</a></li>
+							</ul>
+						</div>
+					</sec:authorize>
+					<sec:authorize ifAnyGranted="ROLE_SHOP_MANAGER">
+						<h3>
+							<a href="#">门店管理</a>
+						</h3>
+						<div>
+							<ul>
+								<li><a href="javascript:_account_admin()">账号管理</a></li>
+								<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
+								<li><a href="javascript:_classes_admin()">课程管理</a></li>
+							</ul>
+						</div>
 					</sec:authorize>
 				</div>
 			</div>
-			
-			<div class="ui-layout-right ui-mc-container">
-			</div>
+			<div class="ui-layout-right ui-mc-container"></div>
 		</div>
 		<div class="ui-weak-container">
 			<div class="ui-container">
-				<spring:message code="app.copyrights"/>
+				<spring:message code="app.copyrights" />
 			</div>
 		</div>
 	</div>
