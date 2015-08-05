@@ -91,7 +91,7 @@
 				$("input[name='accesses']").click(function(){
 					if($(this).val()=='TEACHER'){
 						if($(this).prop('checked')){
-							$(".ui-fieldset-teacher").show();
+							$(".ui-fieldset-teacher").toggle();
 						}else{
 							$(".ui-fieldset-teacher").hide();
 						}

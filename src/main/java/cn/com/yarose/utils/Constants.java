@@ -30,13 +30,4 @@ public class Constants {
 		}
 		return teachLevelDicts;
 	}
-
-	public static String getDictionaryStatusName(Integer value) {
-		Collection<NameValueBean> nvbs = getStatusDictionary();
-		for (NameValueBean nvb : nvbs) {
-			if (nvb.getId().equals(value + ""))
-				return nvb.getName();
-		}
-		return "";
-	}
 }

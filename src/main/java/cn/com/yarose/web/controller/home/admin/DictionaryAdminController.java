@@ -1,11 +1,13 @@
 package cn.com.yarose.web.controller.home.admin;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,10 +19,11 @@ import cn.com.eduedu.jee.entity.NameValueBean;
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
+import cn.com.eduedu.jee.order.OrderProperties;
 
 @Controller
 @RequestMapping("/home/admin/dictionary")
-@CRUDControllerMeta(title = "类别管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
+@CRUDControllerMeta(title = "字典管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
 public class DictionaryAdminController extends
 		BaseCRUDControllerExt<Dictionary, Long> {
 
@@ -36,7 +39,7 @@ public class DictionaryAdminController extends
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if(this.validate(cmd, result, request, create)){
-		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getType(),cmd.getName());
+		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getType().getId(),cmd.getName());
 		    if(create){
 		       if(dic != null){
 		         result.rejectValue("name","invalidate","已经存在!");
@@ -70,6 +73,14 @@ public class DictionaryAdminController extends
 			boolean create) throws Exception {
 		return this.generateStringSortedSet("type", "name");
 	}
+	
+	@Override
+	public List<Dictionary> customList(int offset, int count,
+			OrderProperties orders, HttpServletRequest request)
+			throws Exception {
+		Long type = this.getTypeId(request);
+		return ((DictionaryService)this.getCrudService()).listByType(type);
+	}
 
 	@DictionaryModel(header = true, headerLabel = "请选择", headerValue = "")
 	public Collection<NameValueBean> _types(HttpServletRequest request) {
@@ -80,7 +91,14 @@ public class DictionaryAdminController extends
 	public Set<String> customListFields(HttpServletRequest request) throws Exception {
 	  return this.generateStringSortedSet("typeName", "name");
 	}
-
+	
+	public Long getTypeId(HttpServletRequest request){
+	  String type=request.getParameter("_type");
+	  if(StringUtils.hasText(type)){
+		  return Long.parseLong(type);
+	  }
+	  return null;
+	}
 	
 	@Override
 	public void customDelete(Long id, HttpServletRequest request) throws Exception {

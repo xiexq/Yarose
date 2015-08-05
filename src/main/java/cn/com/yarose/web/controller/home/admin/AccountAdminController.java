@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -107,8 +106,6 @@ public class AccountAdminController extends
 				"courseFee", "address", "accesses");
 	}
 	
-	public List<>
-
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
