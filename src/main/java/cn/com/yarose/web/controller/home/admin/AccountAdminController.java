@@ -97,5 +97,11 @@ public class AccountAdminController extends
 	public Collection<NameValueBean> _statuss(HttpServletRequest request) {
 		return AccountHelper.getStatusNames();
 	}
+	
+	@Override
+	public Set<String> customListFields(HttpServletRequest request) throws Exception {
+	  return this.generateStringSortedSet("email", "password","nick",
+        "expireTime", "status", "accesses");
+	}
 
 }
