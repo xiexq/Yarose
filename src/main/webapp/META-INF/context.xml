@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context reloadable="false"
+	docBase="/projects/yarose/target/yarose-1.0-SNAPSHOT" override="true"
+	path="/yarose">
+	<!-- bonecp data source configuration -->
+	<Resource name="jdbc/yarose_DS" auth="Container"
+		type="com.jolbox.bonecp.BoneCPDataSource" factory="org.apache.naming.factory.BeanFactory"
+		driverClass="com.mysql.jdbc.Driver" username="root" password=""
+		jdbcUrl="jdbc:mysql://127.0.0.1/yarose_db?useUnicode=true&amp;characterEncoding=GBK&amp;autoReconnect=true"
+		idleConnectionTestPeriod="60" partitionCount="1"
+		acquireIncrement="2" maxConnectionsPerPartition="100"
+		minConnectionsPerPartition="5" statementsCacheSize="0"
+		releaseHelperThreads="3" />
+</Context>

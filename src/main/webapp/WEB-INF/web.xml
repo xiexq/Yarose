@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>yarose</display-name>
+
+	<context-param id="Context_Param_Spring">
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:context-import.xml</param-value>
+	</context-param>
+	<!-- Encoding Filter, Set Request and Response Characters Encode. -->
+	<filter id="Filter_encoding">
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param id="Filter_encoding_param_encode">
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param id="Filter_encoding_param_force">
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<!-- 启动Spring的安全框架，注意，这里的名称springSecurityFilterChain不能修改，它和Spring Security配置文件是对应的，哪里默认指定的名称未springSecurityFilterChain -->
+	<filter id="Filter_security">
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping id="Filter_Mapping_Encoding">
+		<filter-name>encodingFilter</filter-name>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping id="Filter_Mapping_Security">
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener id="Listener_Spring_Config">
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener id="Listener_Spring_Security_Session_Event_Publisher">
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+
+	<servlet id="Servlet_Spring">
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:mvc_context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet id="Servlet_Captcha">
+		<servlet-name>Captcha</servlet-name>
+		<servlet-class>cn.com.eduedu.jee.security.captcha.servlet.SimpleCaptchaServlet</servlet-class>
+		<init-param>
+			<param-name>captcha-width</param-name>
+			<param-value>160</param-value>
+		</init-param>
+		<init-param>
+			<param-name>captcha-height</param-name>
+			<param-value>60</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping id="Servlet_Mapping_Spring">
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping id="Servlet_Mapping_Kaptcha">
+		<servlet-name>Captcha</servlet-name>
+		<url-pattern>/captcha.png</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 引用数据源，通过JNDI查找 -->
+	<resource-ref>
+		<description>Data Source</description>
+		<res-ref-name>jdbc/yarose_DS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<!-- 默认的错误处理页面 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/public/403</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/404</location>
+	</error-page>
+	<!-- 仅仅在调试的时候注视掉,在正式部署的时候不能注释 -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/public/500</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/public/500</location>
+	</error-page>
+</web-app>

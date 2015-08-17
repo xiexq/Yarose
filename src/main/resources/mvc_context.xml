@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 所有的应用程序全局变量配置，请集中在这里配置 -->
+				<value>classpath:cfgs.properties</value>
+			</list>
+		</property>
+	</bean>
+    <!-- 国际化字符串 -->
+    <bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:cn/com/eduedu/jee/mvc/commons</value>
+				<value>/WEB-INF/classes/messages</value>
+			</list>
+		</property>
+		<property name="cacheSeconds" value="0" /><!-- 在正式运行状态下请修改这里 -->
+	</bean>
+	<context:component-scan base-package="cn.com.yarose.web.controller" /><!-- 定义基于注释的扫描包 -->
+	<!-- 对特定应用服务器的固有Servlet映射进行处理,主要用于映射/**
+	<mvc:default-servlet-handler/>
+	-->
+	<import resource="classpath:/cn/com/eduedu/jee/mvc/context.xml"/>
+	<!-- 文件上传的大小限制 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="${file.upload.max.size}" />
+	</bean>
+</beans>
+	

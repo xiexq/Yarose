@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 所有的应用程序全局变量配置，请集中在这里配置 -->
+				<value>classpath:cfgs.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!--CUSTOME 数据源配置和hibernate的mapping文件映射 -->
+	<import resource="classpath:/data_context.xml"/>
+	<!-- 对基础服务进行事务切面的配置 -->
+	<import resource="classpath:/cn/com/eduedu/jee/service/context.xml"/>
+	<!-- 导入认证实现 -->
+	<import resource="classpath:/cn/com/eduedu/jee/security/context.xml"/><!-- 安全接口的事务配置 -->
+	<import resource="classpath:/cn/com/eduedu/jee/security/account/context-without-userservice.xml"/><!-- 默认认证的配置，不需要默认的配置，可以注释掉 -->
+	
+	<!-- 导入基于注释的验证 -->
+	<import resource="classpath:/cn/com/eduedu/jee/validation/context.xml"/>
+	<!-- 导入常用的格式化工具 -->
+	<import resource="classpath:/cn/com/eduedu/jee/format/context.xml"/>
+	
+	<!-- 文件上传服务类 -->
+	<bean id="file_uploadService" class="cn.com.eduedu.jee.mvc.upload.UploadService">
+		<property name="tmpDirectory" value="${file.upload.tmp.dir}"/>
+		<property name="repositoryDirectory" value="${file.upload.repository.dir}"/>
+	</bean>
+	<!-- 导入缓存的实现 -->
+	<import resource="classpath:/cn/com/eduedu/jee/tools/cache/cache_context.xml"/>
+	<!--CUSTOME 当前应用服务层的配置 -->
+	<import resource="classpath:/app_context.xml"/>
+	
+	<!-- 导入安全控制模块配置 -->
+	<import resource="classpath:/security_context.xml"/>
+	
+	<!-- 导入数据库访问助手的配置，主要用于查询统计 -->
+	<import resource="classpath:/cn/com/eduedu/jee/db/orm/context.xml"/>
+</beans>
