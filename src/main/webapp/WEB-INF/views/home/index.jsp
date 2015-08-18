@@ -22,11 +22,14 @@
 			<div class="ui-container">
 				<div class="ui-layout-left ui-aside-container">
 					<sec:authorize ifAnyGranted="ROLE_SUPER, ROLE_user_admin">
-					<h3><a href="#">用户管理</a></h3>
+					<h3><a href="#">基础管理</a></h3>
 					<div>
 						<ul>
 							<li><a href="javascript:_account_admin()">账号管理</a></li>
 							<li><a href="javascript:_access_admin()">权限管理</a></li>
+							<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
+							<li><a href="javascript:_shop_admin()">店铺管理</a></li>
+							<li><a href="javascript:_classes_admin()">课程管理</a></li>
 						</ul>
 					</div>
 					</sec:authorize>

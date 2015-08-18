@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="cn.com.yarose.base" auto-import="false">
+	<class name="Course" table="t_course" lazy="true">
+				<id name="id" column="id" type="long">
+			<generator class="native">
+				<param name="sequence">s_course_id</param>
+			</generator>
+		</id>
+			</class>
+</hibernate-mapping>

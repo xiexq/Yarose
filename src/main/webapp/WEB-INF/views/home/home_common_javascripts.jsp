@@ -86,4 +86,48 @@
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'});
 	}
+	
+	function _dictionary_admin(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/admin/dictionary'});
+	}
+	function _shop_admin(){
+		_clearContainer();
+		var mc=$('<div></div>'),svc=new StackViewController(container);
+		svc.push(mc);
+		mc.crud({url:'${ctxPath}/home/admin/shops',
+		listItemActions:[
+			{label:'管理授权',func:function(event){
+				var data=event.data,li=data.li,id=li.data('id'),shopName=_crudHelper.getListItemFieldValue(li,'name'),
+				c=$('<div></div>');
+				svc.push(c);
+				c.crud({
+					url:'${ctxPath }/home/admin/shop/managers',
+					params:{_shopId:id},
+					title:shopName+' 管理授权',
+					actions:[{label:'所有店铺',func:function(){svc.pop();}}],
+				});
+			},cssClass:'ui-action-manager'}
+		],
+		});
+	}
+	
+	function _classes_admin(){
+		
+	}
 	</script>
+	
+	<!-- 
+	onSelectBigField:function(event,data){
+			var field=data.field,fieldName=field.name,dicUrl=field.dicUrl,callback=data.callback;
+			if(fieldName=="questionBankId"){
+				var tenantCode=mc.crud('getEditFieldVal','tenantCode');
+				if(!!!tenantCode){
+					mc.crud('tipInfo','请填写租户编码','warn');
+					return false;
+				}else{
+					return _select_question_bank(dicUrl,{_tenantCode:tenantCode},callback);
+				}
+			}
+		},
+	 -->
