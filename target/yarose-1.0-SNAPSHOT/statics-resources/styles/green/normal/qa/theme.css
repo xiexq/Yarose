@@ -1,0 +1,135 @@
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-retrieve{
+	background-position:0 -168px;
+}
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-fav2lms{
+	background-position:-192px -96px;
+}
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-statistic{
+	background-position:-0 -72px;
+}
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-questions{
+	background-position:-192px -24px;
+}
+/*答疑室列表*/
+.ui-rooms .ui-list .ui-list-body ul .ui-list-item{
+	padding-left:70px;
+}
+.ui-rooms .ui-list .ui-list-body ul .ui-list-item, .ui-rooms .ui-list .ui-list-body ul .ui-list-item.ui-state-hover{
+	border-bottom:0;
+	background:url('images/qa_module.png') no-repeat 10px 10px;
+}
+.ui-rooms .ui-list .ui-list-body ul .ui-list-item .ui-list-column-replyCount{
+	color:#fff;
+	background-color:#ff8800;
+}
+/*答疑室界面*/
+.ui-room .ui-search-box form fieldset{
+	border:0;
+}
+.ui-room .ui-room-question-list .ui-quick-navigator{
+	border:1px solid #e1e1e1;
+}
+.ui-room .ui-room-question-list .ui-quick-navigator li:hover{
+	background-color:#f2f2f2;
+}
+.ui-room .ui-room-question-list .ui-quick-navigator li.ui-selected:hover{
+	background-color:#99cc00;
+}
+.ui-room .ui-room-question-list .ui-quick-navigator li a:hover{
+	text-decoration:none;
+}
+.ui-room .ui-room-question-list .ui-questions .ui-list .ui-list-body ul .ui-question-classic h3{
+	text-indent:50px;
+	background:url('images/classic.png') no-repeat left top;
+}
+/*问题界面*/
+.ui-question-details .ui-question-details-right .ui-question-remark + .ui-question-append{
+	border-top:1px solid #e1e1e1;
+}
+.ui-question-details .ui-question-details-right li{
+	padding-left:16px;
+	background:url('images/dot.png') no-repeat left top;
+}
+.ui-question-details .ui-question-details-left .ui-question-title .ui-question-classic{
+	text-indent:50px;
+	background:url('images/classic.png') no-repeat left top;
+}
+.ui-question-details .ui-question-details-left .ui-question-answers .ui-count-info{
+	border-bottom:1px solid #e1e1e1;
+}
+.ui-question-details-left .ui-question-answers .ui-good-answer .ui-list-column-content{
+	text-indent:51px;
+	background:url('images/recommend.png') no-repeat 0 0;
+}/*推荐回答*/
+.ui-question-details-left .ui-question-answers .ui-list-item .ui-list-column-creatorAlias .ui-role-teacher{
+	padding-left:21px;
+	background:url('images/teacher.png') no-repeat 0 3px;
+}/*回答人为管理员或教师时的标识*/
+.ui-question-details .ui-question-details-left .ui-answers .ui-list .ui-list-item>span{
+	color:#b6b6b6;
+}
+.ui-question-details .ui-question-details-left .ui-question-answers .ui-reply-container{
+	border:1px solid #e1e1e1;
+	background-color:#f2f2f2;
+}
+.ui-reply-digest form .ui-input-words-counter .ui-reply-target .ui-target-clear{
+	text-indent:-100px;
+	overflow:hidden;
+	background:url('../all/images/delete.png') no-repeat 0 0;
+}
+.ui-question-details .ui-question-details-left .ui-question-answers .ui-reply-container .ui-reply-digest li{
+	border-top:1px dotted #ddd;
+}
+.ui-question-details .ui-question-details-left .ui-question-answers .ui-reply-container .ui-reply-digest li p .ui-action-dialog{
+	border:0;
+	background:url('../all/images/custom_icons_999999_24.png') no-repeat -192px -48px;
+	box-shadow:none;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+}
+.ui-question-details .ui-question-details-left .ui-question-answers .ui-reply-container .ui-reply-digest li p .ui-action-dialog.ui-state-hover{
+	background-image:url('../all/images/custom_icons_99cc00_24.png');
+}
+.ui-image-thumbs li .ui-audio{
+	background:#9c0 url('images/audio_play.png') no-repeat center center;
+}
+.ui-image-thumbs li .ui-video{
+	background:#9c0 url('images/video_play.png') no-repeat center center;
+}
+/*查看对话*/
+.ui-reply-dialog ul .ui-dialog-target p{
+	border:1px solid #e1e1e1;
+	background-color:#f2f2f2;
+}
+.ui-reply-dialog ul .ui-dialog-self p{
+	border:1px solid #cbffb2;
+	background-color:#ddffcc;
+}
+/*提问界面*/
+.ui-question-edit-form>.ui-widget-header{
+	border-bottom:0;
+}
+.ui-question-edit-form form .ui-hide-content-bar{
+	border:1px solid #ccc;
+	border-top:0;
+	background-color:#f2f2f2;	
+}
+/*原问题信息*/
+.ui-question-src,
+.ui-question-parent{
+	border:1px solid #e1e1e1;
+	background-color:#f2f2f2;
+}
+.ui-question-src .ui-question-answer,
+.ui-question-parent .ui-question-answer{
+	border:1px solid #e1e1e1;
+	background-color:#ffffff;
+}
+/*全屏弹出样式*/
+.ui-sshow .ui-image-thumbs li{
+	border:0;
+}
+/*视频播放器样式*/
+.ui-video-container video{
+	background-color:#000;
+}
