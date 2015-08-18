@@ -13,5 +13,6 @@ import cn.com.eduedu.jee.security.account.AccessService;
 @RequestMapping("/home/admin/access")
 @CRUDControllerMeta(title="权限管理",service=AccessService.class,listable=true,createable=true,editable=true,deleteable=false)
 public class AccessAdminController extends BaseCRUDControllerExt<Access, String> {
+	
   
 }

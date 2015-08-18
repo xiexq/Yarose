@@ -33,5 +33,4 @@ public class PublicController extends BaseControllerExt {
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return "500";
 	}
-	
 }
