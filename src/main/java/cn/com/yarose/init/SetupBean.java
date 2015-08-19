@@ -55,7 +55,7 @@ public class SetupBean implements InitializingBean {
 			dcList.add(new DictCategory("教师等级管理"));
 			dcList.add(new DictCategory("舞种管理"));
 			for (DictCategory dc : dcList) {
-				//dictCategoryService.save(dc);
+				dictCategoryService.save(dc);
 			}
 		}
 	}
