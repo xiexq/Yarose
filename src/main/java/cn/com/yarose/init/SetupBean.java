@@ -3,6 +3,8 @@ package cn.com.yarose.init;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.InitializingBean;
 
 import cn.com.eduedu.jee.security.account.Access;
@@ -16,6 +18,7 @@ public class SetupBean implements InitializingBean {
 
 	private AccessService accessService;
 
+	@Resource
 	public void setDictCategoryService(DictCategoryService dictCategoryService) {
 		this.dictCategoryService = dictCategoryService;
 	}
@@ -52,7 +55,7 @@ public class SetupBean implements InitializingBean {
 			dcList.add(new DictCategory("教师等级管理"));
 			dcList.add(new DictCategory("舞种管理"));
 			for (DictCategory dc : dcList) {
-				dictCategoryService.save(dc);
+				//dictCategoryService.save(dc);
 			}
 		}
 	}

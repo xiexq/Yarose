@@ -133,7 +133,6 @@
 		});
 	}
 	
-<<<<<<< HEAD
 	function _course_admin(){
 		_clearContainer();
 		var mc=$('<div></div>'),svc=new StackViewController(container);
