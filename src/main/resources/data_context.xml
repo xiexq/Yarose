@@ -10,7 +10,6 @@
 			<list>
 				<value>cn/com/eduedu/jee/security/account/Account.hbm.xml</value>
 				<value>cn/com/eduedu/jee/security/account/Access.hbm.xml</value>
-				<!-- <value>cn/com/yarose/Example.hbm.xml</value> -->
 				<value>cn/com/yarose/base/Dictionary.hbm.xml</value>
 				<value>cn/com/yarose/base/Shop.hbm.xml</value>
 				<value>cn/com/yarose/base/ShopManager.hbm.xml</value>

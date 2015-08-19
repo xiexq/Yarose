@@ -8,6 +8,6 @@ public interface ShopManagerService extends BaseSearchService<ShopManager, Long>
 
   List<ShopManager> listByShopId(Long shopId, int offset, int count);
 
-  long countShopAllManagers(Long shopIdFromRequest);
+  long countShopAllManagers(Long shopId);
 
 }

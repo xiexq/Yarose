@@ -8,6 +8,6 @@ public interface TeacherManagerService extends BaseSearchService<TeacherManager,
 
   List<TeacherManager> listByCourseId(Long courseId, int offset, int count);
 
-  long countTeacherAllManagers(Long courseIdFromRequest);
+  long countTeacherAllManagers(Long courseId);
 
 }
