@@ -11,6 +11,8 @@
 		</id>
 		<property name="name" type="string" length="200" not-null="true"></property>
 		<property name="desc" column="description"></property>
+		<property name="address" type="string"></property>
+		<property name="phone" type="string"></property>
 	</class>
 	<query name="Shop.findByName">from cn.com.yarose.base.Shop as shop where shop.name=?</query>
 </hibernate-mapping>

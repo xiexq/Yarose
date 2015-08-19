@@ -62,12 +62,12 @@ public class ShopAdminController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
-		return this.generateStringSortedSet("name","desc");
+		return this.generateStringSortedSet("name","address","phone","desc");
 	}
 	
 	@Override
 	public Set<String> customListFields(HttpServletRequest request) throws Exception {
-	  return this.generateStringSortedSet("name","desc");
+	  return this.generateStringSortedSet("name","address","phone","desc");
 	}
 	
 	@Override

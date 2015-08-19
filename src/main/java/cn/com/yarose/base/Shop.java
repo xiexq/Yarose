@@ -23,10 +23,14 @@ public class Shop implements java.io.Serializable{
     @Size(max = 200, min = 1)
     private String name;
 	
+	@FieldMeta(id=true,label="地址",editable=true,required=true)
+	private String address;
+	
+	@FieldMeta(id=true,label="电话",editable=true,required=true)
+	private String phone;
+	
 	@FieldMeta(id=true,label="描述",editable=true,text=true)
 	private String desc;
-	
-	private Integer status;
 	
 	public Long getId(){
 		return id;
@@ -44,14 +48,6 @@ public class Shop implements java.io.Serializable{
       this.name = name;
     }
 
-    public Integer getStatus() {
-      return status;
-    }
-
-    public void setStatus(Integer status) {
-      this.status = status;
-    }
-
     public String getDesc() {
       return desc;
     }
@@ -59,5 +55,21 @@ public class Shop implements java.io.Serializable{
     public void setDesc(String desc) {
       this.desc = desc;
     }
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 }
