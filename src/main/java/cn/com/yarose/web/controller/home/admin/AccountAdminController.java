@@ -69,22 +69,22 @@ public class AccountAdminController extends
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
 			// 判断是否具有老师的权限
-			Access access = accessService.findById("TEACHER");
-			if (!cmd.getAccesses().contains(access)) {
-				cmd.setTeachLevel(null);
-				cmd.setCourseFee(null);
-				cmd.setAddress(null);
-			} else {
-				if (cmd.getTeachLevel() == null) {
-					result.rejectValue("teachLevel", "required", "不能为空");
-				}
-				if (cmd.getCourseFee() == null) {
-					result.rejectValue("courseFee", "required", "不能为空");
-				}
-				if (!StringUtils.hasText(cmd.getAddress())) {
-					result.rejectValue("address", "required", "不能为空");
-				}
-			}
+//			Access access = accessService.findById("TEACHER");
+//			if (!cmd.getAccesses().contains(access)) {
+//				cmd.setTeachLevel(null);
+//				cmd.setCourseFee(null);
+//				cmd.setAddress(null);
+//			} else {
+//				if (cmd.getTeachLevel() == null) {
+//					result.rejectValue("teachLevel", "required", "不能为空");
+//				}
+//				if (cmd.getCourseFee() == null) {
+//					result.rejectValue("courseFee", "required", "不能为空");
+//				}
+//				if (!StringUtils.hasText(cmd.getAddress())) {
+//					result.rejectValue("address", "required", "不能为空");
+//				}
+//			}
 			return this.getCrudService().save(cmd);
 		}
 		return cmd;
