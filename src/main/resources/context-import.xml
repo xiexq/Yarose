@@ -40,7 +40,7 @@
 	
 	<!-- 导入数据库访问助手的配置，主要用于查询统计 -->
 	<import resource="classpath:/cn/com/eduedu/jee/db/orm/context.xml"/>
-	<!-- <bean id="setupBean" class="cn.com.yarose.init.SetupBean">
-		<property name="accessService" ref="accessService" />
-	</bean> -->
+	<bean id="setupBean" class="cn.com.yarose.init.SetupBean">
+		<property name="accessService" ref="account_accessService" />
+	</bean>
 </beans>

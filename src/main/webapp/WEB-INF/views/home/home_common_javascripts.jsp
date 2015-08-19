@@ -78,19 +78,40 @@
 			$(window).on('hashchange', onHistory);
 		});
 	});
+	
 	function _account_admin(){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true});
+		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,
+			onEdit:function(){
+				$("input[name='accesses']").each(function(){
+					if($(this).val()=='TEACHER'&&!$(this).prop('checked')){
+						$(".ui-fieldset-teacher").hide();
+					}
+				});
+				$("input[name='accesses']").click(function(){
+					if($(this).val()=='TEACHER'){
+						if($(this).prop('checked')){
+							$(".ui-fieldset-teacher").show();
+						}else{
+							$(".ui-fieldset-teacher").hide();
+						}
+					}
+				});
+			}
+		});
 	}
+	
 	function _access_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'});
+		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
+		});
 	}
 	
 	function _dictionary_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/dictionary'});
 	}
+	
 	function _shop_admin(){
 		_clearContainer();
 		var mc=$('<div></div>'),svc=new StackViewController(container);
@@ -112,6 +133,7 @@
 		});
 	}
 	
+<<<<<<< HEAD
 	function _course_admin(){
 		_clearContainer();
 		var mc=$('<div></div>'),svc=new StackViewController(container);
