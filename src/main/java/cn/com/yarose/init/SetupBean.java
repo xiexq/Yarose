@@ -7,10 +7,18 @@ import org.springframework.beans.factory.InitializingBean;
 
 import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
+import cn.com.yarose.base.DictCategory;
+import cn.com.yarose.base.DictCategoryService;
 
 public class SetupBean implements InitializingBean {
 
+	private DictCategoryService dictCategoryService;
+
 	private AccessService accessService;
+
+	public void setDictCategoryService(DictCategoryService dictCategoryService) {
+		this.dictCategoryService = dictCategoryService;
+	}
 
 	public void setAccessService(AccessService accessService) {
 		this.accessService = accessService;
@@ -33,8 +41,25 @@ public class SetupBean implements InitializingBean {
 		}
 	}
 
+	/**
+	 * 初始化字典种类
+	 */
+	private void initDictCategory() {
+		Long as = dictCategoryService.countAll();
+		if (as == 0) {
+			List<DictCategory> dcList = new ArrayList<DictCategory>();
+			dcList.add(new DictCategory(1l, "会员类型管理"));
+			dcList.add(new DictCategory(2l, "教师等级管理"));
+			dcList.add(new DictCategory(3l, "舞种管理"));
+			for (DictCategory dc : dcList) {
+				dictCategoryService.save(dc);
+			}
+		}
+	}
+
 	@Override
 	public void afterPropertiesSet() {
 		initAccess();
+		initDictCategory();
 	}
 }

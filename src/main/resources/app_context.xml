@@ -19,12 +19,20 @@
   <aop:pointcut expression="execution(* cn.com.yarose.base.ShopService.*(..))" id="shopServicePT"/>
   <aop:pointcut expression="execution(* cn.com.yarose.base.ShopManagerService.*(..))" id="shopManagerServicePT"/>
 <aop:pointcut expression="execution(* cn.com.yarose.base.CourseService.*(..))" id="courseServicePT"/>
+<<<<<<< HEAD
 <aop:pointcut expression="execution(* cn.com.yarose.base.TeacherManagerService.*(..))" id="teacherManagerServicePT"/>
+=======
+<aop:pointcut expression="execution(* cn.com.yarose.base.DictCategoryService.*(..))" id="dictCategoryServicePT"/>
+>>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="dictionaryServicePT"/>
   <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopServicePT"/>
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopManagerServicePT"/>
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="courseServicePT"/>
+<<<<<<< HEAD
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="teacherManagerServicePT"/>
+=======
+<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="dictCategoryServicePT"/>
+>>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 </aop:config>  
 <bean class="cn.com.yarose.base.impl.DictionaryServiceImpl" id="dictionaryService">
   <property name="dao" ref="dictionaryDao"/>
@@ -38,7 +46,12 @@
 <bean class="cn.com.yarose.base.impl.CourseServiceImpl" id="courseService">
 <property name="dao" ref="courseDao"/>
 </bean>
+<<<<<<< HEAD
 <bean class="cn.com.yarose.base.impl.TeacherManagerServiceImpl" id="teacherManagerService">
 <property name="dao" ref="teacherManagerDao"/>
+=======
+<bean class="cn.com.yarose.base.impl.DictCategoryServiceImpl" id="dictCategoryService">
+<property name="dao" ref="dictCategoryDao"/>
+>>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 </bean>
 </beans>

@@ -14,7 +14,11 @@
 <value>cn/com/yarose/base/Shop.hbm.xml</value>
 <value>cn/com/yarose/base/ShopManager.hbm.xml</value>
 <value>cn/com/yarose/base/Course.hbm.xml</value>
+<<<<<<< HEAD
 <value>cn/com/yarose/base/TeacherManager.hbm.xml</value>
+=======
+<value>cn/com/yarose/base/DictCategory.hbm.xml</value>
+>>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 </list> 
     </property>  
     <property name="hibernateProperties"> 
@@ -52,7 +56,11 @@
 <bean class="cn.com.yarose.base.dao.CourseDaoHibernateImpl" id="courseDao">
 <property name="sessionFactory" ref="sessionFactory"/>
 </bean>
+<<<<<<< HEAD
 <bean class="cn.com.yarose.base.dao.TeacherManagerDaoHibernateImpl" id="teacherManagerDao">
+=======
+<bean class="cn.com.yarose.base.dao.DictCategoryDaoHibernateImpl" id="dictCategoryDao">
+>>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 <property name="sessionFactory" ref="sessionFactory"/>
 </bean>
 </beans>
