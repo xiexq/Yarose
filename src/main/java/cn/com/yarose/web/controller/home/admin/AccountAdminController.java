@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -67,22 +68,22 @@ public class AccountAdminController extends
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
 			// 判断是否具有老师的权限
-//			Access access = accessService.findById("TEACHER");
-//			if (!cmd.getAccesses().contains(access)) {
-//				cmd.setTeachLevel(null);
-//				cmd.setCourseFee(null);
-//				cmd.setAddress(null);
-//			} else {
-//				if (cmd.getTeachLevel() == null) {
-//					result.rejectValue("teachLevel", "required", "不能为空");
-//				}
-//				if (cmd.getCourseFee() == null) {
-//					result.rejectValue("courseFee", "required", "不能为空");
-//				}
-//				if (!StringUtils.hasText(cmd.getAddress())) {
-//					result.rejectValue("address", "required", "不能为空");
-//				}
-//			}
+			Access access = accessService.findById("TEACHER");
+			if (!cmd.getAccesses().contains(access)) {
+				cmd.setTeachLevel(null);
+				cmd.setCourseFee(null);
+				cmd.setAddress(null);
+			} else {
+				if (cmd.getTeachLevel() == null) {
+					result.rejectValue("teachLevel", "required", "不能为空");
+				}
+				if (cmd.getCourseFee() == null) {
+					result.rejectValue("courseFee", "required", "不能为空");
+				}
+				if (!StringUtils.hasText(cmd.getAddress())) {
+					result.rejectValue("address", "required", "不能为空");
+				}
+			}
 			return this.getCrudService().save(cmd);
 		}
 		return cmd;
@@ -97,9 +98,14 @@ public class AccountAdminController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) {
-		// 分为系统管理员和门店管理员
-		// "teachLevel", "courseFee", "address",老师专用
-		// "stuLevel" saler 会员专用
+		String isShop = request.getParameter("_shop");
+		// tye 已登记 已办卡
+		// 职业，会员奖励
+		if (StringUtils.hasText(isShop)) {
+			return this.generateStringSortedSet("userid", "password", "nick",
+					"shop", "weixin", "phone", "stuLevel", "type",
+					"occupation", "email", "birthday", "saler");
+		}
 		return this.generateStringSortedSet("userid", "password", "nick",
 				"shop", "weixin", "phone", "email", "birthday", "teachLevel",
 				"courseFee", "address", "accesses");

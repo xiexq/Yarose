@@ -101,6 +101,12 @@
 		});
 	}
 	
+	function _account_shop_admin(){
+		_clearContainer();
+		container.crud({url:"${ctxPath }/home/admin/account",params:{},enableNextEdit:true
+		});
+	}
+	
 	function _access_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
