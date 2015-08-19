@@ -11,8 +11,8 @@ public class DictionaryServiceImpl extends DaoBasedServiceImpl<Dictionary, Long>
 
   @SuppressWarnings("unchecked")
   @Override
-  public Dictionary findByName(int type, String name) {
-    List<Dictionary> dicList = (List<Dictionary>) getDao().executeQueryList("Dictionary.findByName", QueryCmdType.QUERY_NAME, -1, -1, type,name);
+  public Dictionary findByName(String name) {
+    List<Dictionary> dicList = (List<Dictionary>) getDao().executeQueryList("Dictionary.findByName", QueryCmdType.QUERY_NAME, -1, -1,name);
     if(dicList != null && dicList.size() > 0){
       return dicList.get(0);
     }

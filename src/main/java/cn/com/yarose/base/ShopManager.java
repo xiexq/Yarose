@@ -1,5 +1,7 @@
 package cn.com.yarose.base;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
@@ -16,20 +18,28 @@ public class ShopManager implements java.io.Serializable{
      * 用户ID，谁管理这个店铺
      */
     Long accountId;
-	
-    /**
-     * 管理用户类型
-     */
-    @FieldMeta(label = "管理用户类型", dictionary = true, required = true, editable = true, order = 8, visible = false)
-    @NotNull
-    private Integer adminType;
     
     /**
-     * 管理状态（开通、禁用）
+     * 用户账号，一个冗余字段，用来友好显示
      */
-    @FieldMeta(label = "状态", order = 1, required = true, dictionary = true, summary = true, visible = false)
+    @FieldMeta(label = "用户账号", required = true, order = 9, autoComplete = true)
+    String userId;
+    
+    /**
+     * 授权时间
+     */
+    @FieldMeta(label = "授权时间", editable = false, order = 8)
     @NotNull
-    private Integer status;
+    Date authTime;
+    
+    /**
+     * 授权人
+     */
+    @FieldMeta(label = "授权来源", editable = true, summary = false, visible = false)
+    Long authSourceId;
+
+    @FieldMeta(label = "授权人", visible = true, editable = false, summary = false)
+    String authSourceAlias;
     
 	/**
      * 答疑室ID
@@ -62,20 +72,44 @@ public class ShopManager implements java.io.Serializable{
       this.accountId = accountId;
     }
 
-    public Integer getAdminType() {
-      return adminType;
+    public Shop getShop() {
+      return shop;
     }
 
-    public void setAdminType(Integer adminType) {
-      this.adminType = adminType;
+    public void setShop(Shop shop) {
+      this.shop = shop;
     }
 
-    public Integer getStatus() {
-      return status;
+    public String getUserId() {
+      return userId;
     }
 
-    public void setStatus(Integer status) {
-      this.status = status;
+    public void setUserId(String userId) {
+      this.userId = userId;
     }
-	
+
+    public Date getAuthTime() {
+      return authTime;
+    }
+
+    public void setAuthTime(Date authTime) {
+      this.authTime = authTime;
+    }
+
+    public Long getAuthSourceId() {
+      return authSourceId;
+    }
+
+    public void setAuthSourceId(Long authSourceId) {
+      this.authSourceId = authSourceId;
+    }
+
+    public String getAuthSourceAlias() {
+      return authSourceAlias;
+    }
+
+    public void setAuthSourceAlias(String authSourceAlias) {
+      this.authSourceAlias = authSourceAlias;
+    }
+
 }

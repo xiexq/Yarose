@@ -20,7 +20,7 @@ import cn.com.eduedu.jee.mvc.response.ResponseObject;
 
 @Controller
 @RequestMapping("/home/admin/dictionary")
-@CRUDControllerMeta(title = "类别管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
+@CRUDControllerMeta(title = "舞种管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
 public class DictionaryAdminController extends
 		BaseCRUDControllerExt<Dictionary, Long> {
 
@@ -36,7 +36,7 @@ public class DictionaryAdminController extends
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if(this.validate(cmd, result, request, create)){
-		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getType(),cmd.getName());
+		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getName());
 		    if(create){
 		       if(dic != null){
 		         result.rejectValue("name","invalidate","已经存在!");
@@ -57,7 +57,7 @@ public class DictionaryAdminController extends
 
 	@Override
 	public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
-	  return super.generateStringSortedSet("type", "name");
+	  return super.generateStringSortedSet("name");
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class DictionaryAdminController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
-		return this.generateStringSortedSet("type", "name");
+		return this.generateStringSortedSet("name","desc");
 	}
 
 	@DictionaryModel(header = true, headerLabel = "请选择", headerValue = "")
@@ -78,13 +78,13 @@ public class DictionaryAdminController extends
 	
 	@Override
 	public Set<String> customListFields(HttpServletRequest request) throws Exception {
-	  return this.generateStringSortedSet("typeName", "name");
+	  return this.generateStringSortedSet("name","desc");
 	}
 
 	
 	@Override
 	public void customDelete(Long id, HttpServletRequest request) throws Exception {
-	// 如果类型下面有课程不能删除
-	super.customDelete(id, request);
+	  // 如果类型下面有课程不能删除
+	  super.customDelete(id, request);
 	}
 }

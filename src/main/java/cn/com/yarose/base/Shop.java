@@ -3,6 +3,7 @@ package cn.com.yarose.base;
 import javax.validation.constraints.Size;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.yarose.utils.Constants;
 
 public class Shop implements java.io.Serializable{
 
@@ -10,9 +11,20 @@ public class Shop implements java.io.Serializable{
 	@FieldMeta(id=true,label="ID",editable=false)
 	private Long id;
 	
+	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	  public String getCode() {
+	      if (id == null) {
+	          return null;
+	      }
+	      return Constants.getFormatId(this.id);
+	  }
+	
 	@FieldMeta(id=true,label="名称",editable=true,required=true)
     @Size(max = 200, min = 1)
     private String name;
+	
+	@FieldMeta(id=true,label="描述",editable=true,text=true)
+	private String desc;
 	
 	private Integer status;
 	
@@ -38,6 +50,14 @@ public class Shop implements java.io.Serializable{
 
     public void setStatus(Integer status) {
       this.status = status;
+    }
+
+    public String getDesc() {
+      return desc;
+    }
+
+    public void setDesc(String desc) {
+      this.desc = desc;
     }
 	
 }

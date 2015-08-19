@@ -32,4 +32,8 @@ public class Constants {
     }
     return "";
   }
+
+  public static String getFormatId(Long id) {
+      return String.format("%07d", id);
+  }
 }

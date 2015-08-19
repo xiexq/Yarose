@@ -14,6 +14,7 @@
 <value>cn/com/yarose/base/Shop.hbm.xml</value>
 <value>cn/com/yarose/base/ShopManager.hbm.xml</value>
 <value>cn/com/yarose/base/Course.hbm.xml</value>
+<value>cn/com/yarose/base/TeacherManager.hbm.xml</value>
 </list> 
     </property>  
     <property name="hibernateProperties"> 
@@ -49,6 +50,9 @@
 <property name="sessionFactory" ref="sessionFactory"/>
 </bean>
 <bean class="cn.com.yarose.base.dao.CourseDaoHibernateImpl" id="courseDao">
+<property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+<bean class="cn.com.yarose.base.dao.TeacherManagerDaoHibernateImpl" id="teacherManagerDao">
 <property name="sessionFactory" ref="sessionFactory"/>
 </bean>
 </beans>

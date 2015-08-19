@@ -11,21 +11,21 @@ public class Dictionary implements java.io.Serializable{
 	@FieldMeta(id=true,label="ID",editable=false)
 	private Long id;
 	
-	@FieldMeta(id=true,label="类型",editable=true,dictionary=true,required=true)
-	private Integer type;
+	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	  public String getCode() {
+	      if (id == null) {
+	          return null;
+	      }
+	      return Constants.getFormatId(this.id);
+	  }
 	
 	@FieldMeta(id=true,label="名称",editable=true,required=true)
 	@Size(max = 200, min = 1)
 	private String name;
 	
-	// 用户状态：正在处理中0、确认成功1、确认失败2、锁定资源3
-    @FieldMeta(label = "用户状态", editable = false, order = 15)
-    public String getTypeName() {
-        if (type == null) {
-            return null;
-        }
-        return Constants.getDictionaryStatusName(type);
-    }
+	@FieldMeta(id=true,label="描述",editable=true,text=true)
+    @Size(max = 500, min = 0)
+	private String desc;
     
 	public Long getId(){
 		return id;
@@ -35,20 +35,20 @@ public class Dictionary implements java.io.Serializable{
 		this.id=id;
 	}
 
-    public Integer getType() {
-      return type;
-    }
-  
-    public void setType(Integer type) {
-      this.type = type;
-    }
-  
     public String getName() {
       return name;
     }
 
     public void setName(String name) {
       this.name = name;
+    }
+
+    public String getDesc() {
+      return desc;
+    }
+
+    public void setDesc(String desc) {
+      this.desc = desc;
     }
 	
 }

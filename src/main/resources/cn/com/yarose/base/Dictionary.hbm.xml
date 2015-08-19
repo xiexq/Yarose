@@ -9,8 +9,8 @@
 				<param name="sequence">s_dictionary_id</param>
 			</generator>
 		</id>
-		<property name="type" type="integer" not-null="true"></property>
 		<property name="name" type="string" length="200" not-null="true"></property>
+		<property name="desc" type="string" column="description"></property>
 	</class>
-	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where dic.type=? and dic.name=?</query>
+	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where dic.name=?</query>
 </hibernate-mapping>

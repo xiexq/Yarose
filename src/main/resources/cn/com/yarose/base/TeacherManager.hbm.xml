@@ -3,14 +3,14 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="cn.com.yarose.base" auto-import="false">
-	<class name="ShopManager" table="t_shopmanager" lazy="true">
+	<class name="TeacherManager" table="t_teachermanager" lazy="true">
 		<id name="id" column="id" type="long">
 			<generator class="native">
-				<param name="sequence">s_shopmanager_id</param>
+				<param name="sequence">s_teachermanager_id</param>
 			</generator>
 		</id>
 		<properties name="unqiueProps" unique="true">
-			<many-to-one name="shop" column="shop_id" not-null="true"
+			<many-to-one name="course" column="course_id" not-null="true"
 				update="false" />
 			<property name="accountId" column="account_id" not-null="true"
 				update="false" />
@@ -22,9 +22,9 @@
 		<property name="authSourceAlias" column="auth_source_alias"
 			length="100" not-null="true" />
 		<property name="authTime" column="auth_time" not-null="true"
-			type="timestamp" />	
+			type="timestamp" />		
 	</class>
-	<query name="ShopManager.listByShopId"><![CDATA[from cn.com.yarose.base.ShopManager as sm where sm.shop.id=? order by sm.authTime desc]]></query>
-	<query name="ShopManager.countShopAllManagers"><![CDATA[select count(sm.id) from
-		cn.com.yarose.base.ShopManager as sm where sm.shop.id=?]]></query>
+	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.course.id=? order by tm.authTime desc]]></query>
+	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from
+		cn.com.yarose.base.TeacherManager tm  where tm.course.id=?]]></query>
 </hibernate-mapping>

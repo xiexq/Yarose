@@ -4,10 +4,18 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="cn.com.yarose.base" auto-import="false">
 	<class name="Course" table="t_course" lazy="true">
-				<id name="id" column="id" type="long">
+		<id name="id" column="id" type="long">
 			<generator class="native">
 				<param name="sequence">s_course_id</param>
 			</generator>
 		</id>
-			</class>
+		<property name="dicId" column="dic_id" not-null="true"></property>
+		<property name="shopId" column="shop_id" not-null="true"></property>
+		<property name="name" column="name" not-null="true"></property>
+		<property name="beginTime" column="begin_time" type="timestamp" not-null="true"></property>
+		<property name="endTime" column="end_time" type="timestamp" not-null="true"></property>
+		<property name="createTime" column="create_time" type="timestamp"
+			not-null="true" update="false" />
+		<property name="desc" column="description"></property>
+	</class>
 </hibernate-mapping>

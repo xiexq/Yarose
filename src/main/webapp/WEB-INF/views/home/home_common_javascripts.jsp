@@ -108,26 +108,78 @@
 					actions:[{label:'所有店铺',func:function(){svc.pop();}}],
 				});
 			},cssClass:'ui-action-manager'}
-		],
+		]
 		});
 	}
 	
-	function _classes_admin(){
-		
+	function _course_admin(){
+		_clearContainer();
+		var mc=$('<div></div>'),svc=new StackViewController(container);
+		svc.push(mc);
+		mc.crud({url:'${ctxPath}/home/admin/courses',
+			onSelectBigField:function(event,data){
+				var field=data.field,fieldName=field.name,dicUrl=field.dicUrl,callback=data.callback;
+				if(fieldName=="dicId"){
+					return _select_dic(dicUrl,callback);
+				}else if(fieldName=="shopId"){
+					return _select_shop(dicUrl,callback);
+				}
+			},
+			listItemActions:[
+			{label:'老师授权',func:function(event){
+				var data=event.data,li=data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'name'),
+				c=$('<div></div>');
+				svc.push(c);
+					c.crud({
+						url:'${ctxPath }/home/admin/teacher/managers',
+						params:{_courseId:id},
+						title:courseName+' 管理授权',
+						actions:[{label:'所有课程',func:function(){svc.pop();}}],
+					});
+				},cssClass:'ui-action-manager'}
+			]
+		});
+	}
+	
+	function _select_shop(url,callback){
+		var dc=$('<div></div>');
+		dc.crud({
+			url:url,listSelectStyle:'radio',showHeader:false
+		}).dialog({
+			title:'选择所属店鋪',width:920,height:600,
+			buttons:{'确定':function(){
+				var sel=dc.crud('selected');
+				if(!!sel){
+					var val=sel.val(),label=_crudHelper.getSelectedFieldValue(sel,'name');
+					callback({value:val,label:label});
+					dc.dialog('destroy').remove();
+				}else{
+					dc.crud('tipInfo','请选择所属店鋪','warn');
+				}
+			},
+			'取消':function(){dc.dialog('close');}}
+		});
+		return false;
+	}
+	
+	function _select_dic(url,callback){
+		var dc=$('<div></div>');
+		dc.crud({
+			url:url,listSelectStyle:'radio',showHeader:false
+		}).dialog({
+			title:'选择所属舞种',width:920,height:600,
+			buttons:{'确定':function(){
+				var sel=dc.crud('selected');
+				if(!!sel){
+					var val=sel.val(),label=_crudHelper.getSelectedFieldValue(sel,'name');
+					callback({value:val,label:label});
+					dc.dialog('destroy').remove();
+				}else{
+					dc.crud('tipInfo','请选择所属舞种','warn');
+				}
+			},
+			'取消':function(){dc.dialog('close');}}
+		});
+		return false;
 	}
 	</script>
-	
-	<!-- 
-	onSelectBigField:function(event,data){
-			var field=data.field,fieldName=field.name,dicUrl=field.dicUrl,callback=data.callback;
-			if(fieldName=="questionBankId"){
-				var tenantCode=mc.crud('getEditFieldVal','tenantCode');
-				if(!!!tenantCode){
-					mc.crud('tipInfo','请填写租户编码','warn');
-					return false;
-				}else{
-					return _select_question_bank(dicUrl,{_tenantCode:tenantCode},callback);
-				}
-			}
-		},
-	 -->
