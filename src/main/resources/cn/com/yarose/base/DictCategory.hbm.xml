@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="cn.com.yarose.base" auto-import="false">
+	<class name="DictCategory" table="t_dictcategory" lazy="true">
+		<id name="id" column="id" type="int">
+			<generator class="native">
+				<param name="sequence">s_dictcategory_id</param>
+			</generator>
+		</id>
+		<property name="name" not-null="true" type="string"/>
+	</class>
+</hibernate-mapping>
