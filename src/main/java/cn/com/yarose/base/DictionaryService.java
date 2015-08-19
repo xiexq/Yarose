@@ -6,8 +6,8 @@ import cn.com.eduedu.jee.service.BaseSearchService;
 
 public interface DictionaryService extends BaseSearchService<Dictionary, Long> {
 
-  Dictionary findByName(String name);
+	List<Dictionary> listByType(Long type);
 
-List<Dictionary> listByType(Long type);
+	Dictionary findByName(int type, String name);
 
 }

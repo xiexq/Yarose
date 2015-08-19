@@ -48,9 +48,9 @@ public class SetupBean implements InitializingBean {
 		Long as = dictCategoryService.countAll();
 		if (as == 0) {
 			List<DictCategory> dcList = new ArrayList<DictCategory>();
-			dcList.add(new DictCategory(1l, "会员类型管理"));
-			dcList.add(new DictCategory(2l, "教师等级管理"));
-			dcList.add(new DictCategory(3l, "舞种管理"));
+			dcList.add(new DictCategory(1, "会员类型管理"));
+			dcList.add(new DictCategory(2, "教师等级管理"));
+			dcList.add(new DictCategory(3, "舞种管理"));
 			for (DictCategory dc : dcList) {
 				dictCategoryService.save(dc);
 			}

@@ -23,11 +23,8 @@ import cn.com.eduedu.jee.order.OrderProperties;
 
 @Controller
 @RequestMapping("/home/admin/dictionary")
-<<<<<<< HEAD
-@CRUDControllerMeta(title = "舞种管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
-=======
+
 @CRUDControllerMeta(title = "字典管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
->>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 public class DictionaryAdminController extends
 		BaseCRUDControllerExt<Dictionary, Long> {
 
@@ -43,11 +40,7 @@ public class DictionaryAdminController extends
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if(this.validate(cmd, result, request, create)){
-<<<<<<< HEAD
-		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getName());
-=======
 		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getType().getId(),cmd.getName());
->>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 		    if(create){
 		       if(dic != null){
 		         result.rejectValue("name","invalidate","已经存在!");

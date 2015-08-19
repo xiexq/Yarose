@@ -10,20 +10,14 @@
 				<param name="sequence">s_dictionary_id</param>
 			</generator>
 		</id>
-<<<<<<< HEAD
-=======
 		<many-to-one name="type" class="cn.com.yarose.base.DictCategory"
 			not-null="true" lazy="false"></many-to-one>
->>>>>>> branch 'master' of https://github.com/xiexq/Yarose
 		<property name="name" type="string" length="200" not-null="true"></property>
-		<property name="desc" type="string" column="description"></property>
 	</class>
-<<<<<<< HEAD
-	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where dic.name=?</query>
-=======
 	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where
-		dic.type=? and dic.name=?</query>
-		<query name="Dictionary.listByType">from cn.com.yarose.base.Dictionary as dic where
-		dic.type=?</query>
->>>>>>> branch 'master' of https://github.com/xiexq/Yarose
+		dic.type=? and dic.name=?
+	</query>
+	<query name="Dictionary.listByType">from cn.com.yarose.base.Dictionary as dic where
+		dic.type=?
+	</query>
 </hibernate-mapping>
