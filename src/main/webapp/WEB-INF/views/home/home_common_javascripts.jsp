@@ -79,22 +79,24 @@
 		});
 	});
 	
-	function _account_admin(){
+	function _account_admin(isShop){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,
+		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,params:{'_shop':isShop},
 			onEdit:function(){
 				$("input[name='accesses']").each(function(){
 					if($(this).val()=='TEACHER'&&!$(this).prop('checked')){
 						$(".ui-fieldset-teacher").hide();
 					}
+					if($(this).val()=='MEMBER'&&!$(this).prop('checked')){
+						$(".ui-fieldset-member").hide();
+					}
 				});
 				$("input[name='accesses']").click(function(){
 					if($(this).val()=='TEACHER'){
-						if($(this).prop('checked')){
-							$(".ui-fieldset-teacher").toggle();
-						}else{
-							$(".ui-fieldset-teacher").hide();
-						}
+						$(".ui-fieldset-teacher").toggle();
+					}
+					if($(this).val()=='MEMBER'){
+						$(".ui-fieldset-member").toggle();
 					}
 				});
 			}
@@ -110,6 +112,13 @@
 	function _access_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
+		});
+	}
+	
+	//会员管理
+	function _member_admin(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/shop/member',listSelectStyle:'none'
 		});
 	}
 	
@@ -223,5 +232,4 @@
 		_clearContainer();
 		container.html('<span class="ui-loading">Loading...</span>').load('${ctxPath}/home/course/grant');
 	}
-	
 	</script>

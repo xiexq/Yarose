@@ -25,6 +25,9 @@
 	</div>
 	<script>
 	$(document).ready(function() {
+		
+		
+		
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',

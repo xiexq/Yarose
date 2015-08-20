@@ -9,14 +9,25 @@ public class DictCategory implements java.io.Serializable {
 	Integer id;
 
 	private String name;
+	
+	private String code;
 
 	public Integer getId() {
 		return id;
 	}
 
-	public DictCategory(String name) {
+	public DictCategory(String name, String code) {
 		super();
 		this.name = name;
+		this.code = code;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public DictCategory() {
