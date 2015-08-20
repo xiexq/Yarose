@@ -121,4 +121,28 @@ public class TeacherManager implements java.io.Serializable{
   public void setAuthTime(Date authTime) {
     this.authTime = authTime;
   }
+
+  public Date getBeginTime() {
+    return beginTime;
+  }
+
+  public void setBeginTime(Date beginTime) {
+    this.beginTime = beginTime;
+  }
+
+  public Date getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 }
