@@ -1,5 +1,7 @@
 package cn.com.eduedu.jee.security.account.impl;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -72,12 +74,21 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 	}
 
 	public boolean checkExistAccountByUserID(String userID) {
-		return Long.parseLong((String) getDao().executeQueryUnique(
-				"Account.countByUserid", QueryCmdType.QUERY_NAME,
-				new Object[] { userID })) > 0L;
+		return ((Long) getDao().executeQueryUnique("Account.countByUserid",
+				QueryCmdType.QUERY_NAME, userID)) > 0;
 	}
 
 	public PasswordEncoder getPasswordEncoder() {
 		return this.passwordEncoder;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Account> findByUserId(String userId, int offset, int count) {
+		return (List<Account>) this
+				.getDao()
+				.executeQueryList(
+						"Account.findByUserId",
+						QueryCmdType.QUERY_NAME, offset, count, userId);
 	}
 }

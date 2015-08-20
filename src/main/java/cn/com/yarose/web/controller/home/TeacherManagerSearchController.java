@@ -16,7 +16,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/teacher/manager/search")
-@CRUDControllerMeta(title = "店铺管理", service = TeacherManagerService.class, listable = true,countable=true,searchable=true)
+@CRUDControllerMeta(title = "门店管理", service = TeacherManagerService.class, listable = true,countable=true,searchable=true)
 public class TeacherManagerSearchController extends BaseCRUDControllerExt<TeacherManager, Long> {
 
   

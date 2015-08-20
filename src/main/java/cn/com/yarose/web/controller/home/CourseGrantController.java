@@ -19,6 +19,7 @@ public class CourseGrantController extends BaseControllerExt {
   @RequestMapping(value="/grant",method=RequestMethod.GET)
   public String roomIndex(HttpServletRequest request,HttpServletResponse response,Model model) throws IOException{
       this.rejectWebServletCfgs(model);
+      this.rejectAccountInfo(model);
 //      //根据用户类型加载不同的页面
 //      Set<Access> accountSet = this.getAccount().getAccesses();
 //      //if(account.get){
@@ -26,8 +27,6 @@ public class CourseGrantController extends BaseControllerExt {
 //      //}
 //      model.addAttribute("userType", "");
 //      model.addAttribute("room", "");
-      
       return "home/course";
   }
-  
 }

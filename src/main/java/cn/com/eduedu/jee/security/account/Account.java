@@ -1,12 +1,15 @@
 package cn.com.eduedu.jee.security.account;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,7 +49,7 @@ public class Account implements Authentication {
 	@FieldMeta(label = "注册门店", i18n = true, summary = false, visible = false, dictionary = true, msgLabelKey = "security.account.shop.label")
 	Long shopId;
 
-	@FieldMeta(label = "权限", i18n = true, visible = false, summary = false, dictionary = true, msgLabelKey = "security.account.accesses.label")
+	@FieldMeta(label = "权限", i18n = true, visible = false, required = true, summary = false, dictionary = true, msgLabelKey = "security.account.accesses.label")
 	Set<Access> accesses;
 
 	@FieldMeta(label = "微信号", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.weixin.label")
@@ -76,13 +79,17 @@ public class Account implements Authentication {
 	@FieldMeta(label = "职业", i18n = true, editable = false, group = "member", msgLabelKey = "security.account.occupation.label")
 	String occupation;
 
-	@FieldMeta(label = "营销人员", i18n = true, summary = false, dictionary = true, group = "member", visible = false, msgLabelKey = "security.account.saler.label")
-	Long saler;
+	@FieldMeta(label = "营销人员", i18n = true, summary = false, autoComplete = true, group = "member", visible = false, msgLabelKey = "security.account.saler.label")
+	String saler;
 
 	@FieldMeta(label = "会员级别", i18n = true, summary = false, visible = false, group = "member", dictionary = true, msgLabelKey = "security.account.stuLevel.label")
 	Integer stuLevel;
-	
+
 	Integer isAdmin;
+
+	public String getAlias() {
+		return nick + "(" + userid + ")";
+	}
 
 	public Integer getHasCard() {
 		return this.hasCard;
@@ -256,11 +263,11 @@ public class Account implements Authentication {
 		this.stuLevel = stuLevel;
 	}
 
-	public Long getSaler() {
-		return this.saler;
+	public String getSaler() {
+		return saler;
 	}
 
-	public void setSaler(Long saler) {
+	public void setSaler(String saler) {
 		this.saler = saler;
 	}
 

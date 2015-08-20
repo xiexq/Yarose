@@ -15,7 +15,7 @@ public class ShopManager implements java.io.Serializable{
 	private Shop shop;
 	
 	/**
-     * 用户ID，谁管理这个店铺
+     * 用户ID，谁管理这个门店
      */
     Long accountId;
     
@@ -42,17 +42,17 @@ public class ShopManager implements java.io.Serializable{
     String authSourceAlias;
     
 	/**
-     * 答疑室ID
+     * 门店ID
      */
-    @FieldMeta(label = "店铺ID", editable = false, visible = false)
+    @FieldMeta(label = "门店ID", editable = false, visible = false)
     public Long getShopId() {
         return shop == null ? null : shop.getId();
     }
 
     /**
-     * 答疑室名称
+     * 门店名称
      */
-    @FieldMeta(label = "店铺名称", editable = false)
+    @FieldMeta(label = "门店名称", editable = false)
     public String getShopName() {
         return shop == null ? "" : shop.getName();
     } 

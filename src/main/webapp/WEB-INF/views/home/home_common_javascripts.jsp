@@ -109,22 +109,9 @@
 		});
 	}
 	
-	function _account_shop_admin(){
-		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",params:{},enableNextEdit:true
-		});
-	}
-	
 	function _access_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
-		});
-	}
-	
-	//会员管理
-	function _member_admin(){
-		_clearContainer();
-		container.crud({url:'${ctxPath}/home/shop/member',listSelectStyle:'none'
 		});
 	}
 	
@@ -144,52 +131,12 @@
 	
 	function _shop_admin(){
 		_clearContainer();
-		var mc=$('<div></div>'),svc=new StackViewController(container);
-		svc.push(mc);
-		mc.crud({url:'${ctxPath}/home/admin/shops',
-		listItemActions:[
-			{label:'管理授权',func:function(event){
-				var data=event.data,li=data.li,id=li.data('id'),shopName=_crudHelper.getListItemFieldValue(li,'name'),
-				c=$('<div></div>');
-				svc.push(c);
-				c.crud({
-					url:'${ctxPath }/home/admin/shop/managers',
-					params:{_shopId:id},
-					title:shopName+' 管理授权',
-					actions:[{label:'所有店铺',func:function(){svc.pop();}}],
-				});
-			},cssClass:'ui-action-manager'}
-		]
-		});
+		container.crud({url:'${ctxPath}/home/admin/shops'});
 	}
 	
 	function _course_admin(){
 		_clearContainer();
-		var mc=$('<div></div>'),svc=new StackViewController(container);
-		svc.push(mc);
-		mc.crud({url:'${ctxPath}/home/admin/courses',
-			onSelectBigField:function(event,data){
-				var field=data.field,fieldName=field.name,dicUrl=field.dicUrl,callback=data.callback;
-				if(fieldName=="dicId"){
-					return _select_dic(dicUrl,callback);
-				}else if(fieldName=="shopId"){
-					return _select_shop(dicUrl,callback);
-				}
-			},
-			listItemActions:[
-			{label:'老师授权',func:function(event){
-				var data=event.data,li=data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'name'),
-				c=$('<div></div>');
-				svc.push(c);
-					c.crud({
-						url:'${ctxPath }/home/admin/teacher/managers',
-						params:{_courseId:id},
-						title:courseName+' 管理授权',
-						actions:[{label:'所有课程',func:function(){svc.pop();}}],
-					});
-				},cssClass:'ui-action-manager'}
-			]
-		});
+		container.crud({url:'${ctxPath}/home/admin/courses'});
 	}
 	
 	function _select_shop(url,callback){

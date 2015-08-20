@@ -35,7 +35,7 @@
 								<li><a href="javascript:_account_admin()">账号管理</a></li>
 								<li><a href="javascript:_access_admin()">权限管理</a></li>
 								<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
-								<li><a href="javascript:_shop_admin()">店铺管理</a></li>
+								<li><a href="javascript:_shop_admin()">门店管理</a></li>
 								<li><a href="javascript:_course_admin()">课程管理</a></li>
 								<li><a href="javascript:_course_grant()">课程授权</a></li>
 							</ul>
@@ -48,7 +48,7 @@
 						<div>
 							<ul>
 							    <li><a href="javascript:_account_admin('shop')">账号管理</a></li>
-								<li><a href="javascript:_classes_admin()">课程管理</a></li>
+								<li><a href="javascript:_course_admin()">课程管理</a></li>
 								<li><a href="javascript:_course_grant()">课程授权</a></li>
 							</ul>
 						</div>

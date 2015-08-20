@@ -5,68 +5,83 @@ import cn.com.yarose.utils.Constants;
 
 public class Course implements java.io.Serializable {
 
-  private static final long serialVersionUID = 1L;
-  @FieldMeta(id = true, label = "ID", editable = false)
-  private Long id;
+	private static final long serialVersionUID = 1L;
+	@FieldMeta(id = true, label = "ID", editable = false)
+	private Long id;
 
-  @FieldMeta(label = "编号", editable = false, visible = false, summary = false)
-  public String getCode() {
-      if (id == null) {
-          return null;
-      }
-      return Constants.getFormatId(this.id);
-  }
-  
-  @FieldMeta(id = true, label = "课程名称", editable = false)
-  private String name;
+	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	public String getCode() {
+		if (id == null) {
+			return null;
+		}
+		return Constants.getFormatId(this.id);
+	}
 
-  @FieldMeta(label = "所属舞种",dictionary = true, visible = true, editable = true, summary = false, required = true)
-  private Long dicId;
+	@FieldMeta(id = true, label = "课程名称", editable = false, required = true)
+	private String name;
 
-  @FieldMeta(label = "所属店铺",dictionary = true, visible = true, editable = true, summary = false, required = true)
-  private Long shopId;
+	@FieldMeta(label = "所属舞种", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	private Dictionary danceType;
 
-  @FieldMeta(label = "描述",text=true)
-  private String desc;
-  
-  public Long getId() {
-    return id;
-  }
+	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	private Shop shop;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	@FieldMeta(label = "描述", text = true)
+	private String desc;
 
-  public String getName() {
-    return name;
-  }
+	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	public String getShopName() {
+		if (shop != null) {
+			return shop.getName();
+		}
+		return "";
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	@FieldMeta(label = "所属舞种", visible = true, editable = true, summary = false)
+	public String getDanceTypeName() {
+		if (danceType != null) {
+			return danceType.getName();
+		}
+		return "";
+	}
 
-  public Long getShopId() {
-    return shopId;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  public void setShopId(Long shopId) {
-    this.shopId = shopId;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public Long getDicId() {
-    return dicId;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setDicId(Long dicId) {
-    this.dicId = dicId;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getDesc() {
-    return desc;
-  }
+	public String getDesc() {
+		return desc;
+	}
 
-  public void setDesc(String desc) {
-    this.desc = desc;
-  }
+	public Dictionary getDanceType() {
+		return danceType;
+	}
 
+	public void setDanceType(Dictionary danceType) {
+		this.danceType = danceType;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 }

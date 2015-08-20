@@ -32,7 +32,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/account")
-@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true, viewable = true)
+@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, clientValidation = true, createable = true, editable = true, deleteable = true, searchable = true, viewable = true)
 public class AccountAdminController extends
 		BaseCRUDControllerExt<Account, Long> {
 
@@ -69,6 +69,14 @@ public class AccountAdminController extends
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
+			if (create) {
+				boolean exist = ((AccountService) this.getCrudService())
+						.checkExistAccountByUserID(cmd.getUserid());
+				if (exist) {
+					result.rejectValue("userid", "invalidate", "已被使用");
+					return cmd;
+				}
+			}
 			// 判断是否具有老师的权限
 			Access ta = accessService.findById(Constants.ROLE_TEACHER);
 			if (!cmd.getAccesses().contains(ta)) {
@@ -106,10 +114,10 @@ public class AccountAdminController extends
 			throws Exception {
 		String isShop = request.getParameter("_shop");
 		if (StringUtils.hasText(isShop)) {
-			return this.generateStringSortedSet("shop", "userId", "nick",
+			return this.generateStringSortedSet("shop", "userid", "nick",
 					"weixin");
 		}
-		return this.generateStringSet("shopId", "userId", "nick", "weixin");
+		return this.generateStringSet("shopId", "userid", "nick", "weixin");
 	}
 
 	@Override
@@ -143,6 +151,15 @@ public class AccountAdminController extends
 	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
 	public List<Shop> _shopIds(HttpServletRequest request) {
 		return shopService.listAll(-1, -1);
+	}
+
+	@DictionaryModel(label = "alias", val = "userid")
+	public List<Account> _ac_salers(String value, HttpServletRequest request) {
+		if (StringUtils.hasText(value)) {
+			AccountService as = (AccountService) this.getCrudService();
+			return as.findByUserId(value + "%", 0, 10);
+		}
+		return null;
 	}
 
 	@DictionaryModel(val = "id", label = "name")

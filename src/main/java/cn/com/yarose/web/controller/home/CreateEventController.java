@@ -27,7 +27,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/course/event")
-@CRUDControllerMeta(title = "店铺管理", service = TeacherManagerService.class, createable= true,listable=true,editable=true)
+@CRUDControllerMeta(title = "门店管理", service = TeacherManagerService.class, createable= true,listable=true,editable=true)
 public class CreateEventController extends BaseCRUDControllerExt<TeacherManager, Long> {
 
   private CourseService courseService;

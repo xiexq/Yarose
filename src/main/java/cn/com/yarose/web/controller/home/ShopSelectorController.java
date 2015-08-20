@@ -14,7 +14,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/shops/selector")
-@CRUDControllerMeta(title = "店铺管理", service = ShopService.class, listable = true,countable=true,searchable=true)
+@CRUDControllerMeta(title = "门店管理", service = ShopService.class, listable = true,countable=true,searchable=true)
 public class ShopSelectorController extends BaseCRUDControllerExt<Shop, Long> {
 
   @Override

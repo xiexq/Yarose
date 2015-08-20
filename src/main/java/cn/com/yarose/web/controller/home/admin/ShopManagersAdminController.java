@@ -25,7 +25,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/shop/managers")
-@CRUDControllerMeta(viewable = true, title = "店铺授权管理用户", service = ShopManagerService.class, listable = true, createable = true, editable = true, deleteable = true)
+@CRUDControllerMeta(viewable = true, title = "门店授权管理用户", service = ShopManagerService.class, listable = true, createable = true, editable = true, deleteable = true)
 public class ShopManagersAdminController extends
   BaseCRUDControllerExt<ShopManager, Long> {
 
