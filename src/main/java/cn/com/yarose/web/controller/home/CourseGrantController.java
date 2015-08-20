@@ -1,21 +1,19 @@
 package cn.com.yarose.web.controller.home;
 
 import java.io.IOException;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.com.yarose.web.controller.BaseControllerExt;
 
 @Controller
-@RequestMapping("/home/admin/courses")
+@RequestMapping("/home/course")
 public class CourseGrantController extends BaseControllerExt {
   
   @RequestMapping(value="/grant",method=RequestMethod.GET)

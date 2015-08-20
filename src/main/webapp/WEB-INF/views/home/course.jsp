@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../includes/tags.jsp"%>
+<%@ include file="../includes/common_links.jsp"%>
+<link href="${staticResPath}/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+<link href="${staticResPath}/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'/>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
 <div class="ui-room" style="min-height:700px;">
-	<div class="ui-room-header">
-		<h2>
-			<span>
-				<a href="javascript:void(0)" onclick="${func}()">
-				<c:if test="${func eq '_myRooms' }">我的答疑室</c:if>
-				<c:if test="${func eq '_freeAccessRooms' }">开放答疑室</c:if>
-				<c:if test="${func eq '_my_managed_rooms' }">我管理的答疑室</c:if>
-				<c:if test="${func eq '_my_teached_rooms' }">我辅导的答疑室</c:if>
-				</a> 
-			</span>
-			<span>${room.name }</span> 
-		</h2>
-	</div>
 	<div class="ui-search-box">
 		<form>
 			<fieldset>
@@ -25,80 +17,51 @@
 		</form>
 	</div>
 	<div class="ui-room-question-list">
-		<div class="ui-questions">
-			<div id='calendar'></div>
+		<div class="ui-questions" style="margin: 10px 10px; padding: 0; font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif; font-size: 14px;">
+			<div id='calendar' style="max-width: 900px;margin: 0 auto;"></div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function() {
-
+	<script>
+	$(document).ready(function() {
 		$('#calendar').fullCalendar({
-			theme: true,
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-			defaultDate: '2015-02-12',
-			editable: true,
-			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2015-02-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2015-02-07',
-					end: '2015-02-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2015-02-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2015-02-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2015-02-11',
-					end: '2015-02-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2015-02-12T10:30:00',
-					end: '2015-02-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2015-02-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2015-02-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2015-02-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2015-02-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2015-02-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2015-02-28'
+			defaultDate: new Date(),
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end) {
+				var title = prompt('Event Title:');
+				var eventData;
+				if (title) {
+					eventData = {
+						title: title,
+						start: start,
+						end: end
+					};
+					$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
 				}
-			]
+				$('#calendar').fullCalendar('unselect');
+			},
+			eventClick: function(event) {  // 定义了点击日历项的动作，这里将会调用jQueryUi的dialog显示日历项的内容  
+				
+			}, 
+			
+			editable: true,
+			eventLimit: true // allow "more" link when too many events
 		});
+		
 	});
-	</script>
+	
+	function _view(){
+		var c=$('.ui-room'),list=$('.ui-questions',c),searchBox=$('.ui-search-box',c),searchInput=$('.ui-search-input',searchBox),
+						listActions=[],params={_roomId:target},type=userType;
+		list.crud({url:'${ctxPath}/home/teacher/manager/search'
+					
+				});
+	}
+</script>
+	
 </div>
