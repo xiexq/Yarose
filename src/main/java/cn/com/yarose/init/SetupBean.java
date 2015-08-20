@@ -9,18 +9,24 @@ import org.springframework.beans.factory.InitializingBean;
 
 import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
+import cn.com.eduedu.jee.security.account.Account;
+import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.DictCategory;
 import cn.com.yarose.base.DictCategoryService;
 
 public class SetupBean implements InitializingBean {
 
 	private DictCategoryService dictCategoryService;
-
 	private AccessService accessService;
+	private AccountService accountService;
 
 	@Resource
 	public void setDictCategoryService(DictCategoryService dictCategoryService) {
 		this.dictCategoryService = dictCategoryService;
+	}
+
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
 	}
 
 	public void setAccessService(AccessService accessService) {
@@ -60,9 +66,26 @@ public class SetupBean implements InitializingBean {
 		}
 	}
 
+	/**
+	 * 初始化超级管理员
+	 */
+	private void initSuperMan() {
+		Long as = accountService.countAll();
+		if (as == 0) {
+			Account account = new Account();
+			account.setUserid("superman");
+			account.setEmail("112@qq.com");
+			account.setWeixin("123456");
+			account.setNick("超级管理员");
+			account.setPassword("123456");
+			accountService.save(account);
+		}
+	}
+
 	@Override
 	public void afterPropertiesSet() {
 		initAccess();
 		initDictCategory();
+		initSuperMan();
 	}
 }

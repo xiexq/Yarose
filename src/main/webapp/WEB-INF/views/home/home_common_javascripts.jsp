@@ -115,7 +115,16 @@
 	
 	function _dictionary_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/dictionary'});
+	    var tree=$('<div></div>'),childrenList=$('<div></div>');
+		SplitViewController(container,tree,childrenList);
+		var opts={dataSource:"${ctxPath}/home/admin/dictCategory/tree",showRootNode:true,selectStyle:"none",
+				onItemClick:function(event,li){
+					var id=li.data('_id'),label=li.data('_label');
+					childrenList.crud({url:"${ctxPath}/home/admin/dictionary",title:label,params:{'_type':id}});
+				}
+		}
+		tree.tree(opts);
+		childrenList.crud({url:"${ctxPath}/home/admin/dictionary",title:'根目录',params:{'_type':0}});
 	}
 	
 	function _shop_admin(){

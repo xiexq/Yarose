@@ -19,6 +19,10 @@ public class DictCategory implements java.io.Serializable {
 		this.name = name;
 	}
 
+	public DictCategory() {
+		super();
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}

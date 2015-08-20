@@ -13,11 +13,14 @@
 		<many-to-one name="type" class="cn.com.yarose.base.DictCategory"
 			not-null="true" lazy="false"></many-to-one>
 		<property name="name" type="string" length="200" not-null="true"></property>
+		<property name="createDate" column="createDate" type="timestamp"></property>
+		<many-to-one name="account" column="account_id"
+			class="cn.com.eduedu.jee.security.account.Account"></many-to-one>
 	</class>
 	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where
-		dic.type=? and dic.name=?
+		dic.type.id=? and dic.name=?
 	</query>
 	<query name="Dictionary.listByType">from cn.com.yarose.base.Dictionary as dic where
-		dic.type=?
+		dic.type.id=?
 	</query>
 </hibernate-mapping>

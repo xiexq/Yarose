@@ -1,9 +1,10 @@
 package cn.com.yarose.web.controller.home.admin;
 
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -11,99 +12,100 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.com.yarose.base.Dictionary;
-import cn.com.yarose.base.DictionaryService;
-import cn.com.yarose.utils.Constants;
-import cn.com.yarose.web.controller.BaseCRUDControllerExt;
-import cn.com.eduedu.jee.entity.NameValueBean;
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
-import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.order.OrderProperties;
+import cn.com.yarose.base.DictCategory;
+import cn.com.yarose.base.DictCategoryService;
+import cn.com.yarose.base.Dictionary;
+import cn.com.yarose.base.DictionaryService;
+import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/dictionary")
-
-@CRUDControllerMeta(title = "字典管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true,viewable=true,searchable=true)
+@CRUDControllerMeta(title = "字典管理", service = DictionaryService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = false, paged = false)
 public class DictionaryAdminController extends
 		BaseCRUDControllerExt<Dictionary, Long> {
 
-	@Override
-	public Dictionary customSaveCmd(Dictionary cmd, HttpServletRequest request,
-			Long id) throws Exception {
-		cmd= super.customSaveCmd(cmd, request, id);
-		return cmd;
-	}
+	@Resource(name = "dictCategoryService")
+	DictCategoryService dictCategoryService;
 
 	@Override
 	public Dictionary customSave(Dictionary cmd, BindingResult result,
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
-		if(this.validate(cmd, result, request, create)){
-		    Dictionary dic = ((DictionaryService)this.getCrudService()).findByName(cmd.getType().getId(),cmd.getName());
-		    if(create){
-		       if(dic != null){
-		         result.rejectValue("name","invalidate","已经存在!");
-                 return cmd;
-		       }
-		    }else{
-		      if(dic != null){
-                if(dic.getId()!= null && !dic.getId().equals(cmd.getId())){
-                    result.rejectValue("name","invalidate","已经存在!");
-                    return cmd;
-                }
-              }
-		    }
-			return this.getCrudService().save(cmd);
+		if (this.validate(cmd, result, request, create)) {
+			Integer type = this.getTypeId(request);
+			Dictionary dic = ((DictionaryService) this.getCrudService())
+					.findByName(type, cmd.getName());
+			if (dic == null) {
+				DictCategory dc = dictCategoryService.findById(type);
+				cmd.setType(dc);
+				cmd.setAccount(this.getAccount());
+				cmd.setCreateDate(new Date());
+				return this.getCrudService().save(cmd);
+			} else {
+				result.rejectValue("name", "name.error", "该名称已添加");
+			}
 		}
 		return cmd;
 	}
 
 	@Override
-	public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
-	  return super.generateStringSortedSet("name");
-	}
-	
-	@Override
-	public void customSearchExample(Dictionary example, HttpServletRequest request) throws Exception {
-	  super.customSearchExample(example, request);
-	}
-	
-	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
-		return this.generateStringSortedSet("name","desc");
+		return this.generateStringSortedSet("name");
 	}
-	
+
+	@Override
+	public boolean customCreateable(HttpServletRequest request)
+			throws Exception {
+		Integer type = getTypeId(request);
+		// 根目录不能修改，只能查看
+		if (type == 0) {
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public List<Dictionary> customList(int offset, int count,
 			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
-		Long type = this.getTypeId(request);
-		return ((DictionaryService)this.getCrudService()).listByType(type);
+		Integer type = this.getTypeId(request);
+		if (type == 0) {
+			return ((DictionaryService) this.getCrudService()).listAll(offset,
+					count);
+		}
+		return ((DictionaryService) this.getCrudService()).listByType(type,
+				offset, count);
 	}
 
-	@DictionaryModel(header = true, headerLabel = "请选择", headerValue = "")
-	public Collection<NameValueBean> _types(HttpServletRequest request) {
-		return Constants.getStatusDictionary();
-	}
-	
 	@Override
-	public Set<String> customListFields(HttpServletRequest request) throws Exception {
-	  return this.generateStringSortedSet("name","desc");
+	public Set<String> customListFields(HttpServletRequest request)
+			throws Exception {
+		return this.generateStringSortedSet("name", "typeName", "accountName",
+				"createDate");
 	}
-	
-	public Long getTypeId(HttpServletRequest request){
-	  String type=request.getParameter("_type");
-	  if(StringUtils.hasText(type)){
-		  return Long.parseLong(type);
-	  }
-	  return null;
-	}
-	
+
 	@Override
-	public void customDelete(Long id, HttpServletRequest request) throws Exception {
-	  // 如果类型下面有课程不能删除
-	  super.customDelete(id, request);
+	public Set<String> customEditFields(HttpServletRequest request,
+			Dictionary entity) throws Exception {
+		return this.generateStringSet("name");
+	}
+
+	public Integer getTypeId(HttpServletRequest request) {
+		String type = request.getParameter("_type");
+		if (StringUtils.hasText(type)) {
+			return Integer.parseInt(type);
+		}
+		return null;
+	}
+
+	@Override
+	public void customDelete(Long id, HttpServletRequest request)
+			throws Exception {
+		// 如果类型下面有课程不能删除
+		super.customDelete(id, request);
 	}
 }

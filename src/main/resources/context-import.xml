@@ -44,5 +44,6 @@
 	<bean id="setupBean" class="cn.com.yarose.init.SetupBean">
 		<property name="dictCategoryService" ref="dictCategoryService" />
 		<property name="accessService" ref="account_accessService" />
+		<property name="accountService" ref="account_accountService" />
 	</bean>
 </beans>
