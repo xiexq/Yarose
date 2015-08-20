@@ -23,6 +23,10 @@
 			length="100" not-null="true" />
 		<property name="authTime" column="auth_time" not-null="true"
 			type="timestamp" />		
+		<property name="beginTime" column="begin_time" type="timestamp"></property>
+		<property name="endTime" column="end_time" type="timestamp"></property>
+		<property name="createTime" column="create_time" type="timestamp"
+			update="false" />
 	</class>
 	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.course.id=? order by tm.authTime desc]]></query>
 	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from

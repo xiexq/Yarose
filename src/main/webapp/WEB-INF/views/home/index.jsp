@@ -49,6 +49,7 @@
 								<li><a href="javascript:_account_admin()">账号管理</a></li>
 								<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
 								<li><a href="javascript:_classes_admin()">课程管理</a></li>
+								<li><a href="javascript:_course_grant()">课程授权</a></li>
 							</ul>
 						</div>
 					</sec:authorize>

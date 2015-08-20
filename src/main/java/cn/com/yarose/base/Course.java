@@ -1,7 +1,5 @@
 package cn.com.yarose.base;
 
-import java.util.Date;
-
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.yarose.utils.Constants;
 
@@ -28,15 +26,6 @@ public class Course implements java.io.Serializable {
   @FieldMeta(label = "所属店铺",dictionary = true, visible = true, editable = true, summary = false, required = true)
   private Long shopId;
 
-  @FieldMeta(label = "课程开始时间", datetime = true, required = true)
-  private Date beginTime;
-  
-  @FieldMeta(label = "课程结束时间", datetime = true, required = true)
-  private Date endTime;
-  
-  @FieldMeta(label = "课程创建时间",datetime = true)
-  private Date createTime;
-  
   @FieldMeta(label = "描述",text=true)
   private String desc;
   
@@ -46,22 +35,6 @@ public class Course implements java.io.Serializable {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Date getbeginTime() {
-    return beginTime;
-  }
-
-  public void setbeginTime(Date beginTime) {
-    this.beginTime = beginTime;
-  }
-
-  public Date getEndTime() {
-    return endTime;
-  }
-
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
   }
 
   public String getName() {
@@ -86,14 +59,6 @@ public class Course implements java.io.Serializable {
 
   public void setDicId(Long dicId) {
     this.dicId = dicId;
-  }
-
-  public Date getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
   }
 
   public String getDesc() {

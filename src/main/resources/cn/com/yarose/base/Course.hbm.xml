@@ -12,10 +12,6 @@
 		<property name="dicId" column="dic_id" not-null="true"></property>
 		<property name="shopId" column="shop_id" not-null="true"></property>
 		<property name="name" column="name" not-null="true"></property>
-		<property name="beginTime" column="begin_time" type="timestamp" not-null="true"></property>
-		<property name="endTime" column="end_time" type="timestamp" not-null="true"></property>
-		<property name="createTime" column="create_time" type="timestamp"
-			not-null="true" update="false" />
 		<property name="desc" column="description"></property>
 	</class>
 </hibernate-mapping>

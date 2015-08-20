@@ -209,4 +209,10 @@
 		});
 		return false;
 	}
+	
+	function _course_grant(){
+		_clearContainer();
+		container.html('<span class="ui-loading">Loading...</span>').load('${ctxPath}/home/course/grant');
+	}
+	
 	</script>

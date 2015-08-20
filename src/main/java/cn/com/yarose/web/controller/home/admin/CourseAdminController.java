@@ -1,6 +1,5 @@
 package cn.com.yarose.web.controller.home.admin;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,17 +38,17 @@ public class CourseAdminController extends
     }
 	@Override
 	public Set<String> customListFields(HttpServletRequest request) throws Exception {
-	  return this.generateStringSortedSet("name","dicId","shopId","beginTime","endTime","desc");
+	  return this.generateStringSortedSet("name","dicId","shopId","desc");
 	}
 	
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request, boolean create) throws Exception {
-	  return this.generateStringSortedSet("name","dicId","shopId","beginTime","endTime","desc");
+	  return this.generateStringSortedSet("name","dicId","shopId","desc");
 	}
 	
 	@Override
 	public Set<String> customViewFields(HttpServletRequest request) throws Exception {
-	  return this.generateStringSortedSet("name","dicId","shopId","beginTime","endTime","desc");
+	  return this.generateStringSortedSet("name","dicId","shopId","desc");
 	}
 	
 	@Override
@@ -77,9 +76,7 @@ public class CourseAdminController extends
 	public Course customSave(Course cmd, BindingResult result, HttpServletRequest request,
 	  ResponseObject response, boolean create) throws Exception {
     	if(this.validate(cmd, result, request, create)){
-    	  if(create){
-    	    cmd.setCreateTime(new Date());
-    	  }
+    	  
     	}
     	return super.customSave(cmd, result, request, response, create);
 	}
