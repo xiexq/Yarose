@@ -131,20 +131,7 @@
 		_clearContainer();
 		var mc=$('<div></div>'),svc=new StackViewController(container);
 		svc.push(mc);
-		mc.crud({url:'${ctxPath}/home/admin/shops',
-		listItemActions:[
-			{label:'管理授权',func:function(event){
-				var data=event.data,li=data.li,id=li.data('id'),shopName=_crudHelper.getListItemFieldValue(li,'name'),
-				c=$('<div></div>');
-				svc.push(c);
-				c.crud({
-					url:'${ctxPath }/home/admin/shop/managers',
-					params:{_shopId:id},
-					title:shopName+' 管理授权',
-					actions:[{label:'所有店铺',func:function(){svc.pop();}}],
-				});
-			},cssClass:'ui-action-manager'}
-		]
+		mc.crud({url:'${ctxPath}/home/admin/shops'
 		});
 	}
 	
