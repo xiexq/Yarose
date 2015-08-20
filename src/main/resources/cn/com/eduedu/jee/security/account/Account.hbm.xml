@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="cn.com.eduedu.jee.security.account">
+	<class name="Account" table="t_sec_account" lazy="true">
+		<id name="accountId" column="account_id" type="long">
+			<generator class="native">
+				<param name="sequence">s_account_id</param>
+			</generator>
+		</id>
+		<property name="userid" column="user_id" length="50"
+			not-null="true" unique="true"></property>
+		<property name="password" column="password" length="50"
+			not-null="true"></property>
+		<property name="nick" length="50" />
+		<property name="email" length="150" unique="true" />
+		<property name="shopId" column="shop_id" />
+		<property name="weixin" column="weixin" />
+		<property name="phone" column="phone" />
+		<property name="teachLevel" column="teach_level" />
+		<property name="courseFee" column="course_fee" />
+		<property name="address" column="address" />
+		<property name="stuLevel" column="stu_level" />
+		<property name="hasCard" column="has_card" />
+		<property name="saler" column="saler" />
+		<property name="createTime" column="create_time" type="timestamp"
+			update="false" />
+		<property name="occupation" column="occupation" />
+		<set name="accesses" table="r_sec_role_access" cascade="none"
+			lazy="false">
+
+			<key column="role_id"></key>
+			<many-to-many class="cn.com.eduedu.jee.security.account.Access"
+				column="access_id" />
+		</set>
+	</class>
+	<query name="Account.loadByUserid">from cn.com.eduedu.jee.security.account.Account as a
+		where a.userid=?
+	</query>
+	<query name="Account.countByUserid">select count(a.accountId) from
+		cn.com.eduedu.jee.security.account.Account as a where a.userid=?
+	</query>
+	<query name="Account.findByUserId">from cn.com.eduedu.jee.security.account.Account as a where
+		a.userid like ? order by a.userid
+	</query>
+</hibernate-mapping>
