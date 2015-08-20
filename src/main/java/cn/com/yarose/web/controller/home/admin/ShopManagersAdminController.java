@@ -101,9 +101,9 @@ public class ShopManagersAdminController extends
 		return cmd;
 	}
 
-	public Collection<NameValueBean> _statuss(HttpServletRequest request) {
+	/*public Collection<NameValueBean> _statuss(HttpServletRequest request) {
 		return Constants.getStatusDictionary();
-	}
+	}*/
 
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)

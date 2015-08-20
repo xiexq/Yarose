@@ -10,5 +10,6 @@
 			</generator>
 		</id>
 		<property name="name" not-null="true" type="string"/>
+		<property name="code" not-null="true" type="string"/>
 	</class>
 </hibernate-mapping>

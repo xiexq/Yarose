@@ -41,14 +41,13 @@
 							</ul>
 						</div>
 					</sec:authorize>
-					<sec:authorize ifAnyGranted="ROLE_SHOP_MANAGER">
+					<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_SHOP_MANAGER">
 						<h3>
 							<a href="#">门店管理</a>
 						</h3>
 						<div>
 							<ul>
-								<li><a href="javascript:_account_admin()">账号管理</a></li>
-								<li><a href="javascript:_dictionary_admin()">字典管理</a></li>
+							    <li><a href="javascript:_account_admin('shop')">账号管理</a></li>
 								<li><a href="javascript:_classes_admin()">课程管理</a></li>
 								<li><a href="javascript:_course_grant()">课程授权</a></li>
 							</ul>
