@@ -5,8 +5,10 @@
 <link href="${staticResPath}/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
 <link href="${staticResPath}/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'/>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery.min.js"></script>
-<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script> 
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
 <div class="ui-room" style="min-height:700px;">
 	<div class="ui-search-box">
 		<form>
@@ -29,39 +31,50 @@
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
+			theme:true,//是否显示主题
+			weekNumbers:true,//是否显示周次
 			defaultDate: new Date(),
-			selectable: true,
-			selectHelper: true,
-			select: function(start, end) {
-				var title = prompt('Event Title:');
-				var eventData;
-				if (title) {
-					eventData = {
-						title: title,
-						start: start,
-						end: end
-					};
-					$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-				}
-				$('#calendar').fullCalendar('unselect');
-			},
-			eventClick: function(event) {  // 定义了点击日历项的动作，这里将会调用jQueryUi的dialog显示日历项的内容  
-				
-			}, 
 			
 			editable: true,
-			eventLimit: true // allow "more" link when too many events
+			eventLimit: true, // allow "more" link when too many events
+			events:function(start, end, timezone, callback) {//读取数据
+		        $.ajax({
+		            url:"${ctxPath }/home/course/event/select",
+		            cache:false,
+		            success:function(doc) {
+		                eval("var j=" + doc);
+		                var events = [];
+		                var info = j.eventinfo;
+		                for (var i = 0; i < info.length; i++) {
+		                    var ev = info[i];
+		                    var title = ev.title;
+		                    var evtstart = new Date(Date.parse(ev.start));
+		                    var evtend = new Date(Date.parse(ev.end));
+		                    events.push({
+		                        title:title,
+		                        start:evtstart,
+		                        end:evtend,
+		                        id:1
+		                    });
+		                }
+		                callback(events);
+		            },
+		            error:function() {
+		                alert('sdf')
+		            }
+		        })
+    		},
+    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+	            //var selDate =$.fullCalendar.formatDate(date,'yyyy-MM-dd');//格式化日期   
+	            $.fancybox({//调用fancybox弹出层   
+	                'type':'ajax',   
+	                'href':'${ctxPath }/home/course/event/add/'+date   
+	            });   
+        	}   
+    		
 		});
 		
 	});
-	
-	function _view(){
-		var c=$('.ui-room'),list=$('.ui-questions',c),searchBox=$('.ui-search-box',c),searchInput=$('.ui-search-input',searchBox),
-						listActions=[],params={_roomId:target},type=userType;
-		list.crud({url:'${ctxPath}/home/teacher/manager/search'
-					
-				});
-	}
 </script>
 	
 </div>
