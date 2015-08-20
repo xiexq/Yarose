@@ -65,7 +65,7 @@ public class CreateEventController extends BaseCRUDControllerExt<TeacherManager,
   }
   
   @RequestMapping("/add/{selDate}")
-  public String index(@PathVariable("id") Long date, Model model,
+  public String index(@PathVariable("selDate") Long date, Model model,
                       HttpServletRequest request, HttpServletResponse response){
       this.rejectWebServletCfgs(model);
       this.rejectAccountInfo(model);

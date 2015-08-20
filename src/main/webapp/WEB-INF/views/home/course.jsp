@@ -31,7 +31,7 @@
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-			theme:true,//是否显示主题
+			//theme:true,//是否显示主题
 			weekNumbers:true,//是否显示周次
 			defaultDate: new Date(),
 			
