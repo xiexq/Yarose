@@ -226,9 +226,10 @@
 	}
 	
 	function _course_grant(){
+		var editParams = {};
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',
-			action:'create',initShowSearchForm:true,
+			action:'create',initShowSearchForm:true,params:editParams,
 			onListSuccess:function(e,data){
 				$('.ui-content',container).empty();
 				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
@@ -244,7 +245,6 @@
 					
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
-					//events:'${ctxPath }/home/admin/teacher/managers/select',
 					events:function(start, end, timezone, callback) {//读取数据
 				        $.ajax({
 				            url:"${ctxPath }/home/admin/teacher/managers/select",
@@ -262,7 +262,7 @@
 				                        title:title,
 				                        start:evtstart,
 				                        end:evtend,
-				                        id:1
+				                        id:ev.id
 				                    });
 				                }
 				                callback(events);
@@ -274,11 +274,13 @@
 				    },
 		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
 			            var div = $('<div/>');
+			            alert(date)
+			            editParams._date=date+"";
 			           	div.dialog({
 							title: '添加课程',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
-							action:'edit',
+							action:'edit',showSubviewTitle:false,showHeader:false,params:editParams,
 							onSaveSuccess:function(data){
 								div.crud('tipInfo','保存成功！','pass');
 							  	setTimeout(function(){div.dialog('destroy').remove();$('#calendar').crud('refreshList');},1500);
@@ -296,7 +298,7 @@
 							title: '修改课程',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
-							action:'edit',actionTarget:calEvent.id,
+							action:'edit',actionTarget:calEvent.id,showSubviewTitle:false,showHeader:false,
 							onSaveSuccess:function(data){
 								div.crud('tipInfo','修改成功！','pass');
 							  	setTimeout(function(){div.dialog('destroy').remove();_course_grant();},1500);
@@ -310,6 +312,12 @@
 			        }   
 		        	 
 				});
+			},
+			onSearchSubmit:function(e,data){
+				var search = $('.ui-search',container);
+				var shopId = $("select[name='shopId']").val();
+				alert(shopId);
+				editParams._shopId = shopId;
 			}
 		})
 	}

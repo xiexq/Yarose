@@ -1,5 +1,6 @@
 package cn.com.yarose.web.controller.home.admin;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,13 +57,10 @@ public class CourseAdminController extends
 	  return this.generateStringSortedSet("name","dicId","shopId");
 	}
 	
-	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/shops/selector", headerIsJustForSearch=true, cascade = true)
-	public Shop _shopIds(HttpServletRequest request, Object obj) {
-      if(obj != null){
-        return shopService.findById(Long.valueOf(obj.toString()));
-      }
-      return null;
-    }
+	@DictionaryModel(header = true, headerLabel = "请选择", headerValue = "")
+	  public Collection<Shop> _shopIds(HttpServletRequest request){
+	      return shopService.listAll(-1, -1);
+	  }
 	
 	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/dictionarys/selector", headerIsJustForSearch=true, cascade = true)
     public Dictionary _dicIds(HttpServletRequest request, Object obj) {
