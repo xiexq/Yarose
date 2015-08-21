@@ -3,123 +3,142 @@ package cn.com.yarose.base;
 import java.util.Date;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.eduedu.jee.security.account.Account;
 
 public class TeacherManager implements java.io.Serializable {
 
-  private static final long serialVersionUID = 1L;
-  @FieldMeta(id = true, label = "ID", editable = false)
-  Long id;
+	private static final long serialVersionUID = 1L;
+	@FieldMeta(id = true, label = "ID", editable = false)
+	Long id;
 
-  @FieldMeta(label = "所属店铺", dictionary = true, visible = true, editable = true, summary = false, required = true)
-  private Long shopId;
+	@FieldMeta(label = "任课老师", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	private Account teacher;
 
-  @FieldMeta(label = "所属课程", dictionary = true, visible = true, editable = true, summary = false, required = true)
-  private Long courseId;
+	@FieldMeta(label = "所属课程", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	private Course course;
 
-  @FieldMeta(label = "任课老师", dictionary = true, visible = true, editable = true, summary = false, required = true)
-  private Long accountId;
+	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	private Shop shop;
+	
+	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false)
+	private Shop searchShop;
+	
+	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	public String getShopName() {
+		if (shop != null) {
+			return shop.getName();
+		}
+		return "";
+	}
 
-  /**
-   * 用户账号，一个冗余字段，用来友好显示
-   */
-  @FieldMeta(label = "老师名称", required = true, order = 9, autoComplete = true)
-  String userId;
+	
+	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
+	public String getCourseName() {
+		if (course != null) {
+			return course.getName();
+		}
+		return "";
+	}
 
-  /**
-   * 授权人
-   */
-  @FieldMeta(label = "授权来源", editable = true, summary = false, visible = false)
-  Long authSourceId;
+	/**
+	 * 授权人
+	 */
+	@FieldMeta(label = "授权来源", editable = true, summary = false, visible = false)
+	Long authSourceId;
 
-  @FieldMeta(label = "授权人", visible = true, editable = false, summary = false)
-  String authSourceAlias;
+	@FieldMeta(label = "授权人", visible = true, editable = false, summary = false)
+	String authSourceAlias;
 
-  @FieldMeta(label = "课程开始时间", datetime = true, required = true)
-  private Date beginTime;
+	@FieldMeta(label = "课程开始时间", datetime = true, required = true)
+	private Date beginTime;
 
-  @FieldMeta(label = "课程结束时间", datetime = true, required = true)
-  private Date endTime;
+	@FieldMeta(label = "课程结束时间", datetime = true, required = true)
+	private Date endTime;
 
-  @FieldMeta(label = "课程创建时间", datetime = true)
-  private Date createTime;
+	@FieldMeta(label = "课程创建时间", datetime = true)
+	private Date createTime;
 
-  public Long getId() {
-    return id;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public Long getAccountId() {
-    return accountId;
-  }
+	public Long getAuthSourceId() {
+		return authSourceId;
+	}
 
-  public void setAccountId(Long accountId) {
-    this.accountId = accountId;
-  }
+	public void setAuthSourceId(Long authSourceId) {
+		this.authSourceId = authSourceId;
+	}
 
-  public String getUserId() {
-    return userId;
-  }
+	public String getAuthSourceAlias() {
+		return authSourceAlias;
+	}
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+	public void setAuthSourceAlias(String authSourceAlias) {
+		this.authSourceAlias = authSourceAlias;
+	}
 
-  public Long getAuthSourceId() {
-    return authSourceId;
-  }
+	public Date getBeginTime() {
+		return beginTime;
+	}
 
-  public void setAuthSourceId(Long authSourceId) {
-    this.authSourceId = authSourceId;
-  }
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
 
-  public String getAuthSourceAlias() {
-    return authSourceAlias;
-  }
+	public Date getEndTime() {
+		return endTime;
+	}
 
-  public void setAuthSourceAlias(String authSourceAlias) {
-    this.authSourceAlias = authSourceAlias;
-  }
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
 
-  public Date getBeginTime() {
-    return beginTime;
-  }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-  public void setBeginTime(Date beginTime) {
-    this.beginTime = beginTime;
-  }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-  public Date getEndTime() {
-    return endTime;
-  }
+	public Shop getShop() {
+		return shop;
+	}
 
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
-  }
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+	public Course getCourse() {
+		return course;
+	}
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
-  public Long getShopId() {
-    return shopId;
-  }
 
-  public void setShopId(Long shopId) {
-    this.shopId = shopId;
-  }
+	public Shop getSearchShop() {
+		return searchShop;
+	}
 
-  public Long getCourseId() {
-    return courseId;
-  }
 
-  public void setCourseId(Long courseId) {
-    this.courseId = courseId;
-  }
+	public void setSearchShop(Shop searchShop) {
+		this.searchShop = searchShop;
+	}
+
+
+	public Account getTeacher() {
+		return teacher;
+	}
+
+
+	public void setTeacher(Account teacher) {
+		this.teacher = teacher;
+	}
 }
