@@ -1,7 +1,9 @@
 package cn.com.yarose.init;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -41,11 +43,11 @@ public class SetupBean implements InitializingBean {
 		Long as = accessService.countAll();
 		if (as == 0) {
 			List<Access> asList = new ArrayList<Access>();
-			asList.add(new Access("SUPER", "系统管理员"));
-			asList.add(new Access("SHOP_MANAGER", "店长"));
-			asList.add(new Access("TEACHER", "老师"));
-			asList.add(new Access("SALER", "营销人员"));
-			asList.add(new Access("MEMBER", "会员"));
+			asList.add(new Access(Constants.ROLE_SUPER, "系统管理员"));
+			asList.add(new Access(Constants.ROLE_SHOP_MANAGER, "店长"));
+			asList.add(new Access(Constants.ROLE_TEACHER, "老师"));
+			asList.add(new Access(Constants.ROLE_SALER, "营销人员"));
+			asList.add(new Access(Constants.ROLE_MEMBER, "会员"));
 			for (Access access : asList) {
 				accessService.save(access);
 			}
@@ -80,6 +82,10 @@ public class SetupBean implements InitializingBean {
 			account.setWeixin("123456");
 			account.setNick("超级管理员");
 			account.setPassword("123456");
+			Access access = accessService.findById(Constants.ROLE_SUPER);
+			Set<Access> accesses = new HashSet<Access>();
+			accesses.add(access);
+			account.setAccesses(accesses);
 			accountService.save(account);
 		}
 	}

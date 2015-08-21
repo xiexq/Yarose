@@ -140,7 +140,7 @@ public class AccountAdminController extends
 				Constants.DICT_TYPE_TEACH_LEVEL, -1, -1);
 	}
 
-	@DictionaryModel(label = "name", val = "id")
+	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
 	public List<Shop> _shopIds(HttpServletRequest request) {
 		return shopService.listAll(-1, -1);
 	}
