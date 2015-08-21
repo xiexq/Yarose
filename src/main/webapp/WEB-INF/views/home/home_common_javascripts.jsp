@@ -1,5 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ include file="../includes/tags.jsp"%>
+<link href="${staticResPath}/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+<link href="${staticResPath}/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'/>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script> 
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
 <script>
 	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva;
 	function _clearContainer(tar){
@@ -220,8 +226,64 @@
 	}
 	
 	function _course_grant(){
-		_clearContainer();
-		container.html('<span class="ui-loading">Loading...</span>').load('${ctxPath}/home/course/grant');
+		container.crud({
+			url:'${ctxPath}/home/admin/teacher/managers',
+			action:'create',initShowSearchForm:true,
+			onListSuccess:function(e,data){
+				$('.ui-content',container).empty();
+				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,agendaWeek,agendaDay'
+					},
+					//theme:true,//是否显示主题
+					weekNumbers:true,//是否显示周次
+					defaultDate: new Date(),
+					
+					editable: true,
+					eventLimit: true, // allow "more" link when too many events
+					events:function(start, end, timezone, callback) {//读取数据
+				        $.ajax({
+				            url:"${ctxPath }/home/course/event/select",
+				            cache:false,
+				            success:function(doc) {
+				                eval("var j=" + doc);
+				                var events = [];
+				                var info = j.eventinfo;
+				                for (var i = 0; i < info.length; i++) {
+				                    var ev = info[i];
+				                    var title = ev.title;
+				                    var evtstart = new Date(Date.parse(ev.start));
+				                    var evtend = new Date(Date.parse(ev.end));
+				                    events.push({
+				                        title:title,
+				                        start:evtstart,
+				                        end:evtend,
+				                        id:1
+				                    });
+				                }
+				                callback(events);
+						            },
+						            error:function() {
+						                alert('sdf')
+						            }
+						        })
+				    		},
+				    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+					           	//var selDate = $.fullCalendar.formatDate(date, "yyyy-MM-dd") ;  
+					           	//alert(selDate);
+					            if(_inlineWindow==null){
+									_inlineWindow=new InlineWindowFactory();
+								} 
+								_inlineWindow.open({
+									url:'${ctxPath }/home/course/event' ,
+									title:'添加活动',action:'create',initShowSearchForm:true,params:{_date:date},width:700,height:500});
+				        	}   
+						});
+			}
+		})
 	}
 	
 	</script>

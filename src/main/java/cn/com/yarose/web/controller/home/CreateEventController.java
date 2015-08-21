@@ -1,6 +1,7 @@
 package cn.com.yarose.web.controller.home;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/course/event")
-@CRUDControllerMeta(title = "店铺管理", service = TeacherManagerService.class, createable= true,listable=true)
+@CRUDControllerMeta(title = "店铺管理", service = TeacherManagerService.class, createable= true,listable=true,editable=true)
 public class CreateEventController extends BaseCRUDControllerExt<TeacherManager, Long> {
 
   private CourseService courseService;
@@ -43,7 +44,6 @@ public class CreateEventController extends BaseCRUDControllerExt<TeacherManager,
   }
   @Override
   public Set<String> customEditFields(HttpServletRequest request, boolean create) throws Exception {
-    // TODO Auto-generated method stub
     return this.generateStringSortedSet("name","courseId","shopId","beginTime","EndTime");
   }
   
@@ -54,6 +54,18 @@ public class CreateEventController extends BaseCRUDControllerExt<TeacherManager,
       
     }
     return super.customSave(cmd, result, request, response, create);
+  }
+  
+  @Override
+  public void customCreate(TeacherManager cmd, HttpServletRequest request) throws Exception {
+    cmd.setBeginTime(new Date());
+    super.customCreate(cmd, request);
+  }
+  
+  
+  private String getAddDateFromRequest(HttpServletRequest request) {
+    String date = request.getParameter("_date");
+    return date;
   }
   
   public Collection<Course> _courseIds(HttpServletRequest request){
