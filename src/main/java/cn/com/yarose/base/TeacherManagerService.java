@@ -10,4 +10,6 @@ public interface TeacherManagerService extends BaseSearchService<TeacherManager,
 
   long countTeacherAllManagers(Long courseId);
 
+  List<TeacherManager> listByShopId(Long shopoId);
+
 }
