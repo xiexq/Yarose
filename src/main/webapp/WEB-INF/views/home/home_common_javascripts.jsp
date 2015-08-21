@@ -244,46 +244,17 @@
 					
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
-					events:function(start, end, timezone, callback) {//读取数据
-				        $.ajax({
-				            url:"${ctxPath }/home/course/event/select",
-				            cache:false,
-				            success:function(doc) {
-				                eval("var j=" + doc);
-				                var events = [];
-				                var info = j.eventinfo;
-				                for (var i = 0; i < info.length; i++) {
-				                    var ev = info[i];
-				                    var title = ev.title;
-				                    var evtstart = new Date(Date.parse(ev.start));
-				                    var evtend = new Date(Date.parse(ev.end));
-				                    events.push({
-				                        title:title,
-				                        start:evtstart,
-				                        end:evtend,
-				                        id:1
-				                    });
-				                }
-				                callback(events);
-						            },
-						            error:function() {
-						                alert('sdf')
-						            }
-						        })
-				    		},
-				    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
-					           	//var selDate = $.fullCalendar.formatDate(date, "yyyy-MM-dd") ;  
-					           	//alert(selDate);
-					            var tmp = $('<div/>');
-					           	tmp.dialog({
-					            	title:'添加课程',
-									width:460,height:275,close:function(){$(this).dialog('destroy').remove();},
-					            }).crud({
-					            	url:'${ctxPath }/home/course/event',
-					            	action:'create',params:{_date:date}
-					            });
-				        	}   
+					events:'${ctxPath }/home/admin/teacher/managers/select',
+		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+			            var div = $('<div/>');
+			           	div.dialog({
+							title: '添加课程',width:800,height:400
+						}).crud({
+							url:'${ctxPath }/home/admin/teacher/managers',
+							action:'edit'
 						});
+		        	}   
+				});
 			}
 		})
 	}
