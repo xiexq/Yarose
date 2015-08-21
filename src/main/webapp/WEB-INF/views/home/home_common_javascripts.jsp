@@ -85,24 +85,22 @@
 		});
 	});
 	
-	function _account_admin(isShop){
+	function _account_admin(){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,params:{'_shop':isShop},
+		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,
 			onEdit:function(){
 				$("input[name='accesses']").each(function(){
 					if($(this).val()=='TEACHER'&&!$(this).prop('checked')){
 						$(".ui-fieldset-teacher").hide();
 					}
-					if($(this).val()=='MEMBER'&&!$(this).prop('checked')){
-						$(".ui-fieldset-member").hide();
-					}
 				});
 				$("input[name='accesses']").click(function(){
 					if($(this).val()=='TEACHER'){
-						$(".ui-fieldset-teacher").toggle();
-					}
-					if($(this).val()=='MEMBER'){
-						$(".ui-fieldset-member").toggle();
+						if($(this).prop('checked')){
+							$(".ui-fieldset-teacher").toggle();
+						}else{
+							$(".ui-fieldset-teacher").hide();
+						}
 					}
 				});
 			}
@@ -118,13 +116,6 @@
 	function _access_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
-		});
-	}
-	
-	//会员管理
-	function _member_admin(){
-		_clearContainer();
-		container.crud({url:'${ctxPath}/home/shop/member',listSelectStyle:'none'
 		});
 	}
 	
@@ -253,18 +244,74 @@
 					
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
-					events:'${ctxPath }/home/admin/teacher/managers/select',
+					//events:'${ctxPath }/home/admin/teacher/managers/select',
+					events:function(start, end, timezone, callback) {//读取数据
+				        $.ajax({
+				            url:"${ctxPath }/home/admin/teacher/managers/select",
+				            cache:false,
+				            success:function(doc) {
+				            	eval("var j=" + doc);
+				                var events = [];
+				                var info = j.eventinfo;
+				                for (var i = 0; i < info.length; i++) {
+				                    var ev = info[i];
+				                    var title = ev.title;
+				                    var evtstart = new Date(Date.parse(ev.start));
+				                    var evtend = new Date(Date.parse(ev.end));
+				                    events.push({
+				                        title:title,
+				                        start:evtstart,
+				                        end:evtend,
+				                        id:1
+				                    });
+				                }
+				                callback(events);
+						    },
+						    error:function() {
+						      alert('sdf')
+						    }
+						})
+				    },
 		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
 			            var div = $('<div/>');
 			           	div.dialog({
-							title: '添加课程',width:800,height:400
+							title: '添加课程',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
-							action:'edit'
+							action:'edit',
+							onSaveSuccess:function(data){
+								div.crud('tipInfo','保存成功！','pass');
+							  	setTimeout(function(){div.dialog('destroy').remove();$('#calendar').crud('refreshList');},1500);
+							  	return false;
+							},
+							onCancelEdit:function(){
+								setTimeout(function(){div.dialog('destroy').remove();},1000);
+								return false;
+							}
 						});
-		        	}   
+		        	},
+		        	eventClick: function(calEvent, jsEvent, view) {//编辑日程   
+			           var div = $('<div/>');
+			           	div.dialog({
+							title: '修改课程',width:800,height:600
+						}).crud({
+							url:'${ctxPath }/home/admin/teacher/managers',
+							action:'edit',actionTarget:calEvent.id,
+							onSaveSuccess:function(data){
+								div.crud('tipInfo','修改成功！','pass');
+							  	setTimeout(function(){div.dialog('destroy').remove();_course_grant();},1500);
+							  	return false;
+							},
+							onCancelEdit:function(){
+								setTimeout(function(){div.dialog('destroy').remove();},1000);
+								return false;
+							}
+						});   
+			        }   
+		        	 
 				});
 			}
 		})
 	}
+	
 	</script>
