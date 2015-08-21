@@ -274,12 +274,14 @@
 				    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
 					           	//var selDate = $.fullCalendar.formatDate(date, "yyyy-MM-dd") ;  
 					           	//alert(selDate);
-					            if(_inlineWindow==null){
-									_inlineWindow=new InlineWindowFactory();
-								} 
-								_inlineWindow.open({
-									url:'${ctxPath }/home/course/event' ,
-									title:'添加活动',action:'create',initShowSearchForm:true,params:{_date:date},width:700,height:500});
+					            var tmp = $('<div/>');
+					           	tmp.dialog({
+					            	title:'添加课程',
+									width:460,height:275,close:function(){$(this).dialog('destroy').remove();},
+					            }).crud({
+					            	url:'${ctxPath }/home/course/event',
+					            	action:'create',params:{_date:date}
+					            });
 				        	}   
 						});
 			}
