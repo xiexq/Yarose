@@ -1,5 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ include file="../includes/tags.jsp"%>
+<link href="${staticResPath}/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+<link href="${staticResPath}/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'/>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script> 
+<script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
 <script>
 	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva;
 	function _clearContainer(tar){
@@ -207,8 +213,100 @@
 	}
 	
 	function _course_grant(){
-		_clearContainer();
-		container.html('<span class="ui-loading">Loading...</span>').load('${ctxPath}/home/course/grant');
+		var editParams = {};
+		container.crud({
+			url:'${ctxPath}/home/admin/teacher/managers',
+			action:'create',initShowSearchForm:true,params:editParams,
+			onListSuccess:function(e,data){
+				$('.ui-content',container).empty();
+				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,agendaWeek,agendaDay'
+					},
+					//theme:true,//是否显示主题
+					weekNumbers:true,//是否显示周次
+					defaultDate: new Date(),
+					
+					editable: true,
+					eventLimit: true, // allow "more" link when too many events
+					events:function(start, end, timezone, callback) {//读取数据
+				        $.ajax({
+				            url:"${ctxPath }/home/admin/teacher/managers/select",
+				            cache:false,
+				            success:function(doc) {
+				            	eval("var j=" + doc);
+				                var events = [];
+				                var info = j.eventinfo;
+				                for (var i = 0; i < info.length; i++) {
+				                    var ev = info[i];
+				                    var title = ev.title;
+				                    var evtstart = new Date(Date.parse(ev.start));
+				                    var evtend = new Date(Date.parse(ev.end));
+				                    events.push({
+				                        title:title,
+				                        start:evtstart,
+				                        end:evtend,
+				                        id:ev.id
+				                    });
+				                }
+				                callback(events);
+						    },
+						    error:function() {
+						      alert('sdf')
+						    }
+						})
+				    },
+		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+			            var div = $('<div/>');
+			            alert(date)
+			            editParams._date=date+"";
+			           	div.dialog({
+							title: '添加课程',width:800,height:600
+						}).crud({
+							url:'${ctxPath }/home/admin/teacher/managers',
+							action:'edit',showSubviewTitle:false,showHeader:false,params:editParams,
+							onSaveSuccess:function(data){
+								div.crud('tipInfo','保存成功！','pass');
+							  	setTimeout(function(){div.dialog('destroy').remove();$('#calendar').crud('refreshList');},1500);
+							  	return false;
+							},
+							onCancelEdit:function(){
+								setTimeout(function(){div.dialog('destroy').remove();},1000);
+								return false;
+							}
+						});
+		        	},
+		        	eventClick: function(calEvent, jsEvent, view) {//编辑日程   
+			           var div = $('<div/>');
+			           	div.dialog({
+							title: '修改课程',width:800,height:600
+						}).crud({
+							url:'${ctxPath }/home/admin/teacher/managers',
+							action:'edit',actionTarget:calEvent.id,showSubviewTitle:false,showHeader:false,
+							onSaveSuccess:function(data){
+								div.crud('tipInfo','修改成功！','pass');
+							  	setTimeout(function(){div.dialog('destroy').remove();_course_grant();},1500);
+							  	return false;
+							},
+							onCancelEdit:function(){
+								setTimeout(function(){div.dialog('destroy').remove();},1000);
+								return false;
+							}
+						});   
+			        }   
+		        	 
+				});
+			},
+			onSearchSubmit:function(e,data){
+				var search = $('.ui-search',container);
+				var shopId = $("select[name='shopId']").val();
+				alert(shopId);
+				editParams._shopId = shopId;
+			}
+		})
 	}
 	
 	</script>

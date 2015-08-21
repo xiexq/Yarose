@@ -25,4 +25,12 @@ public class TeacherManagerServiceImpl extends DaoBasedServiceImpl<TeacherManage
     return count.intValue();
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<TeacherManager> listByShopId(Long shopoId) {
+    return (List<TeacherManager>) this.getDao().executeQueryList(
+      "TeacherManager.listByShopId", QueryCmdType.QUERY_NAME, -1,
+      -1, shopoId);
+  }
+
 }

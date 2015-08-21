@@ -9,22 +9,13 @@
 <script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
-<div class="ui-room" style="min-height:700px;">
-	<div class="ui-search-box">
-		<form>
-			<fieldset>
-				<input class="ui-search-input" type="text" name="keywords"/>
-				<button class="ui-button-primary ui-action-search" type="submit">搜索</button>
-			</fieldset>
-		</form>
-	</div>
-	<div class="ui-room-question-list">
-		<div class="ui-questions" style="margin: 10px 10px; padding: 0; font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif; font-size: 14px;">
-			<div id='calendar' style="max-width: 900px;margin: 0 auto;"></div>
-		</div>
-	</div>
-	<script>
+	<div id='calendar' style="max-width: 900px;margin: 0 auto;"></div>
+<script>
+	var _inlineWindow=null;
 	$(document).ready(function() {
+		
+		
+		
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -65,16 +56,27 @@
 		        })
     		},
     		dayClick: function(date, allDay, jsEvent, view) {//添加数据
-	            //var selDate =$.fullCalendar.formatDate(date,'yyyy-MM-dd');//格式化日期   
-	            $.fancybox({//调用fancybox弹出层   
-	                'type':'ajax',   
-	                'href':'${ctxPath }/home/course/event/add/'+date   
-	            });   
+	           	//var selDate = $.fullCalendar.formatDate(date, "yyyy-MM-dd") ;  
+	           	//alert(selDate);
+	            if(_inlineWindow==null){
+					_inlineWindow=new InlineWindowFactory();
+				} 
+				_inlineWindow.open({
+					url:'${ctxPath }/home/course/event' ,
+					title:'添加活动',action:'create',initShowSearchForm:true,params:{_date:date},width:700,height:500});
         	}   
     		
 		});
 		
 	});
-</script>
 	
-</div>
+	function _add_view(date){
+		var mySubs=$('<div id="front_page_mysubs"></div>')
+		var mc=$('<div></div>'),svc=new StackViewController(mySubs);
+       	svc.push(mc);
+       	mc.crud({
+       		url:'${ctxPath }/home/course/event' ,
+			title:'添加活动',action:'create',initShowSearchForm:true,params:{_date:date},width:700,height:500
+       	});
+	}
+</script>

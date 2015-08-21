@@ -9,26 +9,23 @@
 				<param name="sequence">s_teachermanager_id</param>
 			</generator>
 		</id>
-		<properties name="unqiueProps" unique="true">
-			<many-to-one name="course" column="course_id" not-null="true"
-				update="false" />
-			<property name="accountId" column="account_id" not-null="true"
-				update="false" />
-		</properties>
+		<property name="courseId" column="course_Id" not-null="true"></property>
+		<property name="shopId" column="shop_id" not-null="true"></property>
+		<property name="accountId" column="account_id" not-null="true" />
+				
 		<property name="userId" column="user_id" length="100"
 			not-null="true" />
 		<property name="authSourceId" column="auth_source_id"
 				not-null="true" />
 		<property name="authSourceAlias" column="auth_source_alias"
-			length="100" not-null="true" />
-		<property name="authTime" column="auth_time" not-null="true"
-			type="timestamp" />		
+			length="100" not-null="true" />	
 		<property name="beginTime" column="begin_time" type="timestamp"></property>
 		<property name="endTime" column="end_time" type="timestamp"></property>
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
 	</class>
-	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.course.id=? order by tm.authTime desc]]></query>
-	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from
-		cn.com.yarose.base.TeacherManager tm  where tm.course.id=?]]></query>
+	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.courseId=? order by tm.createTime desc]]></query>
+	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.TeacherManager tm  where tm.courseId=?]]></query>
+	<query name="TeacherManager.listByShopId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.shopId=? order by tm.createTime desc]]></query>
+		
 </hibernate-mapping>

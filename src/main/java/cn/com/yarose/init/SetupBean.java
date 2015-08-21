@@ -1,7 +1,9 @@
 package cn.com.yarose.init;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,6 +15,7 @@ import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.DictCategory;
 import cn.com.yarose.base.DictCategoryService;
+import cn.com.yarose.utils.Constants;
 
 public class SetupBean implements InitializingBean {
 
@@ -40,10 +43,11 @@ public class SetupBean implements InitializingBean {
 		Long as = accessService.countAll();
 		if (as == 0) {
 			List<Access> asList = new ArrayList<Access>();
-			asList.add(new Access("SUPER", "超级管理员"));
-			asList.add(new Access("SHOP_MANAGER", "店长"));
-			asList.add(new Access("TEACHER", "老师"));
-			asList.add(new Access("SALER", "营销人员"));
+			asList.add(new Access(Constants.ROLE_SUPER, "系统管理员"));
+			asList.add(new Access(Constants.ROLE_SHOP_MANAGER, "店长"));
+			asList.add(new Access(Constants.ROLE_TEACHER, "老师"));
+			asList.add(new Access(Constants.ROLE_SALER, "营销人员"));
+			asList.add(new Access(Constants.ROLE_MEMBER, "会员"));
 			for (Access access : asList) {
 				accessService.save(access);
 			}
@@ -57,9 +61,9 @@ public class SetupBean implements InitializingBean {
 		Long as = dictCategoryService.countAll();
 		if (as == 0) {
 			List<DictCategory> dcList = new ArrayList<DictCategory>();
-			dcList.add(new DictCategory("会员类型管理"));
-			dcList.add(new DictCategory("教师等级管理"));
-			dcList.add(new DictCategory("舞种管理"));
+			dcList.add(new DictCategory("会员类型", Constants.DICT_TYPE_STU_LEVEL));
+			dcList.add(new DictCategory("教师等级", Constants.DICT_TYPE_TEACH_LEVEL));
+			dcList.add(new DictCategory("舞种", Constants.DICT_TYPE_DANCE));
 			for (DictCategory dc : dcList) {
 				dictCategoryService.save(dc);
 			}
@@ -78,6 +82,10 @@ public class SetupBean implements InitializingBean {
 			account.setWeixin("123456");
 			account.setNick("超级管理员");
 			account.setPassword("123456");
+			Access access = accessService.findById(Constants.ROLE_SUPER);
+			Set<Access> accesses = new HashSet<Access>();
+			accesses.add(access);
+			account.setAccesses(accesses);
 			accountService.save(account);
 		}
 	}

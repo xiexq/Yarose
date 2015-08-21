@@ -15,12 +15,15 @@
 		<property name="name" type="string" length="200" not-null="true"></property>
 		<property name="createDate" column="createDate" type="timestamp"></property>
 		<many-to-one name="account" column="account_id"
-			class="cn.com.eduedu.jee.security.account.Account"></many-to-one>
+			class="cn.com.eduedu.jee.security.account.Account" lazy="false"></many-to-one>
 	</class>
 	<query name="Dictionary.findByName">from cn.com.yarose.base.Dictionary as dic where
 		dic.type.id=? and dic.name=?
 	</query>
 	<query name="Dictionary.listByType">from cn.com.yarose.base.Dictionary as dic where
 		dic.type.id=?
+	</query>
+	<query name="Dictionary.listByTypeCode">from cn.com.yarose.base.Dictionary as dic where
+		dic.type.code=?
 	</query>
 </hibernate-mapping>

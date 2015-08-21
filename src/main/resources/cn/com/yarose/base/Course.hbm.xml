@@ -14,4 +14,5 @@
 		<property name="name" column="name" not-null="true"></property>
 		<property name="desc" column="description"></property>
 	</class>
+	<query name="Course.listByShopId">from cn.com.yarose.base.Course as c where c.shopId = ?</query>
 </hibernate-mapping>

@@ -1,8 +1,10 @@
 package cn.com.yarose.web.controller.home.admin;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,36 +23,34 @@ import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
+import cn.com.yarose.base.Dictionary;
+import cn.com.yarose.base.DictionaryService;
+import cn.com.yarose.base.Shop;
+import cn.com.yarose.base.ShopService;
+import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/account")
-@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = true)
+@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true, viewable = true)
 public class AccountAdminController extends
 		BaseCRUDControllerExt<Account, Long> {
 
-	private AccessService accessService;
-	private static Map<String, Boolean> _editRequiredFields;
-	static {
-		_editRequiredFields = new HashMap<String, Boolean>();
-		_editRequiredFields.put("email", true);
-	}
-
 	@Resource(name = "account_accessService")
-	public void setAccessService(AccessService accessService) {
-		this.accessService = accessService;
-	}
+	private AccessService accessService;
 
-	@DictionaryModel(val = "id", label = "name")
-	public Collection<Access> _accessess(HttpServletRequest request) {
-		return accessService.listAll(-1, -1);
-	}
+	@Resource(name = "shopService")
+	private ShopService shopService;
+
+	@Resource(name = "dictionaryService")
+	private DictionaryService dictionaryService;
 
 	@Override
 	public Map<String, String> customEditFieldGroupNames(
 			HttpServletRequest request) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("teacher", "老师信息");
+		map.put("member", "会员信息");
 		return map;
 	}
 
@@ -58,7 +58,9 @@ public class AccountAdminController extends
 	public Account customSaveCmd(Account cmd, HttpServletRequest request,
 			Long id) throws Exception {
 		cmd = super.customSaveCmd(cmd, request, id);
-		cmd.setCreateTime(new Date());
+		if (id == null) {
+			cmd.setCreateTime(new Date());
+		}
 		return cmd;
 	}
 
@@ -68,8 +70,8 @@ public class AccountAdminController extends
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
 			// 判断是否具有老师的权限
-			Access access = accessService.findById("TEACHER");
-			if (!cmd.getAccesses().contains(access)) {
+			Access ta = accessService.findById(Constants.ROLE_TEACHER);
+			if (!cmd.getAccesses().contains(ta)) {
 				cmd.setTeachLevel(null);
 				cmd.setCourseFee(null);
 				cmd.setAddress(null);
@@ -84,31 +86,39 @@ public class AccountAdminController extends
 					result.rejectValue("address", "required", "不能为空");
 				}
 			}
+			Access ma = accessService.findById(Constants.ROLE_MEMBER);
+			if (!cmd.getAccesses().contains(ma)) {
+				cmd.setStuLevel(null);
+				cmd.setOccupation(null);
+				cmd.setSaler(null);
+			} else {
+				if (cmd.getStuLevel() == null) {
+					result.rejectValue("stuLevel", "required", "不能为空");
+				}
+			}
 			return this.getCrudService().save(cmd);
 		}
 		return cmd;
 	}
 
 	@Override
-	public Map<String, Boolean> customFieldsRequired(
-			HttpServletRequest request, boolean search) throws Exception {
-		return _editRequiredFields;
+	public Set<String> customSearchFields(HttpServletRequest request)
+			throws Exception {
+		String isShop = request.getParameter("_shop");
+		if (StringUtils.hasText(isShop)) {
+			return this.generateStringSortedSet("shop", "userId", "nick",
+					"weixin");
+		}
+		return this.generateStringSet("shopId", "userId", "nick", "weixin");
 	}
 
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) {
-		String isShop = request.getParameter("_shop");
-		// tye 已登记 已办卡
-		// 职业，会员奖励
-		if (StringUtils.hasText(isShop)) {
-			return this.generateStringSortedSet("userid", "password", "nick",
-					"shop", "weixin", "phone", "stuLevel", "type",
-					"occupation", "email", "birthday", "saler");
-		}
 		return this.generateStringSortedSet("userid", "password", "nick",
-				"shop", "weixin", "phone", "email", "birthday", "teachLevel",
-				"courseFee", "address", "accesses");
+				"shopId", "weixin", "phone", "email", "birthday", "teachLevel",
+				"courseFee", "address", "accesses", "occupation", "stuLevel",
+				"saler");
 	}
 
 	@Override
@@ -116,5 +126,38 @@ public class AccountAdminController extends
 			throws Exception {
 		return this.generateStringSortedSet("userid", "password", "nick",
 				"email", "accesses", "weixin");
+	}
+
+	@DictionaryModel(label = "name", val = "id")
+	public List<Dictionary> _stuLevels(HttpServletRequest request) {
+		return dictionaryService.listByTypeCode(Constants.DICT_TYPE_STU_LEVEL,
+				-1, -1);
+	}
+
+	@DictionaryModel(label = "name", val = "id")
+	public List<Dictionary> _teachLevels(HttpServletRequest request) {
+		return dictionaryService.listByTypeCode(
+				Constants.DICT_TYPE_TEACH_LEVEL, -1, -1);
+	}
+
+	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
+	public List<Shop> _shopIds(HttpServletRequest request) {
+		return shopService.listAll(-1, -1);
+	}
+
+	@DictionaryModel(val = "id", label = "name")
+	public Collection<Access> _accessess(HttpServletRequest request) {
+		List<Access> as = accessService.listAll(-1, -1);
+		String isShop = this.getParameter(request, "_shop");
+		if (StringUtils.hasText(isShop)) {
+			List<Access> list = new ArrayList<Access>();
+			for (Access access : as) {
+				if (!Constants.ROLE_SUPER.equals(access.getId())) {
+					list.add(access);
+				}
+			}
+			return list;
+		}
+		return as;
 	}
 }
