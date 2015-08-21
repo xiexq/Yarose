@@ -197,7 +197,6 @@
 					//theme:true,//是否显示主题
 					weekNumbers:true,//是否显示周次
 					defaultDate: new Date(),
-					
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
 					events:function(start, end, timezone, callback) {//读取数据
