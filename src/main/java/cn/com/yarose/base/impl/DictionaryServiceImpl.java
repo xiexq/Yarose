@@ -24,4 +24,12 @@ public class DictionaryServiceImpl extends
 				"Dictionary.listByType", QueryCmdType.QUERY_NAME, offset,
 				count, type);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Dictionary> listByTypeCode(String typeCode, int offset, int count) {
+		return (List<Dictionary>) this.getDao().executeQueryList(
+				"Dictionary.listByTypeCode", QueryCmdType.QUERY_NAME, offset,
+				count, typeCode);
+	}
 }
