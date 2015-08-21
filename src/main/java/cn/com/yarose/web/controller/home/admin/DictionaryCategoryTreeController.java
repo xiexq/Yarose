@@ -24,6 +24,9 @@ public class DictionaryCategoryTreeController extends
 	@Override
 	public List<DictCategory> customList(Long parentId,
 			HttpServletRequest request, ResponseObject response) {
-		return dictCategoryService.listAll(-1, -1);
+		if (parentId == 0) {
+			return dictCategoryService.listAll(-1, -1);
+		}
+		return null;
 	}
 }

@@ -16,8 +16,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
@@ -60,7 +58,9 @@ public class AccountAdminController extends
 	public Account customSaveCmd(Account cmd, HttpServletRequest request,
 			Long id) throws Exception {
 		cmd = super.customSaveCmd(cmd, request, id);
-		cmd.setCreateTime(new Date());
+		if (id == null) {
+			cmd.setCreateTime(new Date());
+		}
 		return cmd;
 	}
 
@@ -70,7 +70,7 @@ public class AccountAdminController extends
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
 			// 判断是否具有老师的权限
-			Access ta = accessService.findById("TEACHER");
+			Access ta = accessService.findById(Constants.ROLE_TEACHER);
 			if (!cmd.getAccesses().contains(ta)) {
 				cmd.setTeachLevel(null);
 				cmd.setCourseFee(null);
@@ -86,7 +86,7 @@ public class AccountAdminController extends
 					result.rejectValue("address", "required", "不能为空");
 				}
 			}
-			Access ma = accessService.findById("MEMBER");
+			Access ma = accessService.findById(Constants.ROLE_MEMBER);
 			if (!cmd.getAccesses().contains(ma)) {
 				cmd.setStuLevel(null);
 				cmd.setOccupation(null);
@@ -152,7 +152,7 @@ public class AccountAdminController extends
 		if (StringUtils.hasText(isShop)) {
 			List<Access> list = new ArrayList<Access>();
 			for (Access access : as) {
-				if (!"SUPER".equals(access.getId())) {
+				if (!Constants.ROLE_SUPER.equals(access.getId())) {
 					list.add(access);
 				}
 			}

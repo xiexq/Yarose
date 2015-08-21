@@ -11,7 +11,7 @@ public class DictCategory implements java.io.Serializable {
 	private String name;
 	
 	private String code;
-
+	
 	public Integer getId() {
 		return id;
 	}
