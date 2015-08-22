@@ -1,5 +1,6 @@
 package cn.com.yarose.base.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.com.eduedu.jee.db.orm.DaoBasedServiceImpl;
@@ -32,5 +33,17 @@ public class TeacherManagerServiceImpl extends DaoBasedServiceImpl<TeacherManage
       "TeacherManager.listByShopId", QueryCmdType.QUERY_NAME, -1,
       -1, shopoId);
   }
+
+@SuppressWarnings("unchecked")
+@Override
+public List<TeacherManager> listByShopAndDay(Long shopId, Date beginTime, Date endTime) {
+	List<TeacherManager> tmList = (List<TeacherManager>) this.getDao().executeQueryList("TeacherManager.listByShopAndDay", QueryCmdType.QUERY_NAME, -1, -1, shopId,beginTime,endTime);
+		return tmList;
+	}
+
+@Override
+public long countByShopAndDay(Long shopId, Date beginTime, Date endTime) {
+	return (Long) this.getDao().executeQueryUnique("TeacherManager.countByShopAndDay", QueryCmdType.QUERY_NAME,shopId, beginTime,endTime);
+}
 
 }

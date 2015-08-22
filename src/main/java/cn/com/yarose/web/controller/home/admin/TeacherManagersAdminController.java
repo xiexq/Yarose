@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
+import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
 import cn.com.eduedu.jee.security.account.Account;
@@ -92,6 +93,34 @@ public class TeacherManagersAdminController extends
 		return tm;
 	}
 
+	
+	@Override
+	public List<TeacherManager> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
+			throws Exception {
+		Calendar c = Calendar.getInstance();
+		if(this.getAddDateFromRequest(request) == null){
+			return this.getCrudService().listAll(-1, -1);
+		}else{
+			c.setTimeInMillis(this.getAddDateFromRequest(request));
+			Long shopId = this.getShopIdRequest(request);
+			List<TeacherManager> tmList = ((TeacherManagerService)this.getCrudService()).listByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+			return tmList;
+		}
+		
+		
+	}
+	
+	@Override
+	public long customCount(HttpServletRequest request) throws Exception {
+		Calendar c = Calendar.getInstance();
+		if(this.getAddDateFromRequest(request) == null){
+			return this.getCrudService().countAll();
+		}
+		c.setTimeInMillis(this.getAddDateFromRequest(request));
+		Long shopId = this.getShopIdRequest(request);
+		return ((TeacherManagerService)this.getCrudService()).countByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+	}
+	
 	@Override
 	public TeacherManager customSaveCmd(TeacherManager cmd,
 			HttpServletRequest request, Long id) throws Exception {
@@ -113,8 +142,11 @@ public class TeacherManagersAdminController extends
 	}
 
 	private Long getAddDateFromRequest(HttpServletRequest request) {
-		Long date = Long.parseLong(request.getParameter("_date"));
-		return date;
+		String date = request.getParameter("_date");
+		if(date == null){
+			return null;
+		}
+		return Long.parseLong(request.getParameter("_date"));
 	}
 
 	private Long getShopIdRequest(HttpServletRequest request) {

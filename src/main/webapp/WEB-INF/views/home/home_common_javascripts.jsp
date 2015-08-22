@@ -181,7 +181,7 @@
 				                        id:ev.id
 				                    });
 				                }
-				                callback(events);
+				                callback(event);
 						    }
 						})
 				    },
@@ -194,9 +194,13 @@
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
 							showSubviewTitle:false,showHeader:false,params:editParams,searchable:false,
+							onStartEdit:function(){
+								var c=$(this);
+								$("input[name='__date_helper']").attr("disabled","disabled");
+							},
 							onSaveSuccess:function(data){
 								$(this).crud('tipInfo','保存成功！','pass');
-							  	$('#calendar').crud('refreshList');
+								$(this).crud('refreshList');
 							}
 						});
 		        	}

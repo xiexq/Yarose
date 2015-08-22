@@ -27,5 +27,7 @@
 	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.course.id=? order by tm.createTime desc]]></query>
 	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.TeacherManager tm  where tm.course.id=?]]></query>
 	<query name="TeacherManager.listByShopId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? order by tm.createTime desc]]></query>
-		
+	<query name="TeacherManager.listByShopAndDay"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
+	<query name="TeacherManager.countByShopAndDay"><![CDATA[select count(tm.id) from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
+	
 </hibernate-mapping>
