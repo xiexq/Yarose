@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
+import cn.com.eduedu.jee.mvc.response.ResponseItem;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
@@ -113,17 +114,19 @@ public class TeacherManagersAdminController extends
 	}
 
 	private Long getAddDateFromRequest(HttpServletRequest request) {
-		Long date = Long.parseLong(request.getParameter("_date"));
-		return date;
+		String date = request.getParameter("_date");
+		if (StringUtils.hasText(date)) {
+			return Long.parseLong(date);
+		}
+		return null;
 	}
 
 	private Long getShopIdRequest(HttpServletRequest request) {
-		String shop = request.getParameter("_shop");
-		if (shop == null) {
-			return null;
-		} else {
-			return Long.parseLong(request.getParameter("_shop"));
+		String shopId = request.getParameter("_shop");
+		if (StringUtils.hasText(shopId)) {
+			return Long.parseLong(shopId);
 		}
+		return null;
 	}
 
 	@Override
@@ -164,33 +167,25 @@ public class TeacherManagersAdminController extends
 		return null;
 	}
 
-	@RequestMapping("/select")
 	@ResponseBody
-	public ModelAndView getTitle(HttpServletRequest request,
+	@RequestMapping("/select")
+	public ResponseObject getTitle(HttpServletRequest request,
 			HttpServletResponse response) {
-		Long shopoId = this.getShopIdRequest(request);
-		List<TeacherManager> tmList = ((TeacherManagerService) this
-				.getCrudService()).listByShopId(shopoId);
-		StringBuilder sb = new StringBuilder();
-		sb.append("{\'eventinfo\':");
-		sb.append("[");
-		for (TeacherManager tm : tmList) {
-			sb.append("{\"id\":" + tm.getId());
-			sb.append(",\"title\":\"" + tm.getShop().getId() + "\"");
-			sb.append(",\"start\":\"" + tm.getBeginTime() + "\"");
-			sb.append(",\"end\":\"" + tm.getEndTime() + "\"");
-			sb.append("},");
+		ResponseObject resp = new ResponseObject(false);
+		Long shopId = this.getShopIdRequest(request);
+		if (shopId != null) {
+			List<TeacherManager> tmList = ((TeacherManagerService) this
+					.getCrudService()).listByShopId(shopId);
+			List<ResponseItem> items = resp.createListChildren("courses");
+			for (TeacherManager tm : tmList) {
+				ResponseItem item = new ResponseItem();
+				item.put("title", tm.getCourseName());
+				item.put("start", tm.getBeginTime());
+				items.add(item);
+			}
+			resp.setSuccess(true);
 		}
-		sb.setLength(sb.length() - 1);
-		sb.append("]");
-		sb.append("}");
-		response.setCharacterEncoding("UTF-8");
-		try {
-			response.getWriter().print(sb.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return resp;
 	}
 
 	@DictionaryModel(val = "id", label = "name")
