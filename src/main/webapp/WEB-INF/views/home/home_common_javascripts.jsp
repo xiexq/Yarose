@@ -8,6 +8,7 @@
 <script type="text/javascript" src="${staticResPath}/fullcalendar/lib/moment.min.js"></script> 
 <script type="text/javascript" src="${staticResPath}/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.js"></script>
 <script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
 <script>
 	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva;
@@ -55,7 +56,7 @@
 			_goHash(anchor);
 		}
 		$(document).ready(function(){
-			leftMenu=$( 'div .ui-layout-left' );
+			leftMenu=$( 'div .ui-layout-left');
 			var left=leftMenu;
 			left.accordion({collapsible:true,active:false,heightStyle:'content'});
 			container=$('.ui-layout-right'),idCounter=0,accordIdx=0;
@@ -88,22 +89,24 @@
 		});
 	});
 	
-	function _account_admin(){
+	function _account_admin(isShop){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,
+		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,params:{'_shop':isShop},
 			onEdit:function(){
 				$("input[name='accesses']").each(function(){
 					if($(this).val()=='TEACHER'&&!$(this).prop('checked')){
 						$(".ui-fieldset-teacher").hide();
 					}
+					if($(this).val()=='MEMBER'&&!$(this).prop('checked')){
+						$(".ui-fieldset-member").hide();
+					}
 				});
 				$("input[name='accesses']").click(function(){
 					if($(this).val()=='TEACHER'){
-						if($(this).prop('checked')){
-							$(".ui-fieldset-teacher").toggle();
-						}else{
-							$(".ui-fieldset-teacher").hide();
-						}
+						$(".ui-fieldset-teacher").toggle();
+					}
+					if($(this).val()=='MEMBER'){
+						$(".ui-fieldset-member").toggle();
 					}
 				});
 			}
@@ -140,50 +143,8 @@
 		container.crud({url:'${ctxPath}/home/admin/courses'});
 	}
 	
-	function _select_shop(url,callback){
-		var dc=$('<div></div>');
-		dc.crud({
-			url:url,listSelectStyle:'radio',showHeader:false
-		}).dialog({
-			title:'选择所属店鋪',width:920,height:600,
-			buttons:{'确定':function(){
-				var sel=dc.crud('selected');
-				if(!!sel){
-					var val=sel.val(),label=_crudHelper.getSelectedFieldValue(sel,'name');
-					callback({value:val,label:label});
-					dc.dialog('destroy').remove();
-				}else{
-					dc.crud('tipInfo','请选择所属店鋪','warn');
-				}
-			},
-			'取消':function(){dc.dialog('close');}}
-		});
-		return false;
-	}
-	
-	function _select_dic(url,callback){
-		var dc=$('<div></div>');
-		dc.crud({
-			url:url,listSelectStyle:'radio',showHeader:false
-		}).dialog({
-			title:'选择所属舞种',width:920,height:600,
-			buttons:{'确定':function(){
-				var sel=dc.crud('selected');
-				if(!!sel){
-					var val=sel.val(),label=_crudHelper.getSelectedFieldValue(sel,'name');
-					callback({value:val,label:label});
-					dc.dialog('destroy').remove();
-				}else{
-					dc.crud('tipInfo','请选择所属舞种','warn');
-				}
-			},
-			'取消':function(){dc.dialog('close');}}
-		});
-		return false;
-	}
-	
 	function _course_grant(){
-		var editParams = {};
+		var editParams = {'_shop':''};
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',
 			action:'create',initShowSearchForm:true,params:editParams,
@@ -193,16 +154,8 @@
 				$('.ui-content',container).empty();
 				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
 				$('#calendar').fullCalendar({
-					header: {
-						left: 'prev,next today',
-						center: 'title',
-						right: 'month,agendaWeek,agendaDay'
-					},
-					//theme:true,//是否显示主题
-					weekNumbers:true,//是否显示周次
-					defaultDate: new Date(),
-					editable: true,
-					eventLimit: true, // allow "more" link when too many events
+					defaultDate: new Date(),editable: true,eventLimit: true,
+					header: {left:'prev,next today',center:'title',right:'month,agendaWeek,agendaDay'},
 			        monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
@@ -229,40 +182,28 @@
 				                    });
 				                }
 				                callback(events);
-						    },
-						    error:function() {
-						      alert('sdf')
 						    }
 						})
 				    },
 		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
-		    			$(this).css('background-color', 'red');
-			            var div = $('<div/>');
-			            var search = $('.ui-search',container);
-						var shopId = $("select[name='searchShop']").val();
-						editParams._shop = shopId;
-			            //var clickDate = view.calendar.formatDate(date, 'yyyyMMdd');
-			            editParams._date=date+"";
-			           	div.dialog({
-							title: '添加课程',width:800,height:600
+		    			var shopId = $("select[name='searchShop']",container).val();
+						editParams._shop = shopId,editParams._date=date+"";
+						var div=$('<div/>');
+			            div.dialog({
+							title:'课程安排',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
 							showSubviewTitle:false,showHeader:false,params:editParams,searchable:false,
 							onSaveSuccess:function(data){
-								div.crud('tipInfo','保存成功！','pass');
-							  	setTimeout(function(){div.dialog('destroy').remove();$('#calendar').crud('refreshList');},1500);
-							  	return false;
-							},
-							onCancelEdit:function(){
-								setTimeout(function(){div.dialog('destroy').remove();},1000);
-								return false;
+								$(this).crud('tipInfo','保存成功！','pass');
+							  	$('#calendar').crud('refreshList');
 							}
 						});
-		        	},
-		        	eventClick: function(calEvent, jsEvent, view) {//编辑日程   
+		        	}
+		        	/* eventClick: function(calEvent, jsEvent, view) {//编辑日程   
 			           var div = $('<div/>');
 			           	div.dialog({
-							title: '修改课程',width:800,height:600
+							title: '课程',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
 							action:'edit',actionTarget:calEvent.id,showSubviewTitle:false,showHeader:false,
@@ -277,7 +218,8 @@
 							}
 						});   
 			        }
-				});
+		        	*/
+				}); 
 				$(".fc-day.fc-widget-content").hover(
 					  function(){
 					      $(this).addClass("calendar_hover");
@@ -296,9 +238,7 @@
 				);
 			},
 			onSearchSubmit:function(e,data){
-				var search = $('.ui-search',container);
-				var shopId = $("select[name='searchShop']").val();
-				alert(shopId);
+				var shopId = $("select[name='searchShop']",container).val();
 				editParams._shop = shopId;
 			}
 		})
