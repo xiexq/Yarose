@@ -21,10 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
-import cn.com.eduedu.jee.mvc.controller.DictionaryModelType;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
+import cn.com.eduedu.jee.security.account.Account;
+import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
 import cn.com.yarose.base.Shop;
@@ -41,8 +42,15 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
 
   private CourseService courseService;
   private ShopService shopService;
+  private AccountService accountService;
   @Resource(name = "account_accessService")
   private AccessService accessService;
+  
+  @Resource(name = "account_accountService")
+  public void setAccountService(AccountService accountService) {
+    this.accountService = accountService;
+  }
+  
   
   @Resource(name = "courseService")
   public void setCourseService(CourseService courseService) {
@@ -55,14 +63,18 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
   }
 
   @Override
+	public Set<String> customListFields(HttpServletRequest request) throws Exception {
+		return this.generateStringSortedSet("courseName","shopName","beginTime","endTime","userId");
+	}
+  
+  @Override
   public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
-    return this.generateStringSortedSet("shopId");
+    return this.generateStringSortedSet("searchShop");
   }
 
   @Override
   public void customSearchExample(TeacherManager example, HttpServletRequest request)
       throws Exception {
-    example.setShopId(1L);
     super.customSearchExample(example, request);
   }
   
@@ -84,7 +96,6 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
   @Override
   public TeacherManager customSaveCmd(TeacherManager cmd, HttpServletRequest request, Long id)
       throws Exception {
-    cmd.setAccountId(this.getAccount().getAccountId());
     cmd.setAuthSourceId(this.getAccount().getAccountId());
     cmd.setAuthSourceAlias(this.getAccount().getUserid());
     return cmd;
@@ -109,7 +120,7 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
   private Long getShopIdRequest(HttpServletRequest request) {
     String shop = request.getParameter("_shop");
     if(shop==null){
-      return 1L;
+      return null;
     }else{
       return Long.parseLong(request.getParameter("_shop"));
     }
@@ -117,24 +128,29 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
 
   @Override
   public Set<String> customEditFields(HttpServletRequest request, boolean create) throws Exception {
-    return this.generateStringSortedSet("shopId", "courseId", "userId", "beginTime", "endTime");
-  }
-
-  @DictionaryModel(header = true, headerLabel = "不限", headerValue = "", type = DictionaryModelType.URL, url = "/home/courses/selector", headerIsJustForSearch = true, cascade = true)
-  public Shop _shopIds(HttpServletRequest request, Object obj) {
-    if (obj != null) {
-      return shopService.findById(Long.valueOf(obj.toString()));
-    }
-    return null;
-  }
-
-  @DictionaryModel(header = true, headerLabel = "请选择", headerValue = "")
-  public Collection<Shop> _shopIds(HttpServletRequest request){
-      return shopService.listAll(-1, -1);
+    return this.generateStringSortedSet("shop", "course", "teacher", "beginTime", "endTime");
   }
   
-  @DictionaryModel(header = true, cascade = true, cascadeField = "shopId", headerIsJustForSearch = true)
-  public Collection<Course> _courseIds(HttpServletRequest request) {
+  @DictionaryModel(header = true, headerLabel = "请选择")
+  public Collection<Shop> _shops(HttpServletRequest request){
+	  List<Shop> list = new ArrayList<Shop>();
+	  list.add(shopService.findById(getShopIdRequest(request)));
+	  return list;
+  }
+  
+  @DictionaryModel(header = true, headerLabel = "请选择",label="userid",val="accountId")
+  public List<Account> _teachers(HttpServletRequest request){
+	 List<Account> teachers = accountService.listByRole(Constants.ROLE_TEACHER, -1, -1);
+	  return teachers;
+  }
+  
+  
+  public Collection<Shop> _searchShops(HttpServletRequest request){
+	  return shopService.listAll(-1, -1);
+  }
+  
+  @DictionaryModel(header = true, cascade = true, cascadeField = "shop", headerIsJustForSearch = true)
+  public Collection<Course> _courses(HttpServletRequest request) {
     String id = this.getParameter(request, "__id");
     if (StringUtils.hasText(id)) {
       List<Course> courseList = courseService.listByShopId(Long.parseLong(id));
@@ -155,7 +171,7 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
     sb.append("[");
     for(TeacherManager tm: tmList){
       sb.append("{\"id\":" + tm.getId());
-      sb.append(",\"title\":\""+tm.getShopId()+"\"");
+      sb.append(",\"title\":\""+tm.getShop().getId()+"\"");
       sb.append(",\"start\":\""  + tm.getBeginTime()+"\"");
       sb.append(",\"end\":\""  + tm.getEndTime()+"\"");
       sb.append("},");

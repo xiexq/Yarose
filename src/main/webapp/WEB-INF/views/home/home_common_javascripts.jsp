@@ -204,14 +204,14 @@
 				            cache:false,
 				            success:function(doc) {
 				            	eval("var j=" + doc);
-				                var events = [];
+				                var event = [];
 				                var info = j.eventinfo;
 				                for (var i = 0; i < info.length; i++) {
 				                    var ev = info[i];
 				                    var title = ev.title;
 				                    var evtstart = new Date(Date.parse(ev.start));
 				                    var evtend = new Date(Date.parse(ev.end));
-				                    events.push({
+				                    event.push({
 				                        title:title,
 				                        start:evtstart,
 				                        end:evtend,
@@ -226,14 +226,18 @@
 						})
 				    },
 		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+		    			$(this).css('background-color', 'red');
 			            var div = $('<div/>');
-			            alert(date)
+			            var search = $('.ui-search',container);
+						var shopId = $("select[name='searchShop']").val();
+						editParams._shop = shopId;
+			            //var clickDate = view.calendar.formatDate(date, 'yyyyMMdd');
 			            editParams._date=date+"";
 			           	div.dialog({
 							title: '添加课程',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
-							action:'edit',showSubviewTitle:false,showHeader:false,params:editParams,
+							showSubviewTitle:false,showHeader:false,params:editParams,searchable:false,
 							onSaveSuccess:function(data){
 								div.crud('tipInfo','保存成功！','pass');
 							  	setTimeout(function(){div.dialog('destroy').remove();$('#calendar').crud('refreshList');},1500);
@@ -262,15 +266,15 @@
 								return false;
 							}
 						});   
-			        }   
+			        }
 		        	 
 				});
 			},
 			onSearchSubmit:function(e,data){
 				var search = $('.ui-search',container);
-				var shopId = $("select[name='shopId']").val();
+				var shopId = $("select[name='searchShop']").val();
 				alert(shopId);
-				editParams._shopId = shopId;
+				editParams._shop = shopId;
 			}
 		})
 	}

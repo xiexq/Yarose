@@ -13,5 +13,7 @@ public abstract interface AccountService extends
 	public PasswordEncoder getPasswordEncoder();
 
 	public List<Account> findByUserId(String userId, int offset, int count);
+	
+	public List<Account> listByRole(String role,int offset,int count);
 
 }
