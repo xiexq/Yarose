@@ -49,10 +49,10 @@ public class TeacherManager implements java.io.Serializable {
 	@FieldMeta(label = "授权人", visible = true, editable = false, summary = false)
 	String authSourceAlias;
 
-	@FieldMeta(label = "课程开始时间", datetime = true, required = true)
+	@FieldMeta(label = "课程开始时间", datetime = true,time=true, required = true)
 	private Date beginTime;
 
-	@FieldMeta(label = "课程结束时间", datetime = true,required = true)
+	@FieldMeta(label = "课程结束时间", datetime = true, time=true,required = true)
 	private Date endTime;
 
 	@FieldMeta(label = "课程创建时间", datetime = true)

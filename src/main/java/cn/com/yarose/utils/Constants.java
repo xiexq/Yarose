@@ -42,6 +42,14 @@ public class Constants {
 		return cal.getTime();
 	}
 	
-	
-	
+	public static Date customDateLinkTime(long time,Date date){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(time);
+		
+		Calendar other = Calendar.getInstance();
+		other.setTime(date);
+		c.set(Calendar.HOUR,other.get(Calendar.HOUR));
+		c.set(Calendar.MINUTE,other.get(Calendar.MINUTE));
+		return c.getTime();
+	}
 }

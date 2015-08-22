@@ -105,8 +105,6 @@ public class TeacherManagersAdminController extends
 			List<TeacherManager> tmList = ((TeacherManagerService)this.getCrudService()).listByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
 			return tmList;
 		}
-		
-		
 	}
 	
 	@Override
@@ -123,6 +121,8 @@ public class TeacherManagersAdminController extends
 	@Override
 	public TeacherManager customSaveCmd(TeacherManager cmd,
 			HttpServletRequest request, Long id) throws Exception {
+		cmd.setBeginTime(Constants.customDateLinkTime(this.getAddDateFromRequest(request),cmd.getBeginTime()));
+		cmd.setEndTime(Constants.customDateLinkTime(this.getAddDateFromRequest(request),cmd.getEndTime()));
 		cmd.setAuthSourceId(this.getAccount().getAccountId());
 		cmd.setAuthSourceAlias(this.getAccount().getUserid());
 		return cmd;
