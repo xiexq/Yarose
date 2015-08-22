@@ -39,6 +39,14 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
+	
+	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
+	public String getTeacherName() {
+		if (teacher != null) {
+			return teacher.getName();
+		}
+		return "";
+	}
 
 	/**
 	 * 授权人
@@ -122,25 +130,19 @@ public class CourseTeacher implements java.io.Serializable {
 		this.course = course;
 	}
 
-
 	public Shop getSearchShop() {
 		return searchShop;
 	}
-
 
 	public void setSearchShop(Shop searchShop) {
 		this.searchShop = searchShop;
 	}
 
-
 	public Account getTeacher() {
 		return teacher;
 	}
 
-
 	public void setTeacher(Account teacher) {
 		this.teacher = teacher;
 	}
-
-
 }

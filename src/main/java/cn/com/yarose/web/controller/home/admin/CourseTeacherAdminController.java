@@ -70,6 +70,12 @@ public class CourseTeacherAdminController extends
 	}
 
 	@Override
+	public Set<String> customViewFields(HttpServletRequest arg0) throws Exception {
+		return this.generateStringSortedSet("courseName", "shopName","TeacherName",
+				"beginTime", "endTime","createTime");
+	}
+	
+	@Override
 	public Set<String> customSearchFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("searchShop");
