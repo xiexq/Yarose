@@ -20,16 +20,16 @@ public class Course implements java.io.Serializable {
 	@FieldMeta(id = true, label = "课程名称", editable = false, required = true)
 	private String name;
 
-	@FieldMeta(label = "所属舞种", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	@FieldMeta(label = "所属舞种", dictionary = true, visible = true, editable = true, required = true)
 	private Dictionary danceType;
 
-	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, required = true)
 	private Shop shop;
 
 	@FieldMeta(label = "描述", text = true)
 	private String desc;
 
-	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	@FieldMeta(label = "所属门店", visible = true, editable = false, summary = false)
 	public String getShopName() {
 		if (shop != null) {
 			return shop.getName();
@@ -37,7 +37,7 @@ public class Course implements java.io.Serializable {
 		return "";
 	}
 
-	@FieldMeta(label = "所属舞种", visible = true, editable = true, summary = false)
+	@FieldMeta(label = "所属舞种", visible = true, editable = false, summary = false)
 	public String getDanceTypeName() {
 		if (danceType != null) {
 			return danceType.getName();
