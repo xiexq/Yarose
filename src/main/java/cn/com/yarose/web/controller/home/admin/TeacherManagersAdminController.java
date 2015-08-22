@@ -144,6 +144,7 @@ public class TeacherManagersAdminController extends BaseCRUDControllerExt<Teache
 	  return teachers;
   }
   
+  
   public Collection<Shop> _searchShops(HttpServletRequest request){
 	  return shopService.listAll(-1, -1);
   }

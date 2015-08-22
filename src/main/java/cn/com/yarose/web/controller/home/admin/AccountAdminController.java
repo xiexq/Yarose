@@ -104,7 +104,9 @@ public class AccountAdminController extends
 					result.rejectValue("stuLevel", "required", "不能为空");
 				}
 			}
-			return this.getCrudService().save(cmd);
+			if (result.getFieldErrorCount() == 0) {
+				return this.getCrudService().save(cmd);
+			}
 		}
 		return cmd;
 	}
