@@ -144,7 +144,7 @@
 	}
 	
 	function _course_grant(){
-		var editParams = {'_shop':''};
+		var editParams = {};
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',
 			action:'create',initShowSearchForm:true,params:editParams,
@@ -157,34 +157,19 @@
 					defaultDate: new Date(),editable: true,eventLimit: true,
 					header: {left:'prev,next today',center:'title',right:'month,agendaWeek,agendaDay'},
 			        monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
-		            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-		            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
 		            buttonText: {today:'今天',month:'月',week:'周',day:'日',prev:'上一月',next:'下一月'},
 					events:function(start, end, timezone, callback) {//读取数据
-				        $.ajax({
-				            url:"${ctxPath }/home/admin/teacher/managers/select",
-				            cache:false,
-				            success:function(doc) {
-				            	eval("var j=" + doc);
-				                var event = [];
-				                var info = j.eventinfo;
-				                for (var i = 0; i < info.length; i++) {
-				                    var ev = info[i];
-				                    var title = ev.title;
-				                    var evtstart = new Date(Date.parse(ev.start));
-				                    var evtend = new Date(Date.parse(ev.end));
-				                    event.push({
-				                        title:title,
-				                        start:evtstart,
-				                        end:evtend,
-				                        id:ev.id
-				                    });
+						var shopId = $("select[name='searchShop']",container).val();
+						editParams._shop = shopId;
+						$.get("${ctxPath }/home/admin/teacher/managers/select",editParams,function(data) {
+				                if(data&&data.success){
+				                	if(data.courses&&data.courses.length>0){
+				                		callback(data.courses);
+				                	}
 				                }
-				                callback(event);
-						    }
-						})
-				    },
+						    });
+				    	},
 		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
 		    			var shopId = $("select[name='searchShop']",container).val();
 						editParams._shop = shopId,editParams._date=date+"";
