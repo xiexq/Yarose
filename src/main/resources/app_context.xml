@@ -24,8 +24,8 @@
 		<aop:pointcut expression="execution(* cn.com.yarose.base.CourseService.*(..))"
 			id="courseServicePT" />
 		<aop:pointcut
-			expression="execution(* cn.com.yarose.base.TeacherManagerService.*(..))"
-			id="teacherManagerServicePT" />
+			expression="execution(* cn.com.yarose.base.CourseTeacherService.*(..))"
+			id="CourseTeacherServicePT" />
 		<aop:pointcut
 			expression="execution(* cn.com.yarose.base.DictCategoryService.*(..))"
 			id="dictCategoryServicePT" />
@@ -46,9 +46,9 @@
 	<bean class="cn.com.yarose.base.impl.CourseServiceImpl" id="courseService">
 		<property name="dao" ref="courseDao" />
 	</bean>
-	<bean class="cn.com.yarose.base.impl.TeacherManagerServiceImpl"
-		id="teacherManagerService">
-		<property name="dao" ref="teacherManagerDao" />
+	<bean class="cn.com.yarose.base.impl.CourseTeacherServiceImpl"
+		id="CourseTeacherService">
+		<property name="dao" ref="CourseTeacherDao" />
 	</bean>
 	<bean class="cn.com.yarose.base.impl.DictCategoryServiceImpl" id="dictCategoryService">
 		<property name="dao" ref="dictCategoryDao" />

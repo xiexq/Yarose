@@ -3,10 +3,10 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="cn.com.yarose.base" auto-import="false">
-	<class name="TeacherManager" table="t_teachermanager" lazy="true">
+	<class name="CourseTeacher" table="t_Course_Teacher" lazy="true">
 		<id name="id" column="id" type="long">
 			<generator class="native">
-				<param name="sequence">s_teachermanager_id</param>
+				<param name="sequence">s_Course_Teacher_id</param>
 			</generator>
 		</id>
 		<many-to-one class="cn.com.eduedu.jee.security.account.Account" name="teacher"
@@ -24,9 +24,9 @@
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
 	</class>
-	<query name="TeacherManager.listByCourseId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.course.id=? order by tm.createTime desc]]></query>
-	<query name="TeacherManager.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.TeacherManager tm  where tm.course.id=?]]></query>
-	<query name="TeacherManager.listByShopId"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? order by tm.createTime desc]]></query>
-	<query name="TeacherManager.listByShopAndDay"><![CDATA[from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
-	<query name="TeacherManager.countByShopAndDay"><![CDATA[select count(tm.id) from cn.com.yarose.base.TeacherManager tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
+	<query name="CourseTeacher.listByCourseId"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=?]]></query>
+	<query name="CourseTeacher.listByShopId"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.listByShopAndDay"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
+	<query name="CourseTeacher.countByShopAndDay"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
 </hibernate-mapping>

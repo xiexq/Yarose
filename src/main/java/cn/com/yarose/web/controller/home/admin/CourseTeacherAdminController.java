@@ -30,16 +30,16 @@ import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
 import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
-import cn.com.yarose.base.TeacherManager;
-import cn.com.yarose.base.TeacherManagerService;
+import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/teacher/managers")
-@CRUDControllerMeta(viewable = true, title = "课程授权", service = TeacherManagerService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
-public class TeacherManagersAdminController extends
-		BaseCRUDControllerExt<TeacherManager, Long> {
+@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
+public class CourseTeacherAdminController extends
+		BaseCRUDControllerExt<CourseTeacher, Long> {
 
 	private CourseService courseService;
 	private ShopService shopService;
@@ -76,7 +76,46 @@ public class TeacherManagersAdminController extends
 	}
  
 	@Override
-	public void customCreate(TeacherManager cmd, HttpServletRequest request)
+	public boolean customEditable(HttpServletRequest request) throws Exception {
+		Calendar c = Calendar.getInstance();
+		if(this.getAddDateFromRequest(request) == null){
+			return true;
+		}
+		c.setTimeInMillis(this.getAddDateFromRequest(request));
+		if(Constants.customBeginTime(new Date()).before(c.getTime())){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean customCreateable(HttpServletRequest request) throws Exception {
+		Calendar c = Calendar.getInstance();
+		if(this.getAddDateFromRequest(request) == null){
+			return true;
+		}
+		c.setTimeInMillis(this.getAddDateFromRequest(request));
+		if(Constants.customBeginTime(new Date()).before(c.getTime())){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean customDeleteable(HttpServletRequest request) throws Exception {
+		Calendar c = Calendar.getInstance();
+		if(this.getAddDateFromRequest(request) == null){
+			return true;
+		}
+		c.setTimeInMillis(this.getAddDateFromRequest(request));
+		if(Constants.customBeginTime(new Date()).before(c.getTime())){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void customCreate(CourseTeacher cmd, HttpServletRequest request)
 			throws Exception {
 		super.customCreate(cmd, request);
 		Calendar c = Calendar.getInstance();
@@ -86,15 +125,15 @@ public class TeacherManagersAdminController extends
 	}
 
 	@Override
-	public TeacherManager customEdit(Long id, HttpServletRequest request)
+	public CourseTeacher customEdit(Long id, HttpServletRequest request)
 			throws Exception {
-		TeacherManager tm = this.getCrudService().findById(id);
+		CourseTeacher tm = this.getCrudService().findById(id);
 		return tm;
 	}
 
 	
 	@Override
-	public List<TeacherManager> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
+	public List<CourseTeacher> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
 			throws Exception {
 		Calendar c = Calendar.getInstance();
 		if(this.getAddDateFromRequest(request) == null){
@@ -102,7 +141,7 @@ public class TeacherManagersAdminController extends
 		}else{
 			c.setTimeInMillis(this.getAddDateFromRequest(request));
 			Long shopId = this.getShopIdRequest(request);
-			List<TeacherManager> tmList = ((TeacherManagerService)this.getCrudService()).listByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+			List<CourseTeacher> tmList = ((CourseTeacherService)this.getCrudService()).listByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
 			return tmList;
 		}
 	}
@@ -115,11 +154,11 @@ public class TeacherManagersAdminController extends
 		}
 		c.setTimeInMillis(this.getAddDateFromRequest(request));
 		Long shopId = this.getShopIdRequest(request);
-		return ((TeacherManagerService)this.getCrudService()).countByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+		return ((CourseTeacherService)this.getCrudService()).countByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
 	}
 	
 	@Override
-	public TeacherManager customSaveCmd(TeacherManager cmd,
+	public CourseTeacher customSaveCmd(CourseTeacher cmd,
 			HttpServletRequest request, Long id) throws Exception {
 		cmd.setBeginTime(Constants.customDateLinkTime(this.getAddDateFromRequest(request),cmd.getBeginTime()));
 		cmd.setEndTime(Constants.customDateLinkTime(this.getAddDateFromRequest(request),cmd.getEndTime()));
@@ -129,7 +168,7 @@ public class TeacherManagersAdminController extends
 	}
 
 	@Override
-	public TeacherManager customSave(TeacherManager cmd, BindingResult result,
+	public CourseTeacher customSave(CourseTeacher cmd, BindingResult result,
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
@@ -201,10 +240,10 @@ public class TeacherManagersAdminController extends
 		ResponseObject resp = new ResponseObject(false);
 		Long shopId = this.getShopIdRequest(request);
 		if (shopId != null) {
-			List<TeacherManager> tmList = ((TeacherManagerService) this
+			List<CourseTeacher> tmList = ((CourseTeacherService) this
 					.getCrudService()).listByShopId(shopId);
 			List<ResponseItem> items = resp.createListChildren("courses");
-			for (TeacherManager tm : tmList) {
+			for (CourseTeacher tm : tmList) {
 				ResponseItem item = new ResponseItem();
 				item.put("title", tm.getCourseName());
 				item.put("start", tm.getBeginTime());

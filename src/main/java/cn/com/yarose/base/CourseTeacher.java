@@ -5,7 +5,7 @@ import java.util.Date;
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.eduedu.jee.security.account.Account;
 
-public class TeacherManager implements java.io.Serializable {
+public class CourseTeacher implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@FieldMeta(id = true, label = "ID", editable = false)

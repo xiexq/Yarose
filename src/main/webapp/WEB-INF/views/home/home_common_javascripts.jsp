@@ -175,7 +175,7 @@
 						editParams._shop = shopId,editParams._date=date+"";
 						var div=$('<div/>');
 			            div.dialog({
-							title:'课程安排',width:800,height:600
+							title:formatDate(new Date(date))+'日的课程安排',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
 							showSubviewTitle:false,showHeader:false,params:editParams,searchable:false,
@@ -232,5 +232,10 @@
 			}
 		})
 	}
-	
-	</script>
+	function formatDate(now)   {   
+        var year=now.getFullYear();   
+        var month=now.getMonth()+1;   
+        var date=now.getDate();       
+        return year+"-"+month+"-"+date;   
+    }   
+</script>
