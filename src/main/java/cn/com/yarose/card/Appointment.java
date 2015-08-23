@@ -67,6 +67,12 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(id=true,label="预约时间",editable=true,datetime=true)
 	private Date createTime;
 	
+	@FieldMeta(id=true,label="其他消费",editable=true)
+	private Float otherConsum;
+	
+	@FieldMeta(id=true,label="备注",editable=true,text=true)
+	private String remark;
+	
 	public Long getId(){
 		return id;
 	}
@@ -113,5 +119,21 @@ public class Appointment implements java.io.Serializable{
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Float getOtherConsum() {
+		return otherConsum;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setOtherConsum(Float otherConsum) {
+		this.otherConsum = otherConsum;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

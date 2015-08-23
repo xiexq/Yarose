@@ -7,11 +7,14 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
@@ -24,6 +27,7 @@ import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
 import cn.com.yarose.card.MemberCard;
 import cn.com.yarose.card.MemberCardService;
+import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
@@ -43,6 +47,16 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 	public void setCourseTeacherService(CourseTeacherService courseTeacherService){
 		this.courseTeacherService = courseTeacherService;
 	}
+	
+	public String getRequestType(HttpServletRequest request){
+		String type = request.getParameter("_type");
+		if(type == null){
+			return null;
+		}else{
+			return type;
+		}
+	}
+	
 	@Override
 	public Set<String> customListFields(HttpServletRequest request) throws Exception {
 		return this.generateStringSortedSet("code", "courseName", "shopName", "teacherName");
@@ -50,8 +64,13 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request, Appointment entity) throws Exception {
+		if(this.getRequestType(request) != null){
+			return this.generateStringSortedSet("otherConsum", "remark");
+		}
 		return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
 	}
+	
+	
 
 	@Override
 	public Set<String> customViewFields(HttpServletRequest request) throws Exception {
@@ -80,7 +99,6 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 		return super.customCount(request);
 	}
 	
-	
 	@Override
 	public Appointment customSave(Appointment cmd, BindingResult result, HttpServletRequest request,
 			ResponseObject response, boolean create) throws Exception {
@@ -88,6 +106,7 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 			if (create) {
 				cmd.setCreateTime(new Date());
 			}
+			cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
 		}
 		return super.customSave(cmd, result, request, response, create);
 	}
@@ -107,11 +126,29 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/course/teacher/selector", headerIsJustForSearch=true, cascade = true, cascadeField = "courseTeacher.id")
 	public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
 	    if(obj != null){
+	    	System.out.println(obj.getClass().getName());
 	    	CourseTeacher courseTeacher = (CourseTeacher)obj;
 	    	System.out.println(courseTeacher.getId());
 	      return courseTeacherService.findById(Long.valueOf(courseTeacher.getId()));
 	    }
 		return null;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/check/{id}")
+	public ResponseObject getCourseTeacher(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable("id") Long id) {
+		ResponseObject resp = new ResponseObject(true);
+		if (id != null) {
+			Appointment app = this.getCrudService().findById(id);
+			CourseTeacher courseTeacher = app.getCourseTeacher();
+			MemberCard memberCard = app.getmCard();
+			memberCard.setUsedLesson(courseTeacher.getLesson());
+			app.setStatus(Constants.APPOLINTMENT_CHECKED);
+			this.getCrudService().save(app);
+			memberCardService.save(memberCard);
+		}
+		return resp;
 	}
 	
 }

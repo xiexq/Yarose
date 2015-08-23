@@ -236,7 +236,30 @@
 		//var =$('<div id="tabs"><ul><li><a href="#div1">未核销</a></li><li><a href="#div2">已核销</a></li></ul></div>');
 		//var div1 = $('<div id="div1"></div>'),div2 = $('<div id="div2"></div>');
 		//container.append(q);q.tabs();
-		container.crud({url:'${ctxPath}/home/shop/manager/appointment'});
+		container.crud({url:'${ctxPath}/home/shop/manager/appointment',
+			listItemActions:[{label:'核销',func:function(event){_appointment_audit(event,container);},cssClass:'ui-action-statistic'}]
+			 				
+		});
+	}
+	
+	function _appointment_audit(event,container){
+		var li=event.data.li,id=li.data('id');
+		if(id){
+			var c=$('<div></div>');
+			container.push(c);
+			c.crud({
+				url:'${ctxPath }/home/shop/manager/appointment/check/'+id,
+				params:{_type:'check'},title:'预约核销',action:'edit',
+				onSaveSuccess:function(event,target){
+					var t=$(this);
+					t.crud('tipInfo','核销成功！','pass');
+					setTimeout(function(){
+						container.crud('refreshList');
+					},1500);
+					return false;
+				}
+			});
+		}
 	}
 	
 </script>

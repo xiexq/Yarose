@@ -23,14 +23,14 @@ public class CourseTeacherSelectorController extends BaseCRUDControllerExt<Cours
   
   @Override
   public Set<String> customListFields(HttpServletRequest request) throws Exception {
-    // TODO Auto-generated method stub
     return this.generateStringSortedSet("courseName","shopName","teacherName","beginTime","endTime");
   }
   
   @Override
   public List<CourseTeacher> customList(int offset, int count, OrderProperties orders,
       HttpServletRequest request) throws Exception {
-    return ((CourseTeacherService)this.getCrudService()).listByShopAndDay(1L, new Date(), new Date());
+	  Date date = new Date();
+    return ((CourseTeacherService)this.getCrudService()).listByBeginTime(date);
   }
 
 }

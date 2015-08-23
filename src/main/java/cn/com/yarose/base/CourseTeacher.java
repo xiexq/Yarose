@@ -61,6 +61,9 @@ public class CourseTeacher implements java.io.Serializable {
 
 	@FieldMeta(label = "课程结束时间", datetime = true, time=true,required = true)
 	private Date endTime;
+	
+	@FieldMeta(label = "课时",required=true)
+	private Integer lesson;
 
 	@FieldMeta(label = "课程创建时间", datetime = true)
 	private Date createTime;
@@ -143,5 +146,13 @@ public class CourseTeacher implements java.io.Serializable {
 
 	public void setTeacher(Account teacher) {
 		this.teacher = teacher;
+	}
+
+	public Integer getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(Integer lesson) {
+		this.lesson = lesson;
 	}
 }

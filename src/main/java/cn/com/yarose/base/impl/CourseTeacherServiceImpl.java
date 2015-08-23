@@ -54,4 +54,10 @@ public class CourseTeacherServiceImpl extends
 				"CourseTeacher.countByShopAndDay", QueryCmdType.QUERY_NAME,
 				shopId, beginTime, endTime);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseTeacher> listByBeginTime(Date date) {
+		return (List<CourseTeacher>) this.getDao().executeQueryList("CourseTeacher.listByBeginTime", QueryCmdType.QUERY_NAME, -1, -1, date);
+	}
 }
