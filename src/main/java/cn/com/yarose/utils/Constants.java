@@ -25,6 +25,10 @@ public class Constants {
 	public static final int DICTIONARY_ACTIVE = 0;
 	public static final int DICTIONARY_INACTIVE = 1;
 	
+	//是否核销
+	public static final int APPOLINTMENT_UNCHECKED = 0;
+	public static final int APPOLINTMENT_CHECKED = 1;
+	
 	public static Date customBeginTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

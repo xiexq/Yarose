@@ -19,5 +19,7 @@
 				not-null="true"></property>
 		<property name="createTime" column="create_time" type="timestamp"
 				not-null="true"></property>
+		<property name="otherConsum" column="other_consum"></property>
+		<property name="remark" column="remark"></property>
 	</class>
 </hibernate-mapping>
