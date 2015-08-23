@@ -27,19 +27,19 @@ import cn.com.yarose.card.MemberCardService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/home/admin/appointment")
+@RequestMapping("/home/shop/manager/appointment")
 @CRUDControllerMeta(title = "预约管理", service = AppointmentService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = true, searchable = true)
 public class AppointmentAdminController extends BaseCRUDControllerExt<Appointment, Long> {
 
-	private MemberCardService mCardService;
+	private MemberCardService memberCardService;
 	private CourseTeacherService courseTeacherService;
 	
-	@Resource(name="mCardService")
-	public void setMemberCardService(MemberCardService mCardService){
-		this.mCardService = mCardService;
+	@Resource(name="memberCardService")
+	public void setMemberCardService(MemberCardService memberCardService){
+		this.memberCardService = memberCardService;
 	}
 	
-	@Resource(name="courseTeacher")
+	@Resource(name="courseTeacherService")
 	public void setCourseTeacherService(CourseTeacherService courseTeacherService){
 		this.courseTeacherService = courseTeacherService;
 	}
@@ -96,7 +96,7 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 	public Collection<MemberCard> _courses(HttpServletRequest request) {
 		String id = this.getParameter(request, "__id");
 		if (StringUtils.hasText(id)) {
-			List<MemberCard> mCardList = mCardService.listByUserId(id);
+			List<MemberCard> mCardList = memberCardService.listByUserId(id);
 			if (mCardList != null && mCardList.size() > 0) {
 				return mCardList;
 			}

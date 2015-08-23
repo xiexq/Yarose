@@ -13,7 +13,7 @@ public class MemberCardServiceImpl extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MemberCard> listByUserId(String userId) {
-		return (List<MemberCard>) this.getDao().executeQueryList("", QueryCmdType.QUERY_NAME, -1, -1, userId);
+		return (List<MemberCard>) this.getDao().executeQueryList("MemberCard.listByUserId", QueryCmdType.QUERY_NAME, -1, -1, userId);
 	}
 
 }
