@@ -229,4 +229,10 @@
 			
 		});
 	}
+	
+	function _course_appointment(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/admin/appointment'});
+	}
+	
 </script>

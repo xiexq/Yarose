@@ -17,5 +17,7 @@
 				not-null="true" />
 		<property name="userId" column="user_id"
 				not-null="true" />
+		<property name="createTime" column="create_time",type="timestamp"
+				not-null="true" />
 	</class>
 </hibernate-mapping>

@@ -1,5 +1,7 @@
 package cn.com.yarose.card;
 
+import java.util.Date;
+
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.utils.Constants;
@@ -27,6 +29,14 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
 	private CourseTeacher courseTeacher;
 	
+	@FieldMeta(label = "会员卡号", visible = true, editable = true, summary = false)
+	public String getCardNo() {
+		if (mCard != null) {
+			return mCard.getCardNo();
+		}
+		return "";
+	}
+	
 	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
 	public String getShopName() {
 		if (courseTeacher != null) {
@@ -53,6 +63,9 @@ public class Appointment implements java.io.Serializable{
 	
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
 	private Integer status;
+	
+	@FieldMeta(id=true,label="预约时间",editable=true,datetime=true)
+	private Date createTime;
 	
 	public Long getId(){
 		return id;
@@ -92,5 +105,13 @@ public class Appointment implements java.io.Serializable{
 
 	public void setmCard(MemberCard mCard) {
 		this.mCard = mCard;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }
