@@ -233,7 +233,7 @@
 	
 	function _course_appointment(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/appointment'});
+		container.crud({url:'${ctxPath}/home/shop/manager/appointment'});
 	}
 	
 </script>

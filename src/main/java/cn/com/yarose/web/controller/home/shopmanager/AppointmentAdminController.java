@@ -27,7 +27,7 @@ import cn.com.yarose.card.MemberCardService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/home/admin/appointment")
+@RequestMapping("/home/shop/manager/appointment")
 @CRUDControllerMeta(title = "预约管理", service = AppointmentService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = true, searchable = true)
 public class AppointmentAdminController extends BaseCRUDControllerExt<Appointment, Long> {
 
