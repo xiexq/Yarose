@@ -9,7 +9,7 @@
 				<param name="sequence">s_member_card_id</param>
 			</generator>
 		</id>
-		<property name="type" column="type" not-null="true"></property>
+		<property name="type" column="type" not-null="true" type="int"></property>
 		<property name="purchaseLesson" column="purchase_lesson" not-null="true"></property>
 		<property name="userId" column="user_id" not-null="true"></property>
 		<property name="totalLesson" column="total_lesson" not-null="true"></property>
@@ -19,6 +19,9 @@
 		<property name="usedLesson" column="used_lesson"></property>
 		<property name="price" column="price" not-null="true"></property>
 		<property name="expireDate" column="expireDate"></property>
+		<property name="createDate" column="createDate"></property>
+		<many-to-one name="creator" column="creator" class="cn.com.eduedu.jee.security.account.Account" 
+		    not-null="true"></many-to-one>
 	</class>
 	<query name="MemberCard.listByUserId"><![CDATA[from cn.com.yarose.card.MemberCard as mc where mc.userId = ?]]></query>
 </hibernate-mapping>

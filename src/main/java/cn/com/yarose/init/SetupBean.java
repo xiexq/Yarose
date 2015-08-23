@@ -61,7 +61,8 @@ public class SetupBean implements InitializingBean {
 		Long as = dictCategoryService.countAll();
 		if (as == 0) {
 			List<DictCategory> dcList = new ArrayList<DictCategory>();
-			dcList.add(new DictCategory("会员类型", Constants.DICT_TYPE_STU_LEVEL));
+			dcList.add(new DictCategory("会员等级", Constants.DICT_TYPE_STU_LEVEL));
+			dcList.add(new DictCategory("会员卡类型", Constants.DICT_TYPE_MEMBER_CARD_TYPE));
 			dcList.add(new DictCategory("教师等级", Constants.DICT_TYPE_TEACH_LEVEL));
 			dcList.add(new DictCategory("舞种", Constants.DICT_TYPE_DANCE));
 			for (DictCategory dc : dcList) {

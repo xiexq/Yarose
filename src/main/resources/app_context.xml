@@ -49,4 +49,6 @@
 	<bean class="cn.com.yarose.card.impl.MemberCardServiceImpl" id="memberCardService">
 	<property name="dao" ref="memberCardDao"/>
 	</bean>
+	<bean class="cn.com.yarose.card.validator.MemberCardValidator" id="memberCardValidator">
+	</bean>
 </beans>
