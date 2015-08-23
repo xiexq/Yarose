@@ -56,7 +56,7 @@ public class MemberCardController extends
 	}
 
 	@DictionaryModel(label = "alias", val = "userid")
-	public List<Account> _ac_salers(String value, HttpServletRequest request) {
+	public List<Account> _ac_userIds(String value, HttpServletRequest request) {
 		if (StringUtils.hasText(value)) {
 			return accountService.findByUserId(value + "%", 0, 10);
 		}
