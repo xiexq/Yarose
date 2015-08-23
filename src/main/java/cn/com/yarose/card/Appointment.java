@@ -2,6 +2,7 @@ package cn.com.yarose.card;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.utils.Constants;
 
 public class Appointment implements java.io.Serializable{
 
@@ -9,8 +10,46 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(id=true,label="ID",editable=false)
 	Long id;
 	
+	@FieldMeta(label = "会员名称", editable = false, visible = false, summary = false)
+	private String userId;
+	
+	@FieldMeta(label = "会员卡号", editable = false, visible = false, summary = false)
+	private MemberCard mCard;
+	
+	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	public String getCode() {
+		if (id == null) {
+			return null;
+		}
+		return Constants.getFormatId(this.id);
+	}
+	
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
 	private CourseTeacher courseTeacher;
+	
+	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	public String getShopName() {
+		if (courseTeacher != null) {
+			return courseTeacher.getShopName();
+		}
+		return "";
+	}
+	
+	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
+	public String getCourseName() {
+		if (courseTeacher != null) {
+			return courseTeacher.getCourseName();
+		}
+		return "";
+	}
+	
+	@FieldMeta(label = "授课老师", visible = true, editable = true, summary = false)
+	public String getTeacherName() {
+		if (courseTeacher != null) {
+			return courseTeacher.getTeacherName();
+		}
+		return "";
+	}
 	
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
 	private Integer status;
@@ -37,5 +76,21 @@ public class Appointment implements java.io.Serializable{
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public MemberCard getmCard() {
+		return mCard;
+	}
+
+	public void setmCard(MemberCard mCard) {
+		this.mCard = mCard;
 	}
 }
