@@ -45,7 +45,6 @@ public class Constants {
 	public static Date customDateLinkTime(long time,Date date){
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(time);
-		
 		Calendar other = Calendar.getInstance();
 		other.setTime(date);
 		c.set(Calendar.HOUR_OF_DAY,other.get(Calendar.HOUR_OF_DAY));
