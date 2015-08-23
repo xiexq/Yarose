@@ -28,41 +28,41 @@ public class MemberCardController extends
 		BaseCRUDControllerExt<MemberCard, Long> {
 	@Resource(name = "account_accountService")
 	private AccountService accountService;
-	
+
 	@Resource(name = "dictionaryService")
 	private DictionaryService dictionaryService;
-	
-	/**
-	 * 
-	 * 	<property name="type" column="type" not-null="true"></property>
-		<property name="purchaseLesson" column="purchase_lesson" not-null="true"></property>
-		<property name="userId" column="user_id" not-null="true"></property>
-		<property name="totalLesson" column="total_lesson" not-null="true"></property>
-		<property name="seqNum" column="seq_num" not-null="true"></property>
-		<property name="cardNo" column="card_no" not-null="true"></property>
-		<property name="givingLesson" column="giving_lesson"></property>
-		<property name="usedLesson" column="used_lesson"></property>
-		<property name="price" column="price" not-null="true"></property>
-		<property name="expireDate" column="expireDate"></property>
-	 * @param arg0
-	 * @param arg1
-	 * @return
-	 * @throws Exception
-	 */
-	
+
 	@Override
 	public Set<String> customEditFields(HttpServletRequest arg0, boolean arg1)
 			throws Exception {
-		return this.generateStringSet("userId","type","purchaseLesson","givingLesson","expireDate","price");
+		return this.generateStringSortedSet("userId", "type", "purchaseLesson",
+				"givingLesson", "totalLesson", "expireDate", "price");
 	}
-	
+
 	@Override
 	public Set<String> customListFields(HttpServletRequest arg0)
 			throws Exception {
-		return this.generateStringSet("");
+		return this.generateStringSortedSet("cardNo", "userId", "typeName",
+				"purchaseLesson", "givingLesson", "expireDate", "usedLesson",
+				"totalLesson", "price");
 	}
-	
-	
+
+	@Override
+	public Set<String> customViewFields(HttpServletRequest request)
+			throws Exception {
+		return this.generateStringSet("cardNo", "userId", "typeName",
+				"purchaseLesson", "givingLesson", "expireDate", "usedLesson",
+				"totalLesson", "price", "creatorName", "createDate");
+	}
+
+	@DictionaryModel(label = "alias", val = "userid")
+	public List<Account> _ac_salers(String value, HttpServletRequest request) {
+		if (StringUtils.hasText(value)) {
+			return accountService.findByUserId(value + "%", 0, 10);
+		}
+		return null;
+	}
+
 	@DictionaryModel(label = "name", val = "id")
 	public List<Dictionary> _stuLevels(HttpServletRequest request) {
 		return dictionaryService.listByTypeCode(Constants.DICT_TYPE_STU_LEVEL,

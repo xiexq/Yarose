@@ -2,7 +2,10 @@ package cn.com.yarose.card;
 
 import java.util.Date;
 
+import org.springframework.util.StringUtils;
+
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.Dictionary;
 
 public class MemberCard implements java.io.Serializable {
@@ -22,38 +25,60 @@ public class MemberCard implements java.io.Serializable {
 	/**
 	 * 购买课时
 	 */
-	@FieldMeta(id = true, label = "购买课时", required = true)
+	@FieldMeta(label = "购买课时", required = true)
 	private Integer purchaseLesson;
 	/**
 	 * 赠送课时
 	 */
-	@FieldMeta(id = true, label = "赠送课时", required = true)
+	@FieldMeta(label = "赠送课时", required = true)
 	private Integer givingLesson;
 	/**
 	 * 总课时
 	 */
-	@FieldMeta(id = true, label = "总课时", required = true)
+	@FieldMeta(label = "总课时", required = true)
 	private Integer totalLesson;
 	/**
 	 * 已使用课时
 	 */
-	@FieldMeta(id = true, label = "已使用课时", editable = false, required = true)
+	@FieldMeta(label = "已使用课时", editable = false, required = true)
 	private Integer usedLesson;
 	/**
 	 * 成交价
 	 */
-	@FieldMeta(id = true, label = "成交价", required = true)
+	@FieldMeta(label = "成交价", required = true)
 	private Float price;
 	/**
 	 * 有效期
 	 */
-	@FieldMeta(id = true, label = "有效期", required = true)
+	@FieldMeta(label = "有效期", required = true)
 	private Date expireDate;
 	/**
 	 * 会员账号
 	 */
-	@FieldMeta(id = true, label = "会员账号", required = true)
+	@FieldMeta(label = "会员账号", autoComplete = true, required = true)
 	private String userId;
+
+	@FieldMeta(label = "创建时间", editable = false, summary = false, required = true)
+	private Date createDate;
+
+	@FieldMeta(label = "创建人", editable = false, summary = false, required = true)
+	private Account creator;
+
+	@FieldMeta(label = "会员卡类型", editable = false, required = true)
+	public String getTypeName() {
+		if (type != null && StringUtils.hasText(type.getName())) {
+			return type.getName();
+		}
+		return "";
+	}
+
+	@FieldMeta(label = "创建人", editable = false, summary = false, required = true)
+	public String getCreatorName() {
+		if (creator != null && StringUtils.hasText(creator.getUserid())) {
+			return creator.getUserid();
+		}
+		return "";
+	}
 
 	/**
 	 * 卡号的默认起始卡号
@@ -124,6 +149,14 @@ public class MemberCard implements java.io.Serializable {
 		this.price = price;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
 	public Date getExpireDate() {
 		return expireDate;
 	}
@@ -142,6 +175,14 @@ public class MemberCard implements java.io.Serializable {
 
 	public Long getSeqNum() {
 		return seqNum;
+	}
+
+	public Account getCreator() {
+		return creator;
+	}
+
+	public void setCreator(Account creator) {
+		this.creator = creator;
 	}
 
 	public void setSeqNum(Long seqNum) {
