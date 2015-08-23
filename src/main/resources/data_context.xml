@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
-	<jee:jndi-lookup id="dataSource" jndi-name="${data.source}" />
-	<bean class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-		id="sessionFactory">
-		<property name="dataSource" ref="dataSource" />
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+	<jee:jndi-lookup id="dataSource" jndi-name="${data.source}"/>
+	<bean class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" id="sessionFactory">
+		<property name="dataSource" ref="dataSource"/>
 		<property name="mappingResources">
 			<list>
 				<value>cn/com/eduedu/jee/security/account/Account.hbm.xml</value>
@@ -16,7 +13,8 @@
 				<value>cn/com/yarose/base/Course.hbm.xml</value>
 				<value>cn/com/yarose/base/CourseTeacher.hbm.xml</value>
 				<value>cn/com/yarose/base/DictCategory.hbm.xml</value>
-			</list>
+			<value>cn/com/yarose/card/Appointment.hbm.xml</value>
+</list>
 		</property>
 		<property name="hibernateProperties">
 			<props>
@@ -33,30 +31,28 @@
 			</props>
 		</property>
 	</bean>
-	<bean class="org.springframework.orm.hibernate3.HibernateTransactionManager"
-		id="txManager">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean class="org.springframework.orm.hibernate3.HibernateTransactionManager" id="txManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<bean class="cn.com.yarose.base.dao.DictionaryDaoHibernateImpl"
-		id="dictionaryDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean class="cn.com.yarose.base.dao.DictionaryDaoHibernateImpl" id="dictionaryDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	<bean class="cn.com.yarose.base.dao.ShopDaoHibernateImpl" id="shopDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<bean class="cn.com.yarose.base.dao.ShopManagerDaoHibernateImpl"
-		id="shopManagerDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean class="cn.com.yarose.base.dao.ShopManagerDaoHibernateImpl" id="shopManagerDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	<bean class="cn.com.yarose.base.dao.CourseDaoHibernateImpl" id="courseDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<bean class="cn.com.yarose.base.dao.CourseTeacherDaoHibernateImpl"
-		id="courseTeacherDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean class="cn.com.yarose.base.dao.CourseTeacherDaoHibernateImpl" id="courseTeacherDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<bean class="cn.com.yarose.base.dao.DictCategoryDaoHibernateImpl"
-		id="dictCategoryDao">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean class="cn.com.yarose.base.dao.DictCategoryDaoHibernateImpl" id="dictCategoryDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+<bean class="cn.com.yarose.card.dao.AppointmentDaoHibernateImpl" id="appointmentDao">
+<property name="sessionFactory" ref="sessionFactory"/>
+</bean>
 </beans>
