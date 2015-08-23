@@ -30,7 +30,6 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
-
 	
 	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
 	public String getCourseName() {

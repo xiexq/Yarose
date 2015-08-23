@@ -252,6 +252,9 @@ public class CourseTeacherAdminController extends
 			for (CourseTeacher tm : tmList) {
 				ResponseItem item = new ResponseItem();
 				item.put("title", tm.getCourseName());
+				Calendar c = Calendar.getInstance();
+				c.setTime(tm.getBeginTime());
+				c.set(Calendar.HOUR,c.get(Calendar.HOUR_OF_DAY));
 				item.put("start", tm.getBeginTime());
 				items.add(item);
 			}
