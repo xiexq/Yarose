@@ -92,7 +92,7 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 		return super.customSave(cmd, result, request, response, create);
 	}
 	
-	@DictionaryModel(header = true, cascade = true, cascadeField = "userId", headerIsJustForSearch = true)
+	@DictionaryModel(cascade = true, cascadeField = "userId",label="cardNo",val="id")
 	public Collection<MemberCard> _mCards(HttpServletRequest request) {
 		String id = this.getParameter(request, "__id");
 		if (StringUtils.hasText(id)) {
