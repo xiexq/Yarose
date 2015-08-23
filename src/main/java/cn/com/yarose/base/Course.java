@@ -14,7 +14,7 @@ public class Course implements java.io.Serializable {
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id);
+		return Constants.getFormatId(this.id,7);
 	}
 
 	@FieldMeta(id = true, label = "课程名称", editable = false, required = true)

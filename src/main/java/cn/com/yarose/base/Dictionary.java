@@ -19,7 +19,7 @@ public class Dictionary implements java.io.Serializable {
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id);
+		return Constants.getFormatId(this.id,3);
 	}
 
 	@FieldMeta(id = true, label = "名称", editable = true, required = true)

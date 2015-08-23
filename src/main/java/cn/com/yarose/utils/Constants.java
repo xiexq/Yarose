@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class Constants {
 
-	public static String getFormatId(Long id) {
-		return String.format("%07d", id);
+	public static String getFormatId(Long id, Integer num) {
+		return String.format("%0" + num + "d", id);
 	}
 
 	// 字典的类别
@@ -24,32 +24,32 @@ public class Constants {
 
 	public static final int DICTIONARY_ACTIVE = 0;
 	public static final int DICTIONARY_INACTIVE = 1;
-	
+
 	public static Date customBeginTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY,0);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		return cal.getTime();
 	}
-	
+
 	public static Date customEndTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY,23);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		return cal.getTime();
 	}
-	
-	public static Date customDateLinkTime(long time,Date date){
+
+	public static Date customDateLinkTime(long time, Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(time);
 		Calendar other = Calendar.getInstance();
 		other.setTime(date);
-		c.set(Calendar.HOUR_OF_DAY,other.get(Calendar.HOUR_OF_DAY));
-		c.set(Calendar.MINUTE,other.get(Calendar.MINUTE));
+		c.set(Calendar.HOUR_OF_DAY, other.get(Calendar.HOUR_OF_DAY));
+		c.set(Calendar.MINUTE, other.get(Calendar.MINUTE));
 		return c.getTime();
 	}
 }

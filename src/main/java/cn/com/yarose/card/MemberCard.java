@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.Dictionary;
+import cn.com.yarose.base.Shop;
 
 public class MemberCard implements java.io.Serializable {
 
@@ -18,6 +19,12 @@ public class MemberCard implements java.io.Serializable {
 
 	@FieldMeta(label = "卡号", editable = false, required = true)
 	private String cardNo;
+
+	/**
+	 * 办卡门店
+	 */
+	@FieldMeta(label = "办卡门店", dictionary = true)
+	private Shop shop;
 
 	/**
 	 * 会员卡类型
@@ -73,6 +80,14 @@ public class MemberCard implements java.io.Serializable {
 	public String getTypeName() {
 		if (type != null && StringUtils.hasText(type.getName())) {
 			return type.getName();
+		}
+		return "";
+	}
+
+	@FieldMeta(label = "办卡门店", editable = false)
+	public String getShopName() {
+		if (shop != null && StringUtils.hasText(shop.getName())) {
+			return shop.getName();
 		}
 		return "";
 	}
@@ -152,6 +167,14 @@ public class MemberCard implements java.io.Serializable {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 	public Date getCreateDate() {

@@ -23,7 +23,7 @@ public class Appointment implements java.io.Serializable{
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id);
+		return Constants.getFormatId(this.id ,5);
 	}
 	
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)

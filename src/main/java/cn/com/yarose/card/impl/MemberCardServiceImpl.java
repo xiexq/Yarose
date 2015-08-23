@@ -13,7 +13,15 @@ public class MemberCardServiceImpl extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MemberCard> listByUserId(String userId) {
-		return (List<MemberCard>) this.getDao().executeQueryList("MemberCard.listByUserId", QueryCmdType.QUERY_NAME, -1, -1, userId);
+		return (List<MemberCard>) this.getDao().executeQueryList(
+				"MemberCard.listByUserId", QueryCmdType.QUERY_NAME, -1, -1,
+				userId);
 	}
 
+	@Override
+	public Long findMaxSeqNum() {
+		Long seqNum = (Long) this.getDao().executeQueryUnique(
+				"MemberCard.findMaxSeqNum", QueryCmdType.QUERY_NAME);
+		return seqNum == null ? 0l : seqNum;
+	}
 }

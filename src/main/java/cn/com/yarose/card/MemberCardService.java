@@ -8,4 +8,6 @@ public interface MemberCardService extends BaseSearchService<MemberCard, Long> {
 
 	List<MemberCard> listByUserId(String userId);
 
+	Long findMaxSeqNum();
+
 }
