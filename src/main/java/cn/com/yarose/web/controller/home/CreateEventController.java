@@ -19,10 +19,10 @@ import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
-import cn.com.yarose.base.Shop;
-import cn.com.yarose.base.ShopService;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.base.CourseTeacherService;
+import cn.com.yarose.base.Shop;
+import cn.com.yarose.base.ShopService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller

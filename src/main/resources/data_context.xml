@@ -37,8 +37,6 @@
 		id="txManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<!-- <bean id="exampleDao" class="cn.com.yarose.dao.ExampleDaoHibernateImpl"> 
-		<property name="sessionFactory" ref="sessionFactory"/> </bean> -->
 	<bean class="cn.com.yarose.base.dao.DictionaryDaoHibernateImpl"
 		id="dictionaryDao">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -54,7 +52,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean class="cn.com.yarose.base.dao.CourseTeacherDaoHibernateImpl"
-		id="CourseTeacherDao">
+		id="courseTeacherDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean class="cn.com.yarose.base.dao.DictCategoryDaoHibernateImpl"

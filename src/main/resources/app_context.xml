@@ -47,8 +47,8 @@
 		<property name="dao" ref="courseDao" />
 	</bean>
 	<bean class="cn.com.yarose.base.impl.CourseTeacherServiceImpl"
-		id="CourseTeacherService">
-		<property name="dao" ref="CourseTeacherDao" />
+		id="courseTeacherService">
+		<property name="dao" ref="courseTeacherDao" />
 	</bean>
 	<bean class="cn.com.yarose.base.impl.DictCategoryServiceImpl" id="dictCategoryService">
 		<property name="dao" ref="dictCategoryDao" />

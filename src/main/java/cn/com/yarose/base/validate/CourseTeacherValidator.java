@@ -13,11 +13,11 @@ import cn.com.yarose.base.CourseTeacherService;
 
 public class CourseTeacherValidator implements Validator {
 
-	private CourseTeacherService tmService;
+	private CourseTeacherService courseTeacherService;
 	
-	@Resource(name="tmService")
-	public void setCourseTeacherService(CourseTeacherService tmService){
-		this.tmService = tmService;
+	@Resource(name="courseTeacherService")
+	public void setCourseTeacherService(CourseTeacherService courseTeacherService){
+		this.courseTeacherService = courseTeacherService;
 	}
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -30,7 +30,7 @@ public class CourseTeacherValidator implements Validator {
 		if(cmd.getEndTime().before(cmd.getBeginTime())){
 			errors.rejectValue("endTime", "endTime.error", "必须在开始时间之后");
 		}
-		List<CourseTeacher> tmList = tmService.listByShopId(cmd.getShop().getId());
+		List<CourseTeacher> tmList = courseTeacherService.listByShopId(cmd.getShop().getId());
 		if(tmList != null && tmList.size() > 0){
 			for(CourseTeacher tm : tmList){
 				if(cmd.getBeginTime().after(tm.getBeginTime()) && cmd.getBeginTime().before(tm.getEndTime())){
@@ -40,10 +40,8 @@ public class CourseTeacherValidator implements Validator {
 				}
 			}
 		}
-		
 		if(cmd.getBeginTime().before(new Date())){
 			errors.rejectValue("beginTime", "beginTime.error","在当前时间之前,课程已经开始不能编辑");
 		}
 	}
-
 }
