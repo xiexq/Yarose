@@ -21,15 +21,15 @@ import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
 import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
-import cn.com.yarose.base.TeacherManager;
-import cn.com.yarose.base.TeacherManagerService;
+import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/course/event")
-@CRUDControllerMeta(title = "门店管理", service = TeacherManagerService.class, createable = true, listable = true, editable = true)
+@CRUDControllerMeta(title = "门店管理", service = CourseTeacherService.class, createable = true, listable = true, editable = true)
 public class CreateEventController extends
-		BaseCRUDControllerExt<TeacherManager, Long> {
+		BaseCRUDControllerExt<CourseTeacher, Long> {
 
 	private CourseService courseService;
 	private ShopService shopService;
@@ -52,7 +52,7 @@ public class CreateEventController extends
 	}
 
 	@Override
-	public TeacherManager customSave(TeacherManager cmd, BindingResult result,
+	public CourseTeacher customSave(CourseTeacher cmd, BindingResult result,
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
@@ -62,7 +62,7 @@ public class CreateEventController extends
 	}
 
 	@Override
-	public void customCreate(TeacherManager cmd, HttpServletRequest request)
+	public void customCreate(CourseTeacher cmd, HttpServletRequest request)
 			throws Exception {
 		cmd.setBeginTime(new Date());
 		super.customCreate(cmd, request);

@@ -163,7 +163,6 @@
 	}
 	
 	function _course_grant(){
-		var editParams = {};
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',initShowSearchForm:true,
 			onListSuccess:function(e,data){
@@ -172,73 +171,54 @@
 				$('.ui-content',container).empty();
 				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
 				$('#calendar').fullCalendar({
-					defaultDate:new Date(),editable:true,eventLimit:true,
-					header: {left:'prev,next today',center:'title',right:'month,agendaWeek,agendaDay'},
+					editable:true,eventLimit:true,firstDay:1,header:{right:'prev,next',center:'title',left:'today'},
 			        monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
 		            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
 		            buttonText: {today:'今天',month:'月',week:'周',day:'日',prev:'上一月',next:'下一月'},
-					events:function(start, end, timezone, callback) {//读取数据
+					events:function(start, end, timezone, callback) {
 						var shopId = $("select[name='searchShop']",container).val();
 						_add_hover();
-					    editParams._shop = shopId;
-						$.get("${ctxPath }/home/admin/teacher/managers/select",editParams,function(data) {
-				                if(data&&data.success){
-				                	if(data.courses&&data.courses.length>0){
-				                		callback(data.courses);
-				                	}
-				                }
-						    });
-				    	},
-		    		dayClick:function(date, allDay, jsEvent, view) {//添加数据
-		    			var shopId = $("select[name='searchShop']",container).val();
-						editParams._shop = shopId,editParams._date=date+"";
-						var div=$('<div/>');
-			            div.dialog({
-							title:'课程安排',width:800,height:600
-						}).crud({
-							url:'${ctxPath }/home/admin/teacher/managers',
-							showSubviewTitle:false,showHeader:false,params:editParams,searchable:false,
-							onStartEdit:function(){
-								var c=$(this);
-								$("input[name='__date_helper']").attr("disabled","disabled");
-							},
-							onSaveSuccess:function(event, data){
-								$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
-									if(d&&d.success){
-										if(data.isCreate){
-											$('#calendar').fullCalendar('addEventSource', d.courses);
-										}else{
-											$('#calendar').fullCalendar('removeEvents', data.entityID);
-											$('#calendar').fullCalendar('addEventSource', d.courses);
-										}
-									}
-								});
-							}
+						$.get("${ctxPath }/home/admin/teacher/managers/render/event",{'_shop':shopId},function(data){
+			                if(data&&data.success&&data.courses&&data.courses.length>0){
+			                	$('#calendar').fullCalendar('removeEvents');
+			                	callback(data.courses);
+			                }
 						});
-		        	},eventClick: function(calEvent, jsEvent, view) {//编辑日程   
-			           var div = $('<div/>');
-			           	div.dialog({
-							title: '课程安排',width:800,height:600
-						}).crud({
-							url:'${ctxPath }/home/admin/teacher/managers',
-							action:'edit',actionTarget:calEvent.id,showSubviewTitle:false,showHeader:false,
-							onSaveSuccess:function(data){
-								div.crud('tipInfo','修改成功！','pass');
-							  	setTimeout(function(){div.dialog('destroy').remove();_course_grant();},1500);
-							  	return false;
-							},
-							onCancelEdit:function(){
-								setTimeout(function(){div.dialog('destroy').remove();},1000);
-								return false;
-							}
-						});   
+				    },dayClick:function(date, allDay, jsEvent, view) {
+				    	_edit_event_day(date);
+		        	},eventClick: function(calEvent, jsEvent, view) {
+		        		_edit_event_day(calEvent.start);
 			        }
-				}); 
-			},onSearchSubmit:function(e,data){
-				var shopId = $("select[name='searchShop']",container).val();
-				editParams._shop = shopId;
+				});
 			}
-		})
+		});
 	}
+	
+	function _edit_event_day(date){
+		var shopId = $("select[name='searchShop']",container).val(),div=$('<div/>');
+        div.dialog({
+			title:formatDate(new Date(date))+'课程安排',width:800,height:600
+		}).crud({
+			url:'${ctxPath }/home/admin/teacher/managers',
+			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
+			onSaveSuccess:function(event, data){
+				$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
+					if(d&&d.success){
+						if(!data.isCreate){
+							$('#calendar').fullCalendar('removeEvents', data.entityID);
+						}
+						$('#calendar').fullCalendar('addEventSource', d.courses);
+					}
+				});
+			}
+		});
+	}
+	
+	function formatDate(now){
+        var year=now.getFullYear();
+        var month=now.getMonth()+1;
+        var day=now.getDate();
+        return year+"年"+month+"月"+day+"日";
+    }
 </script>

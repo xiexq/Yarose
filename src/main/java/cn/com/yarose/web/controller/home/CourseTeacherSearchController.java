@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.order.OrderProperties;
-import cn.com.yarose.base.TeacherManager;
-import cn.com.yarose.base.TeacherManagerService;
+import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/teacher/manager/search")
-@CRUDControllerMeta(title = "门店管理", service = TeacherManagerService.class, listable = true,countable=true,searchable=true)
-public class TeacherManagerSearchController extends BaseCRUDControllerExt<TeacherManager, Long> {
+@CRUDControllerMeta(title = "门店管理", service = CourseTeacherService.class, listable = true,countable=true,searchable=true)
+public class CourseTeacherSearchController extends BaseCRUDControllerExt<CourseTeacher, Long> {
 
   
   @Override
@@ -32,7 +32,7 @@ public class TeacherManagerSearchController extends BaseCRUDControllerExt<Teache
     return this.generateStringSortedSet("beginTime","endTime");
   }
   @Override
-  public List<TeacherManager> customList(int offset, int count, OrderProperties orders,
+  public List<CourseTeacher> customList(int offset, int count, OrderProperties orders,
       HttpServletRequest request) throws Exception {
     // TODO Auto-generated method stub
     return super.customList(offset, count, orders, request);
