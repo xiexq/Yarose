@@ -33,7 +33,7 @@ public class MemberCard implements java.io.Serializable {
 	/**
 	 * 赠送课时
 	 */
-	@Min(1)
+	@Min(0)
 	@FieldMeta(label = "赠送课时")
 	private Integer givingLesson;
 	/**

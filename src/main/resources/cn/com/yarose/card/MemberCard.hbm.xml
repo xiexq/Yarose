@@ -9,7 +9,8 @@
 				<param name="sequence">s_member_card_id</param>
 			</generator>
 		</id>
-		<property name="type" column="type" not-null="true" type="int"></property>
+		<many-to-one name="type" column="type" class="cn.com.yarose.base.Dictionary" 
+		    not-null="true"></many-to-one>
 		<property name="purchaseLesson" column="purchase_lesson" not-null="true"></property>
 		<property name="userId" column="user_id" not-null="true"></property>
 		<property name="totalLesson" column="total_lesson" not-null="true"></property>
