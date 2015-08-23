@@ -76,6 +76,7 @@ public class MemberCardController extends
 				cmd.setCreateDate(new Date());
 				cmd.setCreator(this.getAccount());
 			}
+		    cmd.setCardNo("11");
 			cmd = this.getCrudService().save(cmd);
 		}
 		return cmd;
