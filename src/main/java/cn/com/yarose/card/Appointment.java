@@ -15,7 +15,7 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(label = "会员名称", editable = false, visible = false, summary = false)
 	private String userId;
 	
-	@FieldMeta(label = "会员卡号", editable = false, visible = false, summary = false)
+	@FieldMeta(label = "会员卡号", dictionary = true,editable = false, visible = false, summary = false)
 	private MemberCard mCard;
 	
 	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)

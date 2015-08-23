@@ -233,6 +233,9 @@
 	
 	function _course_appointment(){
 		_clearContainer();
+		//var =$('<div id="tabs"><ul><li><a href="#div1">未核销</a></li><li><a href="#div2">已核销</a></li></ul></div>');
+		//var div1 = $('<div id="div1"></div>'),div2 = $('<div id="div2"></div>');
+		//container.append(q);q.tabs();
 		container.crud({url:'${ctxPath}/home/shop/manager/appointment'});
 	}
 	

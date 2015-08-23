@@ -50,7 +50,7 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request, Appointment entity) throws Exception {
-		return this.generateStringSortedSet("userId", "mcard", "courseTeacher");
+		return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 	}
 	
 	@DictionaryModel(header = true, cascade = true, cascadeField = "userId", headerIsJustForSearch = true)
-	public Collection<MemberCard> _courses(HttpServletRequest request) {
+	public Collection<MemberCard> _mCards(HttpServletRequest request) {
 		String id = this.getParameter(request, "__id");
 		if (StringUtils.hasText(id)) {
 			List<MemberCard> mCardList = memberCardService.listByUserId(id);
@@ -104,14 +104,14 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 		return null;
 	}
 	
-	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/course/teacher/selector", headerIsJustForSearch=true, cascade = true, cascadeField = "tenantCode")
+	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/course/teacher/selector", headerIsJustForSearch=true, cascade = true, cascadeField = "courseTeacher.id")
 	public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
 	    if(obj != null){
-	      return courseTeacherService.findById(Long.valueOf(obj.toString()));
+	    	CourseTeacher courseTeacher = (CourseTeacher)obj;
+	    	System.out.println(courseTeacher.getId());
+	      return courseTeacherService.findById(Long.valueOf(courseTeacher.getId()));
 	    }
 		return null;
 	}
-	
-	
 	
 }
