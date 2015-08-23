@@ -143,25 +143,45 @@
 		container.crud({url:'${ctxPath}/home/admin/courses'});
 	}
 	
+	function _add_hover(){
+		$(".fc-day").hover(
+				  function(){
+				      $(this).addClass("calendar_hover");
+				   },
+				   function(){
+				      $(this).removeClass("calendar_hover");
+				   }
+			);
+			$(".fc-day.fc-today").hover(
+				  function(){
+					  $(this).removeClass("fc-today").addClass("calendar_hover");
+				  },
+				  function(){
+				      $(this).removeClass("calendar_hover").addClass("fc-today");
+				  }
+			);
+	}
+	
 	function _course_grant(){
 		var editParams = {};
 		container.crud({
-			url:'${ctxPath}/home/admin/teacher/managers',
-			action:'create',initShowSearchForm:true,params:editParams,
+			url:'${ctxPath}/home/admin/teacher/managers',initShowSearchForm:true,
 			onListSuccess:function(e,data){
 				$('.ui-action-listall.ui-button').hide();
 				$('.ui-action-reset.ui-button').hide();
 				$('.ui-content',container).empty();
 				$('.ui-content',container).html('<div id="calendar" style="max-width: 900px;margin: 0 auto;"></div>');
 				$('#calendar').fullCalendar({
-					defaultDate: new Date(),editable: true,eventLimit: true,
+					defaultDate:new Date(),editable:true,eventLimit:true,
 					header: {left:'prev,next today',center:'title',right:'month,agendaWeek,agendaDay'},
 			        monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+		            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
 		            buttonText: {today:'今天',month:'月',week:'周',day:'日',prev:'上一月',next:'下一月'},
 					events:function(start, end, timezone, callback) {//读取数据
 						var shopId = $("select[name='searchShop']",container).val();
-						editParams._shop = shopId;
+						_add_hover();
+					    editParams._shop = shopId;
 						$.get("${ctxPath }/home/admin/teacher/managers/select",editParams,function(data) {
 				                if(data&&data.success){
 				                	if(data.courses&&data.courses.length>0){
@@ -170,7 +190,7 @@
 				                }
 						    });
 				    	},
-		    		dayClick: function(date, allDay, jsEvent, view) {//添加数据
+		    		dayClick:function(date, allDay, jsEvent, view) {//添加数据
 		    			var shopId = $("select[name='searchShop']",container).val();
 						editParams._shop = shopId,editParams._date=date+"";
 						var div=$('<div/>');
@@ -183,16 +203,23 @@
 								var c=$(this);
 								$("input[name='__date_helper']").attr("disabled","disabled");
 							},
-							onSaveSuccess:function(data){
-								$(this).crud('tipInfo','保存成功！','pass');
-								$(this).crud('refreshList');
+							onSaveSuccess:function(event, data){
+								$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
+									if(d&&d.success){
+										if(data.isCreate){
+											$('#calendar').fullCalendar('addEventSource', d.courses);
+										}else{
+											$('#calendar').fullCalendar('removeEvents', data.entityID);
+											$('#calendar').fullCalendar('addEventSource', d.courses);
+										}
+									}
+								});
 							}
 						});
-		        	}
-		        	/* eventClick: function(calEvent, jsEvent, view) {//编辑日程   
+		        	},eventClick: function(calEvent, jsEvent, view) {//编辑日程   
 			           var div = $('<div/>');
 			           	div.dialog({
-							title: '课程',width:800,height:600
+							title: '课程安排',width:800,height:600
 						}).crud({
 							url:'${ctxPath }/home/admin/teacher/managers',
 							action:'edit',actionTarget:calEvent.id,showSubviewTitle:false,showHeader:false,
@@ -207,30 +234,11 @@
 							}
 						});   
 			        }
-		        	*/
 				}); 
-				$(".fc-day.fc-widget-content").hover(
-					  function(){
-					      $(this).addClass("calendar_hover");
-					   },
-					   function(){
-					      $(this).removeClass("calendar_hover");
-					   }
-				);
-				$(".fc-day.fc-widget-content.fc-today").hover(
-					  function(){
-						  $(this).removeClass("fc-today").addClass("calendar_hover");
-					  },
-					  function(){
-					      $(this).removeClass("calendar_hover").addClass("fc-today");
-					  }
-				);
-			},
-			onSearchSubmit:function(e,data){
+			},onSearchSubmit:function(e,data){
 				var shopId = $("select[name='searchShop']",container).val();
 				editParams._shop = shopId;
 			}
 		})
 	}
-	
-	</script>
+</script>

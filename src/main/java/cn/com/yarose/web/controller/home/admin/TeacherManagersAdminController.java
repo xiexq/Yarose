@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -74,7 +75,7 @@ public class TeacherManagersAdminController extends
 			throws Exception {
 		return this.generateStringSortedSet("searchShop");
 	}
- 
+
 	@Override
 	public void customCreate(TeacherManager cmd, HttpServletRequest request)
 			throws Exception {
@@ -92,34 +93,38 @@ public class TeacherManagersAdminController extends
 		return tm;
 	}
 
-	
 	@Override
-	public List<TeacherManager> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
+	public List<TeacherManager> customList(int offset, int count,
+			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
 		Calendar c = Calendar.getInstance();
-		if(this.getAddDateFromRequest(request) == null){
+		if (this.getAddDateFromRequest(request) == null) {
 			return this.getCrudService().listAll(-1, -1);
-		}else{
+		} else {
 			c.setTimeInMillis(this.getAddDateFromRequest(request));
 			Long shopId = this.getShopIdRequest(request);
-			List<TeacherManager> tmList = ((TeacherManagerService)this.getCrudService()).listByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+			List<TeacherManager> tmList = ((TeacherManagerService) this
+					.getCrudService()).listByShopAndDay(shopId,
+					Constants.customBeginTime(c.getTime()),
+					Constants.customEndTime(c.getTime()));
 			return tmList;
 		}
-		
-		
 	}
-	
+
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
 		Calendar c = Calendar.getInstance();
-		if(this.getAddDateFromRequest(request) == null){
+		if (this.getAddDateFromRequest(request) == null) {
 			return this.getCrudService().countAll();
 		}
 		c.setTimeInMillis(this.getAddDateFromRequest(request));
 		Long shopId = this.getShopIdRequest(request);
-		return ((TeacherManagerService)this.getCrudService()).countByShopAndDay(shopId,Constants.customBeginTime(c.getTime()),Constants.customEndTime(c.getTime()));
+		return ((TeacherManagerService) this.getCrudService())
+				.countByShopAndDay(shopId,
+						Constants.customBeginTime(c.getTime()),
+						Constants.customEndTime(c.getTime()));
 	}
-	
+
 	@Override
 	public TeacherManager customSaveCmd(TeacherManager cmd,
 			HttpServletRequest request, Long id) throws Exception {
@@ -206,10 +211,29 @@ public class TeacherManagersAdminController extends
 			List<ResponseItem> items = resp.createListChildren("courses");
 			for (TeacherManager tm : tmList) {
 				ResponseItem item = new ResponseItem();
+				item.put("id", tm.getId());
 				item.put("title", tm.getCourseName());
 				item.put("start", tm.getBeginTime());
 				items.add(item);
 			}
+			resp.setSuccess(true);
+		}
+		return resp;
+	}
+
+	@ResponseBody
+	@RequestMapping("/{id}")
+	public ResponseObject getCourseTeacher(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable("id") Long id) {
+		ResponseObject resp = new ResponseObject(false);
+		if (id != null) {
+			TeacherManager tm = this.getCrudService().findById(id);
+			List<ResponseItem> items = resp.createListChildren("courses");
+			ResponseItem item = new ResponseItem();
+			item.put("start", tm.getBeginTime());
+			item.put("title", tm.getCourseName());
+			item.put("id", tm.getId());
+			items.add(item);
 			resp.setSuccess(true);
 		}
 		return resp;
