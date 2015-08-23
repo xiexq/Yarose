@@ -14,10 +14,10 @@
 		<many-to-one class="cn.com.yarose.card.MemberCard" name="mCard"
 			column="member_card_id" not-null="true" lazy="false"></many-to-one>
 		<property name="status" column="status"
-				not-null="true" />
+				not-null="true"></property>
 		<property name="userId" column="user_id"
-				not-null="true" />
-		<property name="createTime" column="create_time",type="timestamp"
-				not-null="true" />
+				not-null="true"></property>
+		<property name="createTime" column="create_time" type="timestamp"
+				not-null="true"></property>
 	</class>
 </hibernate-mapping>

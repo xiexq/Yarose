@@ -20,4 +20,5 @@
 		<property name="price" column="price" not-null="true"></property>
 		<property name="expireDate" column="expireDate"></property>
 	</class>
+	<query name="MemberCard.listByUserId"><![CDATA[from cn.com.yarose.card.MemberCard as mc where mc.userId = ?]]></query>
 </hibernate-mapping>
