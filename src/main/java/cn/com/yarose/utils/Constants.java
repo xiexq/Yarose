@@ -13,6 +13,7 @@ public class Constants {
 	public static String DICT_TYPE_DANCE = "dance_type"; // 舞种
 	public static String DICT_TYPE_TEACH_LEVEL = "teach_level";// 教师级别
 	public static String DICT_TYPE_STU_LEVEL = "stu_level";// 学生等级
+	public static String DICT_TYPE_MEMBER_CARD_TYPE = "member_card_type";// 会员卡类型
 
 	// 角色
 	public static String ROLE_SUPER = "SUPER"; // 超级管理员

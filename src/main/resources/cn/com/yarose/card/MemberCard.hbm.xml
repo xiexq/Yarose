@@ -9,7 +9,7 @@
 				<param name="sequence">s_member_card_id</param>
 			</generator>
 		</id>
-		<property name="type" column="type" not-null="true"></property>
+		<property name="type" column="type" not-null="true" type="int"></property>
 		<property name="purchaseLesson" column="purchase_lesson" not-null="true"></property>
 		<property name="userId" column="user_id" not-null="true"></property>
 		<property name="totalLesson" column="total_lesson" not-null="true"></property>
