@@ -1,4 +1,4 @@
-package cn.com.yarose.web.controller.home.shopManager;
+package cn.com.yarose.web.controller.home.shopmanager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
