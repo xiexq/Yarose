@@ -13,7 +13,8 @@
 				<value>cn/com/yarose/base/Course.hbm.xml</value>
 				<value>cn/com/yarose/base/CourseTeacher.hbm.xml</value>
 				<value>cn/com/yarose/base/DictCategory.hbm.xml</value>
-			<value>cn/com/yarose/card/Appointment.hbm.xml</value>
+			    <value>cn/com/yarose/card/Appointment.hbm.xml</value>
+			    <value>cn/com/yarose/card/MemberCard.hbm.xml</value>
 </list>
 		</property>
 		<property name="hibernateProperties">
@@ -52,7 +53,10 @@
 	<bean class="cn.com.yarose.base.dao.DictCategoryDaoHibernateImpl" id="dictCategoryDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-<bean class="cn.com.yarose.card.dao.AppointmentDaoHibernateImpl" id="appointmentDao">
-<property name="sessionFactory" ref="sessionFactory"/>
-</bean>
+	<bean class="cn.com.yarose.card.dao.AppointmentDaoHibernateImpl" id="appointmentDao">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean class="cn.com.yarose.card.dao.MemberCardDaoHibernateImpl" id="memberCardDao">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

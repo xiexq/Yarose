@@ -11,6 +11,9 @@ public class MemberCard implements java.io.Serializable {
 	@FieldMeta(id = true, label = "ID", editable = false)
 	private Long id;
 
+	@FieldMeta(label = "卡号", editable = false, required = true)
+	private String cardNo;
+
 	/**
 	 * 会员卡类型
 	 */
@@ -50,7 +53,28 @@ public class MemberCard implements java.io.Serializable {
 	 * 会员账号
 	 */
 	@FieldMeta(id = true, label = "会员账号", required = true)
-	private Long memberId;
+	private String userId;
+
+	/**
+	 * 卡号的默认起始卡号
+	 */
+	private Long seqNum;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCardNo() {
+		return cardNo;
+	}
+
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
+	}
 
 	public Dictionary getType() {
 		return type;
@@ -108,11 +132,19 @@ public class MemberCard implements java.io.Serializable {
 		this.expireDate = expireDate;
 	}
 
-	public Long getMemberId() {
-		return memberId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setMemberId(Long memberId) {
-		this.memberId = memberId;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Long getSeqNum() {
+		return seqNum;
+	}
+
+	public void setSeqNum(Long seqNum) {
+		this.seqNum = seqNum;
 	}
 }

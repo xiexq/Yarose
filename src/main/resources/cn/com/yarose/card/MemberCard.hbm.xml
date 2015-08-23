@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="cn.com.yarose.card" auto-import="false">
+	<class name="MemberCard" table="t_member_card" lazy="true">
+		<id name="id" column="id" type="long">
+			<generator class="native">
+				<param name="sequence">s_member_card_id</param>
+			</generator>
+		</id>
+		<property name="type" column="type" not-null="true"></property>
+		<property name="purchaseLesson" column="purchase_lesson" not-null="true"></property>
+		<property name="userId" column="user_id" not-null="true"></property>
+		<property name="totalLesson" column="total_lesson" not-null="true"></property>
+		<property name="seqNum" column="seq_num" not-null="true"></property>
+		<property name="cardNo" column="card_no" not-null="true"></property>
+		<property name="givingLesson" column="giving_lesson"></property>
+		<property name="usedLesson" column="used_lesson"></property>
+		<property name="price" column="price" not-null="true"></property>
+		<property name="expireDate" column="expireDate"></property>
+	</class>
+</hibernate-mapping>

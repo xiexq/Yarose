@@ -49,6 +49,7 @@
 							<ul>
 							    <li><a href="javascript:_account_admin('shop')">账号管理</a></li>
 								<li><a href="javascript:_course_admin()">课程管理</a></li>
+								<li><a href="javascript:_member_card_admin()">会员卡管理</a></li>
 								<li><a href="javascript:_course_grant()">课程安排</a></li>
 							</ul>
 						</div>

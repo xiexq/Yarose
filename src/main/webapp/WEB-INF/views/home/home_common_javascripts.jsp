@@ -163,6 +163,7 @@
 	}
 	
 	function _course_grant(){
+		_clearContainer();
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',initShowSearchForm:true,
 			onListSuccess:function(e,data){
@@ -221,4 +222,11 @@
         var day=now.getDate();
         return year+"年"+month+"月"+day+"日";
     }
+	
+	function _member_card_admin(){
+		_clearContainer();
+		container.crud({
+			
+		});
+	}
 </script>
