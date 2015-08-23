@@ -223,10 +223,11 @@
         return year+"年"+month+"月"+day+"日";
     }
 	
+	//会员卡管理
 	function _member_card_admin(){
 		_clearContainer();
 		container.crud({
-			
+			url:'${ctxPath}/home/shopmanager/membercard'
 		});
 	}
 	
