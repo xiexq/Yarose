@@ -203,7 +203,10 @@
 		}).crud({
 			url:'${ctxPath }/home/admin/teacher/managers',
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
-			onSaveSuccess:function(event, data){
+			onFieldValueChange:function(field){
+				if(field.name=='teacher'&&!!field.val){
+				}
+			},onSaveSuccess:function(event, data){
 				$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
 					if(d&&d.success){
 						if(!data.isCreate){

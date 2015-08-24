@@ -19,12 +19,15 @@ public class Dictionary implements java.io.Serializable {
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id,3);
+		return Constants.getFormatId(this.id, 3);
 	}
 
 	@FieldMeta(id = true, label = "名称", editable = true, required = true)
 	@Size(max = 30, min = 1)
 	private String name;
+
+	@FieldMeta(id = true, label = "标准课时费", editable = true, required = true)
+	private float courseFee;
 
 	@FieldMeta(id = true, label = "类型", editable = true, dictionary = true, required = true)
 	private DictCategory type;
@@ -89,5 +92,13 @@ public class Dictionary implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public float getCourseFee() {
+		return courseFee;
+	}
+
+	public void setCourseFee(float courseFee) {
+		this.courseFee = courseFee;
 	}
 }

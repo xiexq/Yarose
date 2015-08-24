@@ -97,29 +97,31 @@ public class MemberCardController extends
 			HttpServletRequest request, ResponseObject responseObject,
 			boolean create) throws Exception {
 		if (this.validate(cmd, result, request, create)) {
-			if (create) {
-				cmd.setCreateDate(new Date());
-				cmd.setCreator(this.getAccount());
-			}
-			boolean isShop = getIsShop(request);
 			// 门店管理员需要设置门店
+			boolean isShop = getIsShop(request);
 			if (isShop) {
 				Long shopId = this.getAccount().getShopId();
 				Shop shop = shopService.findById(shopId);
 				cmd.setShop(shop);
 			}
-			// 生成卡号
-			if (cmd.getShop() != null && cmd.getType() != null) {
-				MemberCardService service = ((MemberCardService) this
-						.getCrudService());
-				Long seqNum = service.findMaxSeqNum();
-				Calendar now = Calendar.getInstance();
-				int year = now.get(Calendar.YEAR);
-				String month = Constants.getFormatId(
-						(long) now.get(Calendar.MONTH), 2);
-				String shopId = Constants.getFormatId(cmd.getShop().getId(), 3);
-				String cardNo = "" + year + month + shopId + (seqNum + 1);
-				cmd.setCardNo(cardNo);
+			if (create) {
+				cmd.setCreateDate(new Date());
+				cmd.setCreator(this.getAccount());
+				// 生成卡号规则（年份+月份+门店id+序列号）
+				if (cmd.getShop() != null && cmd.getType() != null) {
+					MemberCardService service = ((MemberCardService) this
+							.getCrudService());
+					Long seqNum = service.findMaxSeqNum();
+					Calendar now = Calendar.getInstance();
+					int year = now.get(Calendar.YEAR);
+					String month = Constants.getFormatId(
+							(long) (now.get(Calendar.MONTH) + 1), 2);
+					String shopId = Constants.getFormatId(
+							cmd.getShop().getId(), 3);
+					String cardNo = "" + year + month + shopId + (seqNum + 1);
+					cmd.setSeqNum(seqNum + 1);
+					cmd.setCardNo(cardNo);
+				}
 			}
 			cmd = this.getCrudService().save(cmd);
 		}
@@ -156,13 +158,6 @@ public class MemberCardController extends
 	public List<Dictionary> _types(HttpServletRequest request) {
 		return dictionaryService.listByTypeCode(
 				Constants.DICT_TYPE_MEMBER_CARD_TYPE, -1, -1);
-	}
-
-	public boolean isAdmin() {
-		if (this.getAccount().getAccesses().contains(Constants.ROLE_SUPER)) {
-			return true;
-		}
-		return false;
 	}
 
 	@DictionaryModel(header = true, headerLabel = "请选择")

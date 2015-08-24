@@ -65,6 +65,7 @@ public class SetupBean implements InitializingBean {
 			dcList.add(new DictCategory("会员卡类型", Constants.DICT_TYPE_MEMBER_CARD_TYPE));
 			dcList.add(new DictCategory("教师等级", Constants.DICT_TYPE_TEACH_LEVEL));
 			dcList.add(new DictCategory("舞种", Constants.DICT_TYPE_DANCE));
+			dcList.add(new DictCategory("年龄段", Constants.DICT_TYPE_AGE_GROUP));
 			for (DictCategory dc : dcList) {
 				dictCategoryService.save(dc);
 			}
