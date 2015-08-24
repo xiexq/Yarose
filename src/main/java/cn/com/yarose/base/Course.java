@@ -26,7 +26,7 @@ public class Course implements java.io.Serializable {
 	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, required = true)
 	private Shop shop;
 
-	@FieldMeta(label = "描述", text = true)
+	@FieldMeta(label = "穿衣/鞋建议", text = true)
 	private String desc;
 
 	@FieldMeta(label = "所属门店", visible = true, editable = false, summary = false)

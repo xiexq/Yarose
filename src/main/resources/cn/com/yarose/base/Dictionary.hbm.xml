@@ -14,6 +14,7 @@
 			not-null="true" lazy="false"></many-to-one>
 		<property name="name" type="string" length="200" not-null="true"></property>
 		<property name="createDate" column="createDate" type="timestamp"></property>
+		<property name="courseFee" column="course_fee" not-null="true"></property>
 		<many-to-one name="account" column="account_id"
 			class="cn.com.eduedu.jee.security.account.Account" lazy="false"></many-to-one>
 	</class>

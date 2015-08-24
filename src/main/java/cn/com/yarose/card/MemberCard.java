@@ -130,7 +130,10 @@ public class MemberCard implements java.io.Serializable {
 	}
 
 	public Integer getPurchaseLesson() {
-		return purchaseLesson;
+		if (purchaseLesson != null) {
+			return purchaseLesson;
+		}
+		return 0;
 	}
 
 	public void setPurchaseLesson(Integer purchaseLesson) {
@@ -138,7 +141,10 @@ public class MemberCard implements java.io.Serializable {
 	}
 
 	public Integer getGivingLesson() {
-		return givingLesson;
+		if (givingLesson != null) {
+			return givingLesson;
+		}
+		return 0;
 	}
 
 	public void setGivingLesson(Integer givingLesson) {
@@ -146,6 +152,9 @@ public class MemberCard implements java.io.Serializable {
 	}
 
 	public Integer getTotalLesson() {
+		if (totalLesson != null) {
+			return totalLesson;
+		}
 		return totalLesson;
 	}
 
@@ -154,7 +163,10 @@ public class MemberCard implements java.io.Serializable {
 	}
 
 	public Integer getUsedLesson() {
-		return usedLesson;
+		if (usedLesson != null) {
+			return usedLesson;
+		}
+		return 0;
 	}
 
 	public void setUsedLesson(Integer usedLesson) {
