@@ -53,6 +53,7 @@
 								<li><a href="javascript:_member_card_admin()">会员卡管理</a></li>
 								<li><a href="javascript:_course_grant()">课程安排</a></li>
 								<li><a href="javascript:_course_appointment()">预约管理</a></li>
+								<li><a href="javascript:_evaluation_management()">评价管理</a></li>
 							</ul>
 						</div>
 					</sec:authorize>

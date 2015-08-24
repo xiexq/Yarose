@@ -29,6 +29,10 @@ public class Constants {
 	public static final int APPOLINTMENT_UNCHECKED = 0;
 	public static final int APPOLINTMENT_CHECKED = 1;
 
+	//评价类型
+	public static final int EVALUATION_TYPE_USER = 0;
+	public static final int EVALUATION_TYPE_SHOP = 1;
+	
 	public static Date customBeginTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
