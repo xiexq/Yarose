@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import cn.com.eduedu.jee.mvc.controller.BaseCRUDController;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.SecurityContextHelper;
-import cn.com.yarose.utils.Constants;
 
 public class BaseCRUDControllerExt<T, ID extends Serializable> extends
 		BaseCRUDController<T, ID> {
@@ -19,7 +18,7 @@ public class BaseCRUDControllerExt<T, ID extends Serializable> extends
 		return SecurityContextHelper.getAccount();
 	}
 
-	public boolean isAdmin() {
-		return SecurityContextHelper.isInRole("ROLE_"+Constants.ROLE_SUPER);
+	public boolean isInRole(String role) {
+		return SecurityContextHelper.isInRole("ROLE_"+role);
 	}
 }

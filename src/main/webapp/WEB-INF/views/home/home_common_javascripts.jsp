@@ -204,7 +204,13 @@
 			url:'${ctxPath }/home/admin/teacher/managers',
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
 			onFieldValueChange:function(field){
-				if(field.name=='teacher'&&!!field.val){
+				if(field.name=='teacher'){
+					var val=$(this).crud("getEditFieldVal","teacher");
+					if(!!val){
+						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+data.entityID,function(d){
+							
+						}
+					}
 				}
 			},onSaveSuccess:function(event, data){
 				$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
