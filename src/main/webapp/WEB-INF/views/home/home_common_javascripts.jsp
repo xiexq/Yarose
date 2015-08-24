@@ -205,11 +205,13 @@
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
 			onFieldValueChange:function(field){
 				if(field.name=='teacher'){
-					var val=$(this).crud("getEditFieldVal","teacher");
+					var tid=$(this).crud("getEditFieldVal","teacher");
 					if(!!val){
-						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+data.entityID,function(d){
-							
-						}
+						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+tid,function(d){
+							if(!!d){
+								$(this).crud("setEditFieldVal","courseFee",id);
+							}
+						});
 					}
 				}
 			},onSaveSuccess:function(event, data){

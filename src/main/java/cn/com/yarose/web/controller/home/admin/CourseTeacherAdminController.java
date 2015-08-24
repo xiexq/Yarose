@@ -31,6 +31,7 @@ import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.base.CourseTeacherService;
+import cn.com.yarose.base.DictionaryService;
 import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
 import cn.com.yarose.utils.Constants;
@@ -42,43 +43,34 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 public class CourseTeacherAdminController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
 
+	@Resource(name = "courseService")
 	private CourseService courseService;
+	@Resource(name = "shopService")
 	private ShopService shopService;
+	@Resource(name = "account_accountService")
 	private AccountService accountService;
 	@Resource(name = "account_accessService")
 	private AccessService accessService;
-
-	@Resource(name = "account_accountService")
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
-	}
-
-	@Resource(name = "courseService")
-	public void setCourseService(CourseService courseService) {
-		this.courseService = courseService;
-	}
-
-	@Resource(name = "shopService")
-	public void shopService(ShopService shopService) {
-		this.shopService = shopService;
-	}
+	@Resource(name = "dictionaryService")
+	private DictionaryService dictionaryService;
 
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
 		boolean isEval = this.getIsEval(request);
-		if(isEval){
-			return this.generateStringSortedSet("courseName","shopName","teacherName");
+		if (isEval) {
+			return this.generateStringSortedSet("courseName", "shopName",
+					"teacherName");
 		}
 		return this.generateStringSortedSet("courseName", "shopName",
-				"beginTime", "endTime","lesson", "userId");
+				"beginTime", "endTime", "lesson", "userId");
 	}
 
 	@Override
 	public Set<String> customViewFields(HttpServletRequest arg0)
 			throws Exception {
 		return this.generateStringSortedSet("courseName", "shopName",
-				"TeacherName", "beginTime", "endTime","lesson","createTime");
+				"TeacherName", "beginTime", "endTime", "lesson", "createTime");
 	}
 
 	@Override
@@ -86,12 +78,12 @@ public class CourseTeacherAdminController extends
 			throws Exception {
 		return this.generateStringSortedSet("searchShop");
 	}
-	
-	private boolean getIsEval(HttpServletRequest request){
+
+	private boolean getIsEval(HttpServletRequest request) {
 		String isEval = request.getParameter("_isEval");
-		if(isEval == null){
+		if (isEval == null) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
@@ -159,9 +151,9 @@ public class CourseTeacherAdminController extends
 			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
 		boolean isEval = this.getIsEval(request);
-		if(isEval){
-			return ((CourseTeacherService) this
-					.getCrudService()).listByEndTime(new Date());
+		if (isEval) {
+			return ((CourseTeacherService) this.getCrudService())
+					.listByEndTime(new Date());
 		}
 		Calendar c = Calendar.getInstance();
 		if (this.getAddDateFromRequest(request) == null) {
@@ -180,8 +172,9 @@ public class CourseTeacherAdminController extends
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
 		boolean isEval = this.getIsEval(request);
-		if(isEval){
-			return  ((CourseTeacherService) this.getCrudService()).countByEndTime(new Date());
+		if (isEval) {
+			return ((CourseTeacherService) this.getCrudService())
+					.countByEndTime(new Date());
 		}
 		Calendar c = Calendar.getInstance();
 		if (this.getAddDateFromRequest(request) == null) {
@@ -239,7 +232,7 @@ public class CourseTeacherAdminController extends
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
 		return this.generateStringSortedSet("shop", "course", "teacher",
-				"beginTime", "endTime","lesson");
+				"beginTime", "endTime", "lesson");
 	}
 
 	@DictionaryModel(header = true, headerLabel = "请选择")
@@ -311,6 +304,18 @@ public class CourseTeacherAdminController extends
 			resp.setSuccess(true);
 		}
 		return resp;
+	}
+
+	@ResponseBody
+	@RequestMapping("/courseFee/{teacherId}")
+	public Float getCourseFee(HttpServletRequest request,
+			HttpServletResponse response,
+			@PathVariable("teacherId") Long teacherId) {
+		if (teacherId != null) {
+			Account teacher = accountService.findById(teacherId);
+			return teacher.getCourseFee();
+		}
+		return 0f;
 	}
 
 	@DictionaryModel(val = "id", label = "name")

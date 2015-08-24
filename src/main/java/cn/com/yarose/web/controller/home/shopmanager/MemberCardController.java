@@ -48,7 +48,7 @@ public class MemberCardController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
-		if (isAdmin()) {
+		if (isInRole(Constants.ROLE_SUPER)) {
 			return this.generateStringSortedSet("userId", "type",
 					"purchaseLesson", "givingLesson", "totalLesson",
 					"expireDate", "price", "shop");
@@ -68,7 +68,7 @@ public class MemberCardController extends
 	@Override
 	public Map<String, Boolean> customFieldsRequired(
 			HttpServletRequest request, boolean search) throws Exception {
-		if (isAdmin()) {
+		if (isInRole(Constants.ROLE_SUPER)) {
 			Map<String, Boolean> map = new HashMap<String, Boolean>();
 			map.put("shop", true);
 			return map;
@@ -162,7 +162,7 @@ public class MemberCardController extends
 
 	@DictionaryModel(header = true, headerLabel = "请选择")
 	public Collection<Shop> _shops(HttpServletRequest request) {
-		if (isAdmin()) {
+		if (isInRole(Constants.ROLE_SUPER)) {
 			return shopService.listAll(-1, -1);
 		}
 		return null;

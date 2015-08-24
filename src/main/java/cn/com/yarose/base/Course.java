@@ -14,7 +14,7 @@ public class Course implements java.io.Serializable {
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id,7);
+		return Constants.getFormatId(this.id, 7);
 	}
 
 	@FieldMeta(id = true, label = "课程名称", editable = false, required = true)
@@ -26,8 +26,19 @@ public class Course implements java.io.Serializable {
 	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, required = true)
 	private Shop shop;
 
+	@FieldMeta(label = "适合年龄段", dictionary = true, visible = true, editable = true, required = true)
+	private Dictionary ageGroup;
+
 	@FieldMeta(label = "穿衣/鞋建议", text = true)
 	private String desc;
+
+	@FieldMeta(label = "适合年龄段", visible = true, editable = false, summary = false)
+	public String getAgeGroupName() {
+		if (ageGroup != null) {
+			return ageGroup.getName();
+		}
+		return "";
+	}
 
 	@FieldMeta(label = "所属门店", visible = true, editable = false, summary = false)
 	public String getShopName() {
@@ -83,5 +94,13 @@ public class Course implements java.io.Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Dictionary getAgeGroup() {
+		return ageGroup;
+	}
+
+	public void setAgeGroup(Dictionary ageGroup) {
+		this.ageGroup = ageGroup;
 	}
 }
