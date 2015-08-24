@@ -69,8 +69,7 @@ public class EvaluationManagerAdminController extends BaseCRUDControllerExt<Eval
 				cmd.setCreateTime(new Date());
 			}
 			cmd.setAccount(this.getAccount());
-			
-			if(true){
+			if(!this.isInRole("TEACHER")){
 				cmd.setType(Constants.EVALUATION_TYPE_USER);
 			}else{
 				cmd.setType(Constants.EVALUATION_TYPE_SHOP);
