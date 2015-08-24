@@ -60,4 +60,18 @@ public class CourseTeacherServiceImpl extends
 	public List<CourseTeacher> listByBeginTime(Date date) {
 		return (List<CourseTeacher>) this.getDao().executeQueryList("CourseTeacher.listByBeginTime", QueryCmdType.QUERY_NAME, -1, -1, date);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseTeacher> listByEndTime(Date date) {
+		return (List<CourseTeacher>) this.getDao().executeQueryList("CourseTeacher.listByEndTime", QueryCmdType.QUERY_NAME, -1, -1, date);
+	}
+
+	@Override
+	public long countByEndTime(Date date) {
+		Long count = (Long) this.getDao().executeQueryUnique(
+				"CourseTeacher.countByEndTime",
+				QueryCmdType.QUERY_NAME, date);
+		return count.intValue();
+	}
 }

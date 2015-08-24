@@ -31,4 +31,6 @@
 	<query name="CourseTeacher.listByShopAndDay"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
 	<query name="CourseTeacher.countByShopAndDay"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
 	<query name="CourseTeacher.listByBeginTime"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.beginTime >= ? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.listByEndTime"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.endTime < ? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.countByEndTime"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.endTime <= ? ]]></query>
 </hibernate-mapping>

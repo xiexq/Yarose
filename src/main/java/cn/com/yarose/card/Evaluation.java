@@ -1,0 +1,112 @@
+package cn.com.yarose.card;
+
+import java.util.Date;
+
+import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.eduedu.jee.security.account.Account;
+import cn.com.yarose.base.CourseTeacher;
+
+public class Evaluation implements java.io.Serializable{
+
+	private static final long serialVersionUID = 1L;
+	@FieldMeta(id=true,label="ID",editable=false)
+	Long id;
+	
+	@FieldMeta(id=true,label="评价人",editable=true)
+	private Account account;
+	
+	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
+	private CourseTeacher courseTeacher;
+	
+	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	public String getShopName() {
+		if (courseTeacher != null) {
+			return courseTeacher.getShopName();
+		}
+		return "";
+	}
+	
+	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
+	public String getCourseName() {
+		if (courseTeacher != null) {
+			return courseTeacher.getCourseName();
+		}
+		return "";
+	}
+	
+	@FieldMeta(label = "评价", visible = true, editable = true, summary = false,text = true)
+	private String content;
+	
+	@FieldMeta(label = "评价人", visible = true, editable = true, summary = false)
+	public String getAccountName() {
+		if (account != null) {
+			return account.getUserid();
+		}
+		return "";
+	}
+	
+	@FieldMeta(id=true,label="类型",editable=true,dictionary=true)
+	private Integer type;
+	
+	@FieldMeta(id=true,label="评价时间",editable=true)
+	private Date createTime;
+	
+	@FieldMeta(id=true,label="星级",editable=true)
+	private Integer level;
+	
+	public Long getId(){
+		return id;
+	}
+	
+	public void setId(Long id){
+		this.id=id;
+	}
+
+	public CourseTeacher getCourseTeacher() {
+		return courseTeacher;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCourseTeacher(CourseTeacher courseTeacher) {
+		this.courseTeacher = courseTeacher;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+}

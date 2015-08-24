@@ -66,6 +66,10 @@ public class CourseTeacherAdminController extends
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
+		boolean isEval = this.getIsEval(request);
+		if(isEval){
+			return this.generateStringSortedSet("courseName","shopName","teacherName");
+		}
 		return this.generateStringSortedSet("courseName", "shopName",
 				"beginTime", "endTime","lesson", "userId");
 	}
@@ -81,6 +85,15 @@ public class CourseTeacherAdminController extends
 	public Set<String> customSearchFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("searchShop");
+	}
+	
+	private boolean getIsEval(HttpServletRequest request){
+		String isEval = request.getParameter("_isEval");
+		if(isEval == null){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	@Override
@@ -145,6 +158,11 @@ public class CourseTeacherAdminController extends
 	public List<CourseTeacher> customList(int offset, int count,
 			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
+		boolean isEval = this.getIsEval(request);
+		if(isEval){
+			return ((CourseTeacherService) this
+					.getCrudService()).listByEndTime(new Date());
+		}
 		Calendar c = Calendar.getInstance();
 		if (this.getAddDateFromRequest(request) == null) {
 			return this.getCrudService().listAll(-1, -1);
@@ -161,6 +179,10 @@ public class CourseTeacherAdminController extends
 
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
+		boolean isEval = this.getIsEval(request);
+		if(isEval){
+			return  ((CourseTeacherService) this.getCrudService()).countByEndTime(new Date());
+		}
 		Calendar c = Calendar.getInstance();
 		if (this.getAddDateFromRequest(request) == null) {
 			return this.getCrudService().countAll();
