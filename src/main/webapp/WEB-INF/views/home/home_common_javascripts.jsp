@@ -288,21 +288,24 @@
 	function _evaluation_management(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},
-			listItemActions:[{label:'评价',func:function(event){_user_valuation(event);},cssClass:'ui-action-statistic'}]
+			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},editable:false,deleteable:false,createable:false,listSelectStyle:'none',
+			listItemActions:[{label:'评价',func:function(event){_user_valuation(event,container);},cssClass:'ui-action-statistic'}]
 		});
 	}
 	
-	function _user_valuation(event){
+	function _user_valuation(event,container){
 		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
 		var dialog=$('<div/>'),win=$(window),ww=win.width(),wh=win.height();
 		dialog.dialog({
 			title:courseName+'的评价',width:ww-100,height:wh-100,close:function(){$(this).dialog('destroy').remove();}
-		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',
+		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',shoeHeader:false,
 			onSaveSuccess:function(){
 				var tt=$(this);
-				tt.dialog('close');
 				c.crud('tipInfo','保存成功！','pass',null,1500);
+				setTimeout(function(){
+					tt.dialog('close');
+					container.crud('refreshList');
+				},1500);
 				return false;
 			},
 			onCancelEdit:function(){

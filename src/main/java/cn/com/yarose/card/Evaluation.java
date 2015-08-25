@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.utils.Constants;
 
 public class Evaluation implements java.io.Serializable{
 
@@ -47,6 +48,11 @@ public class Evaluation implements java.io.Serializable{
 	
 	@FieldMeta(id=true,label="类型",editable=true,dictionary=true)
 	private Integer type;
+	
+	@FieldMeta(label = "授权类型", order = 1, editable = false)
+	public String getEvaluationTypeName() {
+		return Constants.getevaluationType(type);
+	}
 	
 	@FieldMeta(id=true,label="评价时间",editable=true)
 	private Date createTime;

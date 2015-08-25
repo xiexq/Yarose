@@ -1,7 +1,11 @@
 package cn.com.yarose.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+
+import cn.com.eduedu.jee.entity.NameValueBean;
 
 public class Constants {
 
@@ -33,6 +37,26 @@ public class Constants {
 	//评价类型
 	public static final int EVALUATION_TYPE_USER = 0;
 	public static final int EVALUATION_TYPE_SHOP = 1;
+	
+	private static Collection<NameValueBean> evaluationTypes;
+	
+	public synchronized static Collection<NameValueBean> getevaluationTypes(){
+		if( evaluationTypes == null ){
+			evaluationTypes = new ArrayList<NameValueBean>();
+			evaluationTypes.add(new NameValueBean("学生",EVALUATION_TYPE_USER+""));
+			evaluationTypes.add(new NameValueBean("店长",EVALUATION_TYPE_SHOP+""));
+		}
+		return evaluationTypes;
+	}
+	
+	public static String getevaluationType(Integer value){
+		Collection<NameValueBean> nvbs = getevaluationTypes();
+		for (NameValueBean nvb : nvbs) {
+			if (nvb.getId().equals(value + ""))
+				return nvb.getName();
+		}
+		return "";
+	}
 	
 	public static Date customBeginTime(Date date) {
 		Calendar cal = Calendar.getInstance();
