@@ -203,15 +203,17 @@
 		}).crud({
 			url:'${ctxPath }/home/admin/teacher/managers',
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
-			onFieldValueChange:function(field){
+			onFieldValueChange:function(data,field){
 				if(field.name=='teacher'){
 					var tid=$(this).crud("getEditFieldVal","teacher");
-					if(!!val){
-						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+tid,function(d){
-							if(!!d){
-								$(this).crud("setEditFieldVal","courseFee",id);
+					if(!!tid){
+						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+tid,function(data){
+							if(!!data){
+								$("input[name='courseFee']").val(data);
 							}
 						});
+					}else{
+						$("input[name='courseFee']").val('');
 					}
 				}
 			},onSaveSuccess:function(event, data){

@@ -50,11 +50,11 @@ public class MemberCardController extends
 			boolean create) throws Exception {
 		if (isInRole(Constants.ROLE_SUPER)) {
 			return this.generateStringSortedSet("userId", "type",
-					"purchaseLesson", "givingLesson", "totalLesson",
-					"expireDate", "price", "shop");
+					"purchaseLesson", "givingLesson", "expireDate", "price",
+					"shop");
 		}
 		return this.generateStringSortedSet("userId", "type", "purchaseLesson",
-				"givingLesson", "totalLesson", "expireDate", "price");
+				"givingLesson", "expireDate", "price");
 	}
 
 	@Override
