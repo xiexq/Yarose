@@ -35,120 +35,137 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 @CRUDControllerMeta(title = "预约管理", service = AppointmentService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = true, searchable = true)
 public class AppointmentAdminController extends BaseCRUDControllerExt<Appointment, Long> {
 
-	private MemberCardService memberCardService;
-	private CourseTeacherService courseTeacherService;
-	
-	@Resource(name="memberCardService")
-	public void setMemberCardService(MemberCardService memberCardService){
-		this.memberCardService = memberCardService;
-	}
-	
-	@Resource(name="courseTeacherService")
-	public void setCourseTeacherService(CourseTeacherService courseTeacherService){
-		this.courseTeacherService = courseTeacherService;
-	}
-	
-	public String getRequestType(HttpServletRequest request){
-		String type = request.getParameter("_type");
-		if(type == null){
-			return null;
-		}else{
-			return type;
-		}
-	}
-	
-	@Override
-	public Set<String> customListFields(HttpServletRequest request) throws Exception {
-		return this.generateStringSortedSet("code", "courseName", "shopName", "teacherName");
-	}
+  private MemberCardService memberCardService;
+  private CourseTeacherService courseTeacherService;
 
-	@Override
-	public Set<String> customEditFields(HttpServletRequest request, Appointment entity) throws Exception {
-		if(this.getRequestType(request) != null){
-			return this.generateStringSortedSet("otherConsum", "remark");
-		}
-		return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
-	}
-	
-	
+  @Resource(name = "memberCardService")
+  public void setMemberCardService(MemberCardService memberCardService) {
+    this.memberCardService = memberCardService;
+  }
 
-	@Override
-	public Set<String> customViewFields(HttpServletRequest request) throws Exception {
-		return this.generateStringSortedSet("code", "userId", "cardNo", "courseName", "shopName", "teacherName",
-				"createTime");
-	}
+  @Resource(name = "courseTeacherService")
+  public void setCourseTeacherService(CourseTeacherService courseTeacherService) {
+    this.courseTeacherService = courseTeacherService;
+  }
 
-	@Override
-	public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
-		return this.generateStringSortedSet("");
-	}
-	
-	@Override
-	public void customSearchExample(Appointment cmd, HttpServletRequest request) throws Exception {
-		super.customSearchExample(cmd, request);
-	}
-	
-	@Override
-	public List<Appointment> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
-			throws Exception {
-		return super.customList(offset, count, orders, request);
-	}
-	
-	@Override
-	public long customCount(HttpServletRequest request) throws Exception {
-		return super.customCount(request);
-	}
-	
-	@Override
-	public Appointment customSave(Appointment cmd, BindingResult result, HttpServletRequest request,
-			ResponseObject response, boolean create) throws Exception {
-		if (this.validate(cmd, result, request, create)) {
-			if (create) {
-				cmd.setCreateTime(new Date());
-			}
-			cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
-		}
-		return super.customSave(cmd, result, request, response, create);
-	}
-	
-	@DictionaryModel(cascade = true, cascadeField = "userId",label="cardNo",val="id")
-	public Collection<MemberCard> _mCards(HttpServletRequest request) {
-		String id = this.getParameter(request, "__id");
-		if (StringUtils.hasText(id)) {
-			List<MemberCard> mCardList = memberCardService.listByUserId(id);
-			if (mCardList != null && mCardList.size() > 0) {
-				return mCardList;
-			}
-		}
-		return null;
-	}
-	
-	@DictionaryModel(header = true, headerLabel = "不限", headerValue = "",type=DictionaryModelType.URL,url="/home/course/teacher/selector", headerIsJustForSearch=true, cascade = true, cascadeField = "courseTeacher.id")
-	public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
-	    if(obj != null){
-	    	System.out.println(obj.getClass().getName());
-	    	CourseTeacher courseTeacher = (CourseTeacher)obj;
-	    	System.out.println(courseTeacher.getId());
-	      return courseTeacherService.findById(Long.valueOf(courseTeacher.getId()));
-	    }
-		return null;
-	}
-	
-	@ResponseBody
-	@RequestMapping("/check/{id}")
-	public ResponseObject getCourseTeacher(HttpServletRequest request,
-			HttpServletResponse response, @PathVariable("id") Long id) {
-		ResponseObject resp = new ResponseObject(true);
-		if (id != null) {
-			Appointment app = this.getCrudService().findById(id);
-			CourseTeacher courseTeacher = app.getCourseTeacher();
-			MemberCard memberCard = app.getmCard();
-			memberCard.setUsedLesson(courseTeacher.getLesson());
-			app.setStatus(Constants.APPOLINTMENT_CHECKED);
-			this.getCrudService().save(app);
-			memberCardService.save(memberCard);
-		}
-		return resp;
-	}
-	
+  public String getRequestType(HttpServletRequest request) {
+    String type = request.getParameter("_type");
+    if (type == null) {
+      return null;
+    } else {
+      return type;
+    }
+  }
+
+  private boolean isAuditRequest(HttpServletRequest request) {
+    return "checked".equals(request.getParameter("_act"));
+  }
+
+  @Override
+  public Set<String> customListFields(HttpServletRequest request) throws Exception {
+    return this.generateStringSortedSet("code", "courseName", "shopName", "teacherName");
+  }
+
+  @Override
+  public Set<String> customEditFields(HttpServletRequest request, Appointment entity)
+      throws Exception {
+    if (this.getRequestType(request) != null) {
+      return this.generateStringSortedSet("otherConsum", "remark");
+    }
+    return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
+  }
+
+
+
+  @Override
+  public Set<String> customViewFields(HttpServletRequest request) throws Exception {
+    return this.generateStringSortedSet("code", "userId", "cardNo", "courseName", "shopName",
+        "teacherName", "createTime");
+  }
+
+  @Override
+  public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
+    return this.generateStringSortedSet("");
+  }
+
+  @Override
+  public void customSearchExample(Appointment cmd, HttpServletRequest request) throws Exception {
+    boolean isCheck = isAuditRequest(request);
+    if (isCheck) {
+      cmd.setStatus(Constants.APPOLINTMENT_CHECKED);
+    } else {
+      cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
+    }
+    super.customSearchExample(cmd, request);
+  }
+
+  @Override
+  public List<Appointment> customList(int offset, int count, OrderProperties orders,
+      HttpServletRequest request) throws Exception {
+    AppointmentService as = (AppointmentService) this.getCrudService();
+    boolean isCheck = isAuditRequest(request);
+    Integer status = Constants.APPOLINTMENT_CHECKED;
+    return as.listAll(isCheck, status, offset, count);
+  }
+
+  @Override
+  public long customCount(HttpServletRequest request) throws Exception {
+    AppointmentService as = (AppointmentService) this.getCrudService();
+    boolean isCheck = isAuditRequest(request);
+    Integer status = Constants.APPOLINTMENT_CHECKED;
+    return as.countAll(isCheck, status);
+  }
+
+  @Override
+  public Appointment customSave(Appointment cmd, BindingResult result, HttpServletRequest request,
+      ResponseObject response, boolean create) throws Exception {
+    if (this.validate(cmd, result, request, create)) {
+      if (create) {
+        cmd.setCreateTime(new Date());
+      }
+      cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
+    }
+    return super.customSave(cmd, result, request, response, create);
+  }
+
+  @DictionaryModel(cascade = true, cascadeField = "userId", label = "cardNo", val = "id")
+  public Collection<MemberCard> _mCards(HttpServletRequest request) {
+    String id = this.getParameter(request, "__id");
+    if (StringUtils.hasText(id)) {
+      List<MemberCard> mCardList = memberCardService.listByUserId(id);
+      if (mCardList != null && mCardList.size() > 0) {
+        return mCardList;
+      }
+    }
+    return null;
+  }
+
+  @DictionaryModel(header = true, headerLabel = "不限", headerValue = "", type = DictionaryModelType.URL, url = "/home/course/teacher/selector", headerIsJustForSearch = true, cascade = true, cascadeField = "courseTeacher.id")
+  public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
+    if (obj != null) {
+      System.out.println(obj.getClass().getName());
+      CourseTeacher courseTeacher = (CourseTeacher) obj;
+      System.out.println(courseTeacher.getId());
+      return courseTeacherService.findById(Long.valueOf(courseTeacher.getId()));
+    }
+    return null;
+  }
+
+  @ResponseBody
+  @RequestMapping("/check/{id}")
+  public ResponseObject getCourseTeacher(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable("id") Long id) {
+    ResponseObject resp = new ResponseObject(true);
+    if (id != null) {
+      Appointment app = this.getCrudService().findById(id);
+      CourseTeacher courseTeacher = app.getCourseTeacher();
+      MemberCard memberCard = app.getmCard();
+      memberCard.setUsedLesson(courseTeacher.getLesson());
+      app.setStatus(Constants.APPOLINTMENT_CHECKED);
+      this.getCrudService().save(app);
+      memberCardService.save(memberCard);
+    }
+    return resp;
+  }
+
 }
