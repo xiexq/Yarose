@@ -15,6 +15,7 @@
 				<value>cn/com/yarose/base/DictCategory.hbm.xml</value>
 			    <value>cn/com/yarose/card/Appointment.hbm.xml</value>
 			    <value>cn/com/yarose/card/MemberCard.hbm.xml</value>
+<value>cn/com/yarose/card/Evaluation.hbm.xml</value>
 </list>
 		</property>
 		<property name="hibernateProperties">
@@ -59,4 +60,7 @@
     <bean class="cn.com.yarose.card.dao.MemberCardDaoHibernateImpl" id="memberCardDao">
 	    <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+<bean class="cn.com.yarose.card.dao.EvaluationDaoHibernateImpl" id="evaluationDao">
+<property name="sessionFactory" ref="sessionFactory"/>
+</bean>
 </beans>

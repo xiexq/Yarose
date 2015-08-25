@@ -203,7 +203,18 @@
 		}).crud({
 			url:'${ctxPath }/home/admin/teacher/managers',
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
-			onSaveSuccess:function(event, data){
+			onFieldValueChange:function(field){
+				if(field.name=='teacher'){
+					var tid=$(this).crud("getEditFieldVal","teacher");
+					if(!!val){
+						$.get("${ctxPath }/home/admin/teacher/managers/courseFee/"+tid,function(d){
+							if(!!d){
+								$(this).crud("setEditFieldVal","courseFee",id);
+							}
+						});
+					}
+				}
+			},onSaveSuccess:function(event, data){
 				$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
 					if(d&&d.success){
 						if(!data.isCreate){
@@ -271,5 +282,32 @@
 			});
 		}
 	}
+	
+	function _evaluation_management(){
+		_clearContainer();
+		container.crud({
+			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},
+			listItemActions:[{label:'评价',func:function(event){_user_valuation(event);},cssClass:'ui-action-statistic'}]
+		});
+	}
+	
+	function _user_valuation(event){
+		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
+		var dialog=$('<div/>'),win=$(window),ww=win.width(),wh=win.height();
+		dialog.dialog({
+			title:courseName+'的评价',width:ww-100,height:wh-100,close:function(){$(this).dialog('destroy').remove();}
+		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',
+			onSaveSuccess:function(){
+				var tt=$(this);
+				tt.dialog('close');
+				c.crud('tipInfo','保存成功！','pass',null,1500);
+				return false;
+			},
+			onCancelEdit:function(){
+				$(this).dialog('close');
+			}
+		});
+	}
+	
 	
 </script>

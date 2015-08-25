@@ -1,7 +1,5 @@
 package cn.com.eduedu.jee.security.account;
 
-import cn.com.eduedu.jee.entity.annotation.FieldMeta;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,6 +12,8 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 
 public class Account implements Authentication {
 	private static final long serialVersionUID = -4676809701822585221L;
@@ -62,7 +62,7 @@ public class Account implements Authentication {
 	Date birthday;
 
 	@FieldMeta(label = "教师级别", i18n = true, summary = false, visible = false, group = "teacher", dictionary = true, msgLabelKey = "security.account.level.label")
-	Integer teachLevel;
+	Long teachLevel;
 
 	@FieldMeta(label = "标准课时费", i18n = true, summary = false, visible = false, group = "teacher", msgLabelKey = "security.account.courseFee.label")
 	Float courseFee;
@@ -247,11 +247,11 @@ public class Account implements Authentication {
 		this.shopId = shopId;
 	}
 
-	public Integer getTeachLevel() {
+	public Long getTeachLevel() {
 		return this.teachLevel;
 	}
 
-	public void setTeachLevel(Integer teachLevel) {
+	public void setTeachLevel(Long teachLevel) {
 		this.teachLevel = teachLevel;
 	}
 
@@ -277,14 +277,6 @@ public class Account implements Authentication {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public Integer getLevel() {
-		return this.teachLevel;
-	}
-
-	public void setLevel(Integer level) {
-		this.teachLevel = level;
 	}
 
 	public Date getBirthday() {

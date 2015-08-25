@@ -18,12 +18,14 @@
 		<aop:pointcut expression="execution(* cn.com.yarose.base.DictCategoryService.*(..))" id="dictCategoryServicePT"/>
 		<aop:pointcut expression="execution(* cn.com.yarose.card.AppointmentService.*(..))" id="appointmentServicePT"/>
 		<aop:pointcut expression="execution(* cn.com.yarose.card.MemberCardService.*(..))" id="memberCardServicePT"/>
-        <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="dictionaryServicePT"/>
+        <aop:pointcut expression="execution(* cn.com.yarose.card.EvaluationService.*(..))" id="evaluationServicePT"/>
+<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="dictionaryServicePT"/>
 		<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopServicePT"/>
 		<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopManagerServicePT"/>
 		<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="courseServicePT"/>
 	    <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="appointmentServicePT"/>
 	    <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="memberCardServicePT"/>
+<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="evaluationServicePT"/>
 </aop:config>
 	<bean class="cn.com.yarose.base.impl.DictionaryServiceImpl" id="dictionaryService">
 		<property name="dao" ref="dictionaryDao"/>
@@ -51,4 +53,7 @@
 	</bean>
 	<bean class="cn.com.yarose.card.validator.MemberCardValidator" id="memberCardValidator">
 	</bean>
+<bean class="cn.com.yarose.card.impl.EvaluationServiceImpl" id="evaluationService">
+<property name="dao" ref="evaluationDao"/>
+</bean>
 </beans>

@@ -16,6 +16,7 @@
 			column="dance_type" not-null="true" lazy="false"></many-to-one>
 		<property name="name" column="name" not-null="true"></property>
 		<property name="desc" column="description"></property>
-	</class>
+        <many-to-one class="cn.com.yarose.base.Dictionary" name="ageGroup"
+			column="age_group" not-null="true" lazy="false"></many-to-one>	</class>
 	<query name="Course.listByShopId">from cn.com.yarose.base.Course as c where c.shop.id = ?</query>
 </hibernate-mapping>

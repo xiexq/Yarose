@@ -24,6 +24,7 @@
 		<property name="lesson" column="lesson" not-null="true"></property>
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
+		<property name="courseFee" column="course_fee" />
 	</class>
 	<query name="CourseTeacher.listByCourseId"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=? order by tm.createTime desc]]></query>
 	<query name="CourseTeacher.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=?]]></query>
@@ -31,4 +32,6 @@
 	<query name="CourseTeacher.listByShopAndDay"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
 	<query name="CourseTeacher.countByShopAndDay"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.shop.id=? and tm.beginTime >= ? and tm.endTime <= ?]]></query>
 	<query name="CourseTeacher.listByBeginTime"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.beginTime >= ? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.listByEndTime"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.endTime < ? order by tm.createTime desc]]></query>
+	<query name="CourseTeacher.countByEndTime"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.endTime <= ? ]]></query>
 </hibernate-mapping>

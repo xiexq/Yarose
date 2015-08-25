@@ -19,6 +19,7 @@ import cn.com.yarose.base.DictCategory;
 import cn.com.yarose.base.DictCategoryService;
 import cn.com.yarose.base.Dictionary;
 import cn.com.yarose.base.DictionaryService;
+import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
@@ -54,6 +55,11 @@ public class DictionaryAdminController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
+		String code = getTypeCode(request);
+		// 教师级别需要有课时费
+		if (Constants.DICT_TYPE_TEACH_LEVEL.equals(code)) {
+			return this.generateStringSortedSet("name", "courseFee");
+		}
 		return this.generateStringSortedSet("name");
 	}
 
@@ -84,14 +90,24 @@ public class DictionaryAdminController extends
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
+		String code = getTypeCode(request);
+		if (Constants.DICT_TYPE_TEACH_LEVEL.equals(code)) {
+			return this.generateStringSortedSet("name", "typeName",
+					"courseFee", "accountName", "createDate");
+		}
 		return this.generateStringSortedSet("name", "typeName", "accountName",
 				"createDate");
 	}
 
-	@Override
-	public Set<String> customEditFields(HttpServletRequest request,
-			Dictionary entity) throws Exception {
-		return this.generateStringSet("name");
+	public String getTypeCode(HttpServletRequest request) {
+		Integer type = getTypeId(request);
+		if (type != 0) {
+			DictCategory dc = dictCategoryService.findById(type);
+			if (dc != null) {
+				return dc.getCode();
+			}
+		}
+		return null;
 	}
 
 	public Integer getTypeId(HttpServletRequest request) {
@@ -100,12 +116,5 @@ public class DictionaryAdminController extends
 			return Integer.parseInt(type);
 		}
 		return null;
-	}
-
-	@Override
-	public void customDelete(Long id, HttpServletRequest request)
-			throws Exception {
-		// 如果类型下面有课程不能删除
-		super.customDelete(id, request);
 	}
 }

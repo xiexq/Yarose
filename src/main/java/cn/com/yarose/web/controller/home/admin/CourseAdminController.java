@@ -34,28 +34,29 @@ public class CourseAdminController extends BaseCRUDControllerExt<Course, Long> {
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
-		return this
-				.generateStringSortedSet("name", "shopName", "danceTypeName");
+		return this.generateStringSortedSet("name", "shopName",
+				"danceTypeName", "ageGroupName");
 	}
 
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
-		return this
-				.generateStringSortedSet("name", "shop", "danceType", "desc");
+		return this.generateStringSortedSet("name", "shop", "danceType",
+				"desc", "ageGroup");
 	}
 
 	@Override
 	public Set<String> customViewFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("name", "shopName",
-				"danceTypeName", "desc");
+				"danceTypeName", "desc", "ageGroupName");
 	}
 
 	@Override
 	public Set<String> customSearchFields(HttpServletRequest request)
 			throws Exception {
-		return this.generateStringSortedSet("name", "shop", "danceType");
+		return this.generateStringSortedSet("name", "shop", "danceType",
+				"ageGroup");
 	}
 
 	@DictionaryModel(label = "name", val = "id", header = true, headerLabel = "请选择", headerIsJustForSearch = true)
@@ -67,5 +68,11 @@ public class CourseAdminController extends BaseCRUDControllerExt<Course, Long> {
 	public List<Dictionary> _danceTypes(HttpServletRequest request) {
 		return dictionaryService.listByTypeCode(Constants.DICT_TYPE_DANCE, -1,
 				-1);
+	}
+
+	@DictionaryModel(label = "name", val = "id", header = true, headerLabel = "请选择", headerIsJustForSearch = true)
+	public List<Dictionary> _ageGroups(HttpServletRequest request) {
+		return dictionaryService.listByTypeCode(Constants.DICT_TYPE_AGE_GROUP,
+				-1, -1);
 	}
 }

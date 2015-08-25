@@ -86,6 +86,11 @@ public class AccountAdminController extends
 			} else {
 				if (cmd.getTeachLevel() == null) {
 					result.rejectValue("teachLevel", "required", "不能为空");
+				} else {
+					// 老师需要设置课时费
+					Dictionary dict = dictionaryService.findById(cmd
+							.getTeachLevel());
+					cmd.setCourseFee(dict.getCourseFee());
 				}
 				if (cmd.getCourseFee() == null) {
 					result.rejectValue("courseFee", "required", "不能为空");
