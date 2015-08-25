@@ -3,8 +3,6 @@ package cn.com.yarose.card.validator;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -15,8 +13,11 @@ import cn.com.yarose.card.MemberCard;
 
 public class MemberCardValidator implements Validator {
 
-	@Resource(name = "account_accountService")
 	private AccountService accountService;
+
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

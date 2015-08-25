@@ -63,14 +63,15 @@ public class CourseTeacherAdminController extends
 					"teacherName");
 		}
 		return this.generateStringSortedSet("courseName", "shopName",
-				"beginTime", "endTime", "lesson", "userId");
+				"beginTime", "endTime", "lesson", "courseFee", "userId");
 	}
 
 	@Override
 	public Set<String> customViewFields(HttpServletRequest arg0)
 			throws Exception {
 		return this.generateStringSortedSet("courseName", "shopName",
-				"TeacherName", "beginTime", "endTime", "lesson", "createTime");
+				"TeacherName", "beginTime", "endTime", "lesson", "courseFee",
+				"createTime");
 	}
 
 	@Override
@@ -232,7 +233,7 @@ public class CourseTeacherAdminController extends
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
 		return this.generateStringSortedSet("shop", "course", "teacher",
-				"beginTime", "endTime", "lesson");
+				"beginTime", "endTime", "lesson", "courseFee");
 	}
 
 	@DictionaryModel(header = true, headerLabel = "请选择")
