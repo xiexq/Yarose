@@ -244,23 +244,27 @@
 	
 	function _course_appointment(){
 		_clearContainer();
-		//var =$('<div id="tabs"><ul><li><a href="#div1">未核销</a></li><li><a href="#div2">已核销</a></li></ul></div>');
-		//var div1 = $('<div id="div1"></div>'),div2 = $('<div id="div2"></div>');
-		//container.append(q);q.tabs();
 		var mc=$('<div></div>'),svc=new StackViewController(container);
 		svc.push(mc);
-		mc.crud({url:'${ctxPath}/home/shop/manager/appointment',
+		var tab=$('<div><ul><li><a href="#uncheck">未核销</a></li><li><a href="#checked">已核销</a></li></ul></div>'),
+		uncheck=$('<div id="uncheck"></div>'),checked=$('<div id="checked"></div>');
+		tab.append(uncheck).append(checked);
+		uncheck.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'uncheck'},showHeader:false,
 			listItemActions:[{label:'核销',func:function(event){_appointment_audit(event,svc);},cssClass:'ui-action-statistic'}]
 			 				
 		});
+		checked.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'checked'},editable:false,createable:false,deleteable:false,showHeader:false
+		});
+		container.append(tab);
+		tab.tabs();
 	}
 	
 	function _appointment_audit(event,svc){
 		var li=event.data.li,id=li.data('id');
 		if(id){
-			var c=$('<div></div>');
-			svc.push(c);
-			c.crud({
+			var dialog=$('<div></div>');
+			dialog.dialog({title:'填写处理信息',width:600,height:400,close:function(){$(this).remove();}});
+			dialog.crud({
 				url:'${ctxPath }/home/shop/manager/appointment/',
 				params:{_type:'check'},title:'预约核销',action:'edit',actionTarget:id,
 				onSaveSuccess:function(event,target){
@@ -270,6 +274,10 @@
 						c.crud('refreshList');
 					},1500);
 					return false;
+				},
+				onCancelEdit:function(){
+					var t=$(this);
+					setTimeout(function(){t.dialog('close');},10);
 				}
 			});
 		}
