@@ -12,7 +12,15 @@ public class EvaluationServiceImpl extends DaoBasedServiceImpl<Evaluation, Long>
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Evaluation> listByCourseTeacherId(long courseTeacherId) {
-		return (List<Evaluation>) this.getDao().executeQueryList("Evaluation.listByCourseTeacherId", QueryCmdType.QUERY_NAME, -1, -1, courseTeacherId);
+		List<Evaluation> evalList =  (List<Evaluation>) this.getDao().executeQueryList("Evaluation.listByCourseTeacherId", QueryCmdType.QUERY_NAME, -1, -1, courseTeacherId);
+		if(evalList != null && evalList.size() > 0){
+			for(Evaluation eval:evalList){
+				eval.getAccount();
+				eval.getCourseTeacher();
+			}
+			return evalList;
+		}
+		return null;
 	}
 
 	@Override
