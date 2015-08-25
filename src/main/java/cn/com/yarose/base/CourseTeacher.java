@@ -19,10 +19,10 @@ public class CourseTeacher implements java.io.Serializable {
 
 	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
 	private Shop shop;
-	
+
 	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false)
 	private Shop searchShop;
-	
+
 	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
 	public String getShopName() {
 		if (shop != null) {
@@ -30,7 +30,7 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "课程名称", visible = true, editable = true, summary = false)
 	public String getCourseName() {
 		if (course != null) {
@@ -38,7 +38,7 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "任课老师", visible = true, editable = true, summary = false)
 	public String getTeacherName() {
 		if (teacher != null) {
@@ -56,14 +56,17 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "授权人", visible = true, editable = false, summary = false)
 	String authSourceAlias;
 
-	@FieldMeta(label = "课程开始时间", datetime = true,time=true, required = true)
+	@FieldMeta(label = "课程开始时间", datetime = true, time = true, required = true)
 	private Date beginTime;
 
-	@FieldMeta(label = "课程结束时间", datetime = true, time=true,required = true)
+	@FieldMeta(label = "课程结束时间", datetime = true, time = true, required = true)
 	private Date endTime;
-	
-	@FieldMeta(label = "课时",required=true)
+
+	@FieldMeta(label = "课时", required = true)
 	private Integer lesson;
+
+	@FieldMeta(label = "课时费", required = true)
+	private float courseFee;
 
 	@FieldMeta(label = "课程创建时间", datetime = true)
 	private Date createTime;
@@ -134,6 +137,14 @@ public class CourseTeacher implements java.io.Serializable {
 
 	public Shop getSearchShop() {
 		return searchShop;
+	}
+
+	public float getCourseFee() {
+		return courseFee;
+	}
+
+	public void setCourseFee(float courseFee) {
+		this.courseFee = courseFee;
 	}
 
 	public void setSearchShop(Shop searchShop) {
