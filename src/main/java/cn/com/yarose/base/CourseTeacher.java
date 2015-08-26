@@ -30,7 +30,10 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
-
+	
+	@FieldMeta(label = "课程名称", visible = true, editable = true, summary = false)
+	private String courseName;
+	
 	@FieldMeta(label = "课程名称", visible = true, editable = true, summary = false)
 	public String getCourseName() {
 		if (course != null) {
@@ -165,5 +168,9 @@ public class CourseTeacher implements java.io.Serializable {
 
 	public void setLesson(Integer lesson) {
 		this.lesson = lesson;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 }

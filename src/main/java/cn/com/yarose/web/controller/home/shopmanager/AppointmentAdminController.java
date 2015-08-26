@@ -140,13 +140,10 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
     return null;
   }
 
-  @DictionaryModel(header = true, headerLabel = "不限", headerValue = "", type = DictionaryModelType.URL, url = "/home/course/teacher/selector", headerIsJustForSearch = true, cascade = true, cascadeField = "courseTeacher.id")
+  @DictionaryModel(header = true, label="courseName",val="id",type = DictionaryModelType.URL, url = "/home/course/teacher/selector")
   public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
     if (obj != null) {
-      System.out.println(obj.getClass().getName());
-      CourseTeacher courseTeacher = (CourseTeacher) obj;
-      System.out.println(courseTeacher.getId());
-      return courseTeacherService.findById(Long.valueOf(courseTeacher.getId()));
+      return (CourseTeacher) obj;
     }
     return null;
   }

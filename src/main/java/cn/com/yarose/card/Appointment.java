@@ -29,6 +29,9 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
 	private CourseTeacher courseTeacher;
 	
+	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
+	private Long courseTeacherId;
+	
 	@FieldMeta(label = "会员卡号", visible = true, editable = true, summary = false)
 	public String getCardNo() {
 		if (mCard != null) {
@@ -135,5 +138,13 @@ public class Appointment implements java.io.Serializable{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Long getCourseTeacherId() {
+		return courseTeacherId;
+	}
+
+	public void setCourseTeacherId(Long courseTeacherId) {
+		this.courseTeacherId = courseTeacherId;
 	}
 }
