@@ -30,7 +30,6 @@
 		<property name="occupation" column="occupation" />
 		<set name="accesses" table="r_sec_role_access" cascade="none"
 			lazy="false">
-
 			<key column="role_id"></key>
 			<many-to-many class="cn.com.eduedu.jee.security.account.Access"
 				column="access_id" />

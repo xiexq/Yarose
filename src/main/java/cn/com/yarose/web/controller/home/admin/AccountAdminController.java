@@ -110,7 +110,7 @@ public class AccountAdminController extends
 				}
 			}
 			if (result.getFieldErrorCount() == 0) {
-				return this.getCrudService().save(cmd);
+				 this.getCrudService().save(cmd);
 			}
 		}
 		return cmd;
@@ -132,15 +132,14 @@ public class AccountAdminController extends
 			boolean create) {
 		return this.generateStringSortedSet("userid", "password", "nick",
 				"shopId", "weixin", "phone", "email", "birthday", "teachLevel",
-				"courseFee", "address", "accesses", "occupation", "stuLevel",
-				"saler");
+				"address", "accesses", "occupation", "stuLevel", "saler");
 	}
 
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("userid", "password", "nick",
-				"email", "accesses", "weixin");
+				"email", "accessesName", "weixin");
 	}
 
 	@DictionaryModel(label = "name", val = "id")

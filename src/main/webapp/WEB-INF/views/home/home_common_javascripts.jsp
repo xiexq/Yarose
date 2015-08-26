@@ -213,7 +213,7 @@
 							}
 						});
 					}else{
-						$("input[name='courseFee']").val('');
+						$("input[name='courseFee']").val('0');
 					}
 				}
 			},onSaveSuccess:function(event, data){
@@ -307,12 +307,9 @@
 					container.crud('refreshList');
 				},1500);
 				return false;
-			},
-			onCancelEdit:function(){
+			},onCancelEdit:function(){
 				$(this).dialog('close');
 			}
 		});
 	}
-	
-	
 </script>

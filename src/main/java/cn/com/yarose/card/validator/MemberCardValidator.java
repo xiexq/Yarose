@@ -31,7 +31,7 @@ public class MemberCardValidator implements Validator {
 			List<Account> as = accountService.findByUserId(cmd.getUserId(), -1,
 					-1);
 			if (as == null || as.size() == 0) {
-				errors.rejectValue("userId", "userId.error", "该会员不存在");
+				errors.rejectValue("userId", "userId.error", "不存在");
 			}
 		}
 		if (cmd.getExpireDate() != null
