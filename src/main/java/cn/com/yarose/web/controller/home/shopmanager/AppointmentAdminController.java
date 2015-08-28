@@ -22,7 +22,6 @@ import cn.com.eduedu.jee.mvc.controller.DictionaryModelType;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.yarose.base.CourseTeacher;
-import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
 import cn.com.yarose.card.MemberCard;
@@ -36,18 +35,12 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 public class AppointmentAdminController extends BaseCRUDControllerExt<Appointment, Long> {
 
   private MemberCardService memberCardService;
-  private CourseTeacherService courseTeacherService;
 
   @Resource(name = "memberCardService")
   public void setMemberCardService(MemberCardService memberCardService) {
     this.memberCardService = memberCardService;
   }
-
-  @Resource(name = "courseTeacherService")
-  public void setCourseTeacherService(CourseTeacherService courseTeacherService) {
-    this.courseTeacherService = courseTeacherService;
-  }
-
+  
   public String getRequestType(HttpServletRequest request) {
     String type = request.getParameter("_type");
     if (type == null) {
@@ -126,6 +119,8 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
       String type = getRequestType(request);
       if(type != null){
     	  cmd.setStatus(Constants.APPOLINTMENT_CHECKED);
+    	  cmd.setAccountId(this.getAccount().getAccountId());
+    	  cmd.setChechUserId(this.getAccount().getUserid());
       }else{
     	  cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
       }

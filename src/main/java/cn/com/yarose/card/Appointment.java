@@ -70,6 +70,15 @@ public class Appointment implements java.io.Serializable{
 	@FieldMeta(id=true,label="预约时间",editable=true,datetime=true)
 	private Date createTime;
 	
+	@FieldMeta(id=true,label="核销时间",editable=true,datetime=true)
+	private Date checkTime;
+	
+	@FieldMeta(id=true,label="核销人",editable=true)
+	private String chechUserId;
+	
+	@FieldMeta(id=true,label="核销人",editable=true)
+	private Long accountId;
+	
 	@FieldMeta(id=true,label="其他消费",editable=true)
 	private Float otherConsum;
 	
@@ -146,5 +155,29 @@ public class Appointment implements java.io.Serializable{
 
 	public void setCourseTeacherId(Long courseTeacherId) {
 		this.courseTeacherId = courseTeacherId;
+	}
+
+	public Date getCheckTime() {
+		return checkTime;
+	}
+
+	public String getChechUserId() {
+		return chechUserId;
+	}
+
+	public Long getAccountId() {
+		return accountId;
+	}
+
+	public void setCheckTime(Date checkTime) {
+		this.checkTime = checkTime;
+	}
+
+	public void setChechUserId(String chechUserId) {
+		this.chechUserId = chechUserId;
+	}
+
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
 	}
 }
