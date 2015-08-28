@@ -13,9 +13,6 @@
 <script>
 	var _inlineWindow=null;
 	$(document).ready(function() {
-		
-		
-		
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -25,7 +22,6 @@
 			//theme:true,//是否显示主题
 			weekNumbers:true,//是否显示周次
 			defaultDate: new Date(),
-			
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			events:function(start, end, timezone, callback) {//读取数据
@@ -60,14 +56,12 @@
 	           	//alert(selDate);
 	            if(_inlineWindow==null){
 					_inlineWindow=new InlineWindowFactory();
-				} 
+				}
 				_inlineWindow.open({
 					url:'${ctxPath }/home/course/event' ,
 					title:'添加活动',action:'create',initShowSearchForm:true,params:{_date:date},width:700,height:500});
-        	}   
-    		
+        	}
 		});
-		
 	});
 	
 	function _add_view(date){

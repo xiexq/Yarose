@@ -48,7 +48,7 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 		}
 		return null;
 	}
-
+	
 	public Account save(Account entity) {
 		if (entity != null) {
 			if ((entity.getAccountId() == null) || (entity.getAccountId().longValue() == -1L)) {

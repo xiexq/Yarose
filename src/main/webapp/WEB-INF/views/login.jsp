@@ -11,7 +11,7 @@
 	<div id="container" style="width:100%;">
 		<div style="width:100%;height:60px;background-color: #4575B4;margin:0;">
 			<div style="width:80%;margin:0 auto;min-width:700px;">
-				<img src="${staticResPath}/images/logo_b.png" style="float:left;"></img> 
+				<%-- <img src="${staticResPath}/images/logo_b.png" style="float:left;"></img>  --%>
 			</div>
 		</div>
 		<div style="width:80%;margin:30px auto;">

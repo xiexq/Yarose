@@ -111,6 +111,7 @@ public class AccountAdminController extends
 			}
 			if (result.getFieldErrorCount() == 0) {
 				 this.getCrudService().save(cmd);
+				 cmd.getAccessesName();
 			}
 		}
 		return cmd;
