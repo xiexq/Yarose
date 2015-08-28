@@ -301,14 +301,14 @@
 		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',shoeHeader:false,
 			onSaveSuccess:function(){
 				var tt=$(this);
-				c.crud('tipInfo','保存成功！','pass',null,1500);
+				tt.crud('tipInfo','保存成功！','pass',null,1500);
 				setTimeout(function(){
 					tt.dialog('close');
-					container.crud('refreshList');
+					_user_valuation(event,container);
 				},1500);
 				return false;
 			},onCancelEdit:function(){
-				$(this).dialog('close');
+				_user_valuation(event,container);
 			}
 		});
 	}

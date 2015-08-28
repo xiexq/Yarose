@@ -123,7 +123,12 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
       if (create) {
         cmd.setCreateTime(new Date());
       }
-      cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
+      String type = getRequestType(request);
+      if(type != null){
+    	  cmd.setStatus(Constants.APPOLINTMENT_CHECKED);
+      }else{
+    	  cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
+      }
     }
     return super.customSave(cmd, result, request, response, create);
   }
