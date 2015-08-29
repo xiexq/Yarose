@@ -23,4 +23,7 @@ public interface CourseTeacherService extends BaseSearchService<CourseTeacher, L
 
 	long countByEndTime(Date date);
 
+	List<CourseTeacher> listByTeacher(Long accountId);
+
+	long countByTeacher(Long accountId);
 }

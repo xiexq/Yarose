@@ -57,6 +57,26 @@
 							</ul>
 						</div>
 					</sec:authorize>
+					<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_TEACHER">
+					<h3>
+							<a href="#">老师管理</a>
+						</h3>
+						<div>
+							<ul>
+							    <li><a href="javascript:_my_course()">我的课程</a></li>
+							</ul>
+						</div>
+					</sec:authorize>
+					<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_SALER">
+					<h3>
+							<a href="#">营销人员管理</a>
+						</h3>
+						<div>
+							<ul>
+							    <li><a href="javascript:_my_member()">我的会员</a></li>
+							</ul>
+						</div>
+					</sec:authorize>
 				</div>
 			</div>
 			<div class="ui-layout-right ui-mc-container"></div>
