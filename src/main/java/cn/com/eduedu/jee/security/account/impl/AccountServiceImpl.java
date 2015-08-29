@@ -107,4 +107,10 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 	public List<Account> listByShopId(Long shopId) {
 		return (List<Account>) this.getDao().executeQueryList("Account.listByShopId", QueryCmdType.QUERY_NAME, -1, -1, shopId);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Account> listBySalerId(String salerId) {
+		return (List<Account>) this.getDao().executeQueryList("Account.listBySalerId", QueryCmdType.QUERY_NAME, -1, -1, salerId);
+	}
 }
