@@ -46,6 +46,6 @@
 		a.userid like ? order by a.userid
 	</query>
 	<query name="Account.listByShopId">from cn.com.eduedu.jee.security.account.Account as a where a.shopId = ?</query>
-	<query name="Account.listBySalerId">from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
-	<query name="Account.countBySalerId">select count(a.accountId) from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
+	<query name="Account.listByUserId">from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
+	<query name="Account.countByUserId">select count(a.accountId) from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
 </hibernate-mapping>
