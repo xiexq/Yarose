@@ -4,10 +4,20 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="cn.com.yarose.card" auto-import="false">
 	<class name="AppointHistory" table="t_appointhistory" lazy="true">
-				<id name="id" column="id" type="long">
+		<id name="id" column="id" type="long">
 			<generator class="native">
 				<param name="sequence">s_appointhistory_id</param>
 			</generator>
 		</id>
-			</class>
+		<many-to-one class="cn.com.yarose.base.CourseTeacher" name="courseTeacher"
+			column="course_Teacher_id" not-null="true" lazy="false"></many-to-one>
+		<many-to-one class="cn.com.yarose.card.MemberCard" name="mCard"
+			column="member_card_id" not-null="true" lazy="false"></many-to-one>
+		<property name="userId" column="user_id"
+				not-null="true"></property>
+		<property name="createTime" column="create_time" type="timestamp"
+				not-null="true"></property>
+		<property name="otherConsum" column="other_consum"></property>
+		<property name="remark" column="remark"></property>
+	</class>
 </hibernate-mapping>

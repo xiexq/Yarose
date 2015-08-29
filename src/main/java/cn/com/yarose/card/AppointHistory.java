@@ -6,52 +6,38 @@ import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.utils.Constants;
 
-public class AppointHistory implements java.io.Serializable{
+public class AppointHistory implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@FieldMeta(id=true,label="ID",editable=false)
+	@FieldMeta(id = true, label = "ID", editable = false)
 	Long id;
-	
-	public Long getId(){
+
+	public Long getId() {
 		return id;
 	}
-	
-	public void setId(Long id){
-		this.id=id;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	
+
 	@FieldMeta(label = "会员名称", editable = false, visible = false, summary = false)
 	private String userId;
-	
-	@FieldMeta(label = "会员卡号", dictionary = true,editable = false, visible = false, summary = false)
-	private MemberCard mCard;
-	
-	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
-	public String getCode() {
-		if (id == null) {
-			return null;
-		}
-		return Constants.getFormatId(this.id ,5);
-	}
-	
-	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
-	private CourseTeacher courseTeacher;
-	
-	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
-	private Long courseTeacherId;
 
-	@FieldMeta(id=true,label="课程",editable=true,dictionary=true)
-	private Integer status;
-	
-	@FieldMeta(id=true,label="预约时间",editable=true,datetime=true)
+	@FieldMeta(label = "会员卡号", dictionary = true, editable = false, visible = false, summary = false)
+	private MemberCard mCard;
+
+	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
+	private CourseTeacher courseTeacher;
+
+	@FieldMeta(id = true, label = "预约时间", editable = true, datetime = true)
 	private Date createTime;
-	
-	@FieldMeta(id=true,label="其他消费",editable=true)
+
+	@FieldMeta(id = true, label = "其他消费", editable = true)
 	private Float otherConsum;
-	
-	@FieldMeta(id=true,label="备注",editable=true,text=true)
+
+	@FieldMeta(id = true, label = "备注", editable = true, text = true)
 	private String remark;
-	
+
 	@FieldMeta(label = "会员卡号", visible = true, editable = true, summary = false)
 	public String getCardNo() {
 		if (mCard != null) {
@@ -59,7 +45,7 @@ public class AppointHistory implements java.io.Serializable{
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
 	public String getShopName() {
 		if (courseTeacher != null) {
@@ -67,7 +53,7 @@ public class AppointHistory implements java.io.Serializable{
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "所属课程", visible = true, editable = true, summary = false)
 	public String getCourseName() {
 		if (courseTeacher != null) {
@@ -75,7 +61,7 @@ public class AppointHistory implements java.io.Serializable{
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "授课老师", visible = true, editable = true, summary = false)
 	public String getTeacherName() {
 		if (courseTeacher != null) {
@@ -83,21 +69,21 @@ public class AppointHistory implements java.io.Serializable{
 		}
 		return "";
 	}
-	
+
+	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	public String getCode() {
+		if (id == null) {
+			return null;
+		}
+		return Constants.getFormatId(this.id, 5);
+	}
+
 	public CourseTeacher getCourseTeacher() {
 		return courseTeacher;
 	}
 
 	public void setCourseTeacher(CourseTeacher courseTeacher) {
 		this.courseTeacher = courseTeacher;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public String getUserId() {
@@ -138,13 +124,5 @@ public class AppointHistory implements java.io.Serializable{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Long getCourseTeacherId() {
-		return courseTeacherId;
-	}
-
-	public void setCourseTeacherId(Long courseTeacherId) {
-		this.courseTeacherId = courseTeacherId;
 	}
 }
