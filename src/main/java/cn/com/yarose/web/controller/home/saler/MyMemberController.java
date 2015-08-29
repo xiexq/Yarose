@@ -27,14 +27,14 @@ public class MyMemberController extends BaseCRUDControllerExt<Account, Long> {
 	@Override
 	public List<Account> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
 			throws Exception {
-		String salerId = this.getAccount().getSaler();
-		return ((AccountService)this.getCrudService()).listBySalerId(salerId);
+		String userId = this.getAccount().getUserid();
+		return ((AccountService)this.getCrudService()).listByUserId(userId);
 	}
 	
 	
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
-		String salerId = this.getAccount().getSaler();
-		return  ((AccountService)this.getCrudService()).countBySalerId(salerId);
+		String userId = this.getAccount().getUserid();
+		return  ((AccountService)this.getCrudService()).countByUserId(userId);
 	}
 }

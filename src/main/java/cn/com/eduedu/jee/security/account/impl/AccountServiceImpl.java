@@ -110,12 +110,12 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Account> listBySalerId(String salerId) {
-		return (List<Account>) this.getDao().executeQueryList("Account.listBySalerId", QueryCmdType.QUERY_NAME, -1, -1, salerId);
+	public List<Account> listByUserId(String salerId) {
+		return (List<Account>) this.getDao().executeQueryList("Account.listByUserId", QueryCmdType.QUERY_NAME, -1, -1, salerId);
 	}
 
 	@Override
-	public long countBySalerId(String salerId) {
-		return (Long) this.getDao().executeQueryUnique("Account.countBySalerId", QueryCmdType.QUERY_NAME, salerId);
+	public long countByUserId(String salerId) {
+		return (Long) this.getDao().executeQueryUnique("Account.countByUserId", QueryCmdType.QUERY_NAME, salerId);
 	}
 }
