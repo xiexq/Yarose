@@ -15,7 +15,7 @@ import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/home/t/teacher/my/course")
+@RequestMapping("/home/teacher/my/course")
 @CRUDControllerMeta(viewable = true, title = "我的课程", service = CourseTeacherService.class, listable = true, paged = true)
 public class MyCoureController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
@@ -39,8 +39,8 @@ public class MyCoureController extends
 	public List<CourseTeacher> customList(int offset, int count,
 			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
-		return ((CourseTeacherService) this.getCrudService())
-				.listByTeacher(this.getAccount().getAccountId());
+		return ((CourseTeacherService) this.getCrudService()).listByTeacher(
+				this.getAccount().getAccountId(), offset, count);
 	}
 
 	@Override

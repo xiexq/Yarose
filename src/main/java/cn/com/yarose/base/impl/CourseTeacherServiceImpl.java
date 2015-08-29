@@ -80,10 +80,11 @@ public class CourseTeacherServiceImpl extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CourseTeacher> listByTeacher(Long accountId) {
+	public List<CourseTeacher> listByTeacher(Long accountId, int offset,
+			int count) {
 		return (List<CourseTeacher>) this.getDao().executeQueryList(
-				"CourseTeacher.listByTeacher", QueryCmdType.QUERY_NAME, -1, -1,
-				accountId);
+				"CourseTeacher.listByTeacher", QueryCmdType.QUERY_NAME, offset,
+				count, accountId);
 	}
 
 	@Override
