@@ -5,7 +5,8 @@ import java.util.List;
 
 import cn.com.eduedu.jee.service.BaseSearchService;
 
-public interface CourseTeacherService extends BaseSearchService<CourseTeacher, Long> {
+public interface CourseTeacherService extends
+		BaseSearchService<CourseTeacher, Long> {
 
 	List<CourseTeacher> listByCourseId(Long courseId, int offset, int count);
 
@@ -13,7 +14,8 @@ public interface CourseTeacherService extends BaseSearchService<CourseTeacher, L
 
 	List<CourseTeacher> listByShopId(Long shopoId);
 
-	List<CourseTeacher> listByShopAndDay(Long shopId, Date beginTime, Date endTime);
+	List<CourseTeacher> listByShopAndDay(Long shopId, Date beginTime,
+			Date endTime);
 
 	long countByShopAndDay(Long shopId, Date beginTime, Date endTime);
 
@@ -23,7 +25,7 @@ public interface CourseTeacherService extends BaseSearchService<CourseTeacher, L
 
 	long countByEndTime(Date date);
 
-	List<CourseTeacher> listByTeacher(Long accountId);
+	List<CourseTeacher> listByTeacher(Long accountId, int offset, int count);
 
 	long countByTeacher(Long accountId);
 }
