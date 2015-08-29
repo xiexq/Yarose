@@ -39,7 +39,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/teacher/managers")
-@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
+@CRUDControllerMeta(viewable = true, title = "我的课程", service = CourseTeacherService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
 public class MyCoureController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
 
