@@ -1,8 +1,8 @@
 package cn.com.yarose.web.controller.home.teacher;
 
 import java.util.List;
+import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,20 +12,19 @@ import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
-import cn.com.yarose.card.MemberCardService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/teacher/my/appointment")
-@CRUDControllerMeta(title = "我的预约管理", service = AppointmentService.class, listable = true)
+@CRUDControllerMeta(title = "预约管理", service = AppointmentService.class, listable = true, paged = true)
 public class MyAppointmentController extends
 		BaseCRUDControllerExt<Appointment, Long> {
 
-	private MemberCardService memberCardService;
-
-	@Resource(name = "memberCardService")
-	public void setMemberCardService(MemberCardService memberCardService) {
-		this.memberCardService = memberCardService;
+	@Override
+	public Set<String> customListFields(HttpServletRequest request)
+			throws Exception {
+		return this.generateStringSortedSet("code", "courseName", "shopName",
+				"teacherName");
 	}
 
 	@Override
@@ -33,7 +32,8 @@ public class MyAppointmentController extends
 			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
 		AppointmentService service = (AppointmentService) this.getCrudService();
-		return service.listByTeacher(this.getAccount().getAccountId(), offset, count);
+		return service.listByTeacher(this.getAccount().getAccountId(), offset,
+				count);
 	}
 
 	@Override

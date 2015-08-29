@@ -322,4 +322,9 @@
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/my/saler/member',listSelectStyle:'none'});
 	}
+	
+	function _my_appointment(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/teacher/my/appointment',listSelectStyle:'none'});
+	}
 </script>

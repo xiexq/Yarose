@@ -36,13 +36,17 @@ public class AppointmentServiceImpl extends
 				QueryCmdType.HSQL, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Appointment> listByTeacher(Long accountId, int offset, int count) {
-		return null;
+		return (List<Appointment>) this.getDao().executeQueryList(
+				"Appointment.listByTeacher", QueryCmdType.QUERY_NAME, offset,
+				offset, accountId);
 	}
 
 	@Override
 	public long countByTeacher(Long accountId) {
-		return 0;
+		return (Long) this.getDao().executeQueryUnique(
+				"Appointment.countByTeacher", QueryCmdType.QUERY_NAME, accountId);
 	}
 }

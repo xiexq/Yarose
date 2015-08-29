@@ -25,4 +25,6 @@
 		<property name="chechUserId" column="check_userId"></property>
 		<property name="accountId" column="account_id"></property>
 	</class>
+	<query name="Appointment.listByTeacher">from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
+    <query name="Appointment.countByTeacher">select count(a.id) from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
 </hibernate-mapping>

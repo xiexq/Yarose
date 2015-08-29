@@ -14,7 +14,7 @@
 		<div class="ui-header ui-highlight-bar">
 			<div class="ui-topnav ui-container">
 				<div class="ui-logo">
-					<img src="${staticResPath}/images/logo.png" />
+					<img src="${staticResPath}/images/logo2.png" />
 					<h1 title="${_appName }">${_appName }</h1>
 				</div>
 				<div class="ui-accounts">
@@ -64,6 +64,7 @@
 						<div>
 							<ul>
 							    <li><a href="javascript:_my_course()">我的课程</a></li>
+							     <li><a href="javascript:_my_appointment()">预约管理</a></li>
 							</ul>
 						</div>
 					</sec:authorize>
