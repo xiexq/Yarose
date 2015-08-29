@@ -312,4 +312,9 @@
 			}
 		});
 	}
+	
+	function _my_course(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/teacher/my/course',listSelectStyle:'none'});
+	}
 </script>
