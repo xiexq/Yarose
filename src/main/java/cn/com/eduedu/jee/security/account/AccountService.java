@@ -18,4 +18,8 @@ public abstract interface AccountService extends
 
 	public List<Account> listByShopId(Long shopId);
 
+	public List<Account> listBySalerId(String salerId);
+
+	public long countBySalerId(String salerId);
+
 }

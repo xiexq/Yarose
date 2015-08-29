@@ -317,4 +317,9 @@
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/teacher/my/course',listSelectStyle:'none'});
 	}
+	
+	function _my_member(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/my/saler/member',listSelectStyle:'none'});
+	}
 </script>
