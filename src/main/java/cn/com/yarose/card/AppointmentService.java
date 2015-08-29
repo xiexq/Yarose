@@ -10,4 +10,8 @@ public interface AppointmentService extends BaseSearchService<Appointment, Long>
 
   long countAll(boolean isCheck, Integer status);
 
+List<Appointment> listByTeacher(Long accountId, int offset, int count);
+
+long countByTeacher(Long accountId);
+
 }

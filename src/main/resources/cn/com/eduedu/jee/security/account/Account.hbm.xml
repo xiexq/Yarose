@@ -25,6 +25,7 @@
 		<property name="stuLevel" column="stu_level" />
 		<property name="hasCard" column="has_card" />
 		<property name="saler" column="saler" />
+		<property name="birthday" column="birthday" />
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
 		<property name="occupation" column="occupation" />
