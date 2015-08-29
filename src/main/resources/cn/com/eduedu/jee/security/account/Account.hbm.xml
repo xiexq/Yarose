@@ -44,4 +44,5 @@
 	<query name="Account.findByUserId">from cn.com.eduedu.jee.security.account.Account as a where
 		a.userid like ? order by a.userid
 	</query>
+	<query name="Account.listByShopId">from cn.com.eduedu.jee.security.account.Account as a where a.shopId = ?</query>
 </hibernate-mapping>

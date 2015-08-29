@@ -14,7 +14,7 @@
 		<div class="ui-header ui-highlight-bar">
 			<div class="ui-topnav ui-container">
 				<div class="ui-logo">
-					<%-- <img src="${staticResPath}/images/logo.png" /> --%>
+					<img src="${staticResPath}/images/logo.png" />
 					<h1 title="${_appName }">${_appName }</h1>
 				</div>
 				<div class="ui-accounts">

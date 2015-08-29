@@ -265,10 +265,10 @@
 		var li=event.data.li,id=li.data('id');
 		if(id){
 			var dialog=$('<div></div>');
-			dialog.dialog({title:'填写处理信息',width:600,height:400,close:function(){$(this).remove();}});
+			dialog.dialog({title:'填写处理信息',width:650,height:500,close:function(){$(this).remove();}});
 			dialog.crud({
 				url:'${ctxPath }/home/shop/manager/appointment/',
-				params:{_type:'check'},title:'预约核销',action:'edit',actionTarget:id,
+				params:{_type:'check'},title:'预约核销',action:'edit',actionTarget:id,showHeader:false,i18n:{editLabel:'核销'},
 				onSaveSuccess:function(event,target){
 					var t=$(this);
 					t.crud('tipInfo','核销成功！','pass');
@@ -298,7 +298,7 @@
 		var dialog=$('<div/>'),win=$(window),ww=win.width(),wh=win.height();
 		dialog.dialog({
 			title:courseName+'的评价',width:ww-100,height:wh-100,close:function(){$(this).dialog('destroy').remove();}
-		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',shoeHeader:false,
+		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',showHeader:false,
 			onSaveSuccess:function(){
 				var tt=$(this);
 				tt.crud('tipInfo','保存成功！','pass',null,1000);
