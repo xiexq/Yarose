@@ -113,4 +113,9 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 	public List<Account> listBySalerId(String salerId) {
 		return (List<Account>) this.getDao().executeQueryList("Account.listBySalerId", QueryCmdType.QUERY_NAME, -1, -1, salerId);
 	}
+
+	@Override
+	public long countBySalerId(String salerId) {
+		return (Long) this.getDao().executeQueryUnique("Account.countBySalerId", QueryCmdType.QUERY_NAME, salerId);
+	}
 }

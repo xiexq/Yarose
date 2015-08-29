@@ -34,7 +34,7 @@ public class MyMemberController extends BaseCRUDControllerExt<Account, Long> {
 	
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		return super.customCount(request);
+		String salerId = this.getAccount().getSaler();
+		return  ((AccountService)this.getCrudService()).countBySalerId(salerId);
 	}
 }
