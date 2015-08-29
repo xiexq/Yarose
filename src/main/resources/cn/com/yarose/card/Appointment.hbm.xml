@@ -21,5 +21,8 @@
 				not-null="true"></property>
 		<property name="otherConsum" column="other_consum"></property>
 		<property name="remark" column="remark"></property>
+		<property name="checkTime" column="check_time"></property>
+		<property name="chechUserId" column="check_userId"></property>
+		<property name="accountId" column="account_id"></property>
 	</class>
 </hibernate-mapping>

@@ -16,4 +16,6 @@ public abstract interface AccountService extends
 	
 	public List<Account> listByRole(String role,int offset,int count);
 
+	public List<Account> listByShopId(Long shopId);
+
 }

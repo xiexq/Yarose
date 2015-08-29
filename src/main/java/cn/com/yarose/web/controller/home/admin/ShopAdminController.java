@@ -1,7 +1,9 @@
 package cn.com.yarose.web.controller.home.admin;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
+import cn.com.eduedu.jee.security.account.Account;
+import cn.com.eduedu.jee.security.account.AccountService;
+import cn.com.eduedu.jee.security.exception.NoRightsException;
+import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
@@ -19,6 +26,11 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 @CRUDControllerMeta(title = "门店管理", service = ShopService.class, listable = true, createable = true, editable = true, deleteable = true, viewable = true)
 public class ShopAdminController extends BaseCRUDControllerExt<Shop, Long> {
 
+	@Resource(name="courseTeacherService")
+	private CourseTeacherService courseTeacherService;
+	@Resource(name = "account_accountService")
+	private AccountService accountService;
+	
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
@@ -52,5 +64,18 @@ public class ShopAdminController extends BaseCRUDControllerExt<Shop, Long> {
 			return this.getCrudService().save(cmd);
 		}
 		return cmd;
+	}
+	
+	@Override
+	public void customDelete(Long id, HttpServletRequest request) throws Exception {
+		List<CourseTeacher> ctList = courseTeacherService.listByShopId(id);
+		if(ctList != null && ctList.size() > 0){
+			throw new NoRightsException("该店铺下有课程不能删除！");
+		}
+		List<Account> accountList = accountService.listByShopId(id);
+		if(accountList != null && accountList.size() > 0){
+			throw new NoRightsException("该店铺下有会员不能删除！");
+		}
+		super.customDelete(id, request);
 	}
 }

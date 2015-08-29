@@ -101,4 +101,10 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 		}
 		return accounts;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Account> listByShopId(Long shopId) {
+		return (List<Account>) this.getDao().executeQueryList("Account.listByShopId", QueryCmdType.QUERY_NAME, -1, -1, shopId);
+	}
 }
