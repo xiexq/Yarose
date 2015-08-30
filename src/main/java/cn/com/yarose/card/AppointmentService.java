@@ -14,4 +14,8 @@ List<Appointment> listByTeacher(Long accountId, int offset, int count);
 
 long countByTeacher(Long accountId);
 
+List<Appointment> listByCourseTeacher(Long courseTeacherId);
+
+long countByCourseTeacher(Long courseTeacherId);
+
 }

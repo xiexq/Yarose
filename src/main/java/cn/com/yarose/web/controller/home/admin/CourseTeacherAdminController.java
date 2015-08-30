@@ -62,7 +62,7 @@ public class CourseTeacherAdminController extends
 			return this.generateStringSortedSet("courseName", "shopName",
 					"teacherName");
 		}
-		return this.generateStringSortedSet("courseName", "shopName",
+		return this.generateStringSortedSet("courseName", "teacherName",
 				"beginTime", "endTime", "lesson", "courseFee", "userId");
 	}
 
@@ -232,6 +232,10 @@ public class CourseTeacherAdminController extends
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) throws Exception {
+		if(!create){
+			return this.generateStringSortedSet("shop", "course", "teacher",
+					"beginTime", "endTime", "lesson");
+		}
 		return this.generateStringSortedSet("shop", "course", "teacher",
 				"beginTime", "endTime", "lesson", "courseFee");
 	}

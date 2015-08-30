@@ -56,14 +56,14 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
 
   @Override
   public Set<String> customListFields(HttpServletRequest request) throws Exception {
-    return this.generateStringSortedSet("code", "courseName", "shopName", "teacherName");
+    return this.generateStringSortedSet("code", "userId","courseName", "shopName", "teacherName");
   }
 
   @Override
   public Set<String> customEditFields(HttpServletRequest request, Appointment entity)
       throws Exception {
     if (this.getRequestType(request) != null) {
-      return this.generateStringSortedSet("otherConsum", "remark");
+      return this.generateStringSortedSet("otherConsum", "remark","lesson","giveLesson");
     }
     return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
   }
@@ -121,6 +121,10 @@ public class AppointmentAdminController extends BaseCRUDControllerExt<Appointmen
     	  cmd.setStatus(Constants.APPOLINTMENT_CHECKED);
     	  cmd.setAccountId(this.getAccount().getAccountId());
     	  cmd.setChechUserId(this.getAccount().getUserid());
+    	  MemberCard memberCard = cmd.getmCard();//
+    	  memberCard.setUsedLesson(cmd.getLesson());
+    	  memberCard.setGivingLesson(cmd.getGiveLesson());
+    	  memberCardService.save(memberCard);
       }else{
     	  cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
       }

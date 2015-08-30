@@ -203,6 +203,7 @@
 		}).crud({
 			url:'${ctxPath }/home/admin/teacher/managers',
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
+			listItemActions:[{label:'预约',func:function(event){_appointment_course(event,div,date);},cssClass:'ui-action-statistic'}],
 			onFieldValueChange:function(data,field){
 				if(field.name=='teacher'){
 					var tid=$(this).crud("getEditFieldVal","teacher");
@@ -229,6 +230,16 @@
 		});
 	}
 	
+	function _appointment_course(event,div,date){
+		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
+		var mc=$('<div></div>'),svc=new StackViewController(div);
+		svc.push(mc);
+		mc.crud({
+			url:'${ctxPath }/home/admin/course/appointment',title:courseName+'的预约情况',
+			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回',func:function(){_edit_event_day(date);}}]
+		});
+	}
+	
 	function formatDate(now){
         var year=now.getFullYear();
         var month=now.getMonth()+1;
@@ -252,7 +263,7 @@
 		uncheck=$('<div id="uncheck"></div>'),checked=$('<div id="checked"></div>');
 		tab.append(uncheck).append(checked);
 		uncheck.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'uncheck'},showHeader:false,
-			listItemActions:[{label:'核销',func:function(event){_appointment_audit(event,svc);},cssClass:'ui-action-statistic'}]
+			listItemActions:[{label:'核销',func:function(event){_appointment_audit(event);},cssClass:'ui-action-statistic'}]
 			 				
 		});
 		checked.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'checked'},editable:false,createable:false,deleteable:false,showHeader:false
@@ -261,7 +272,7 @@
 		tab.tabs();
 	}
 	
-	function _appointment_audit(event,svc){
+	function _appointment_audit(event){
 		var li=event.data.li,id=li.data('id');
 		if(id){
 			var dialog=$('<div></div>');

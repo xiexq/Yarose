@@ -11,7 +11,7 @@ public class Shop implements java.io.Serializable{
 	@FieldMeta(id=true,label="ID",editable=false)
 	private Long id;
 	
-	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	@FieldMeta(label = "门店编号", editable = false, visible = false, summary = false)
 	  public String getCode() {
 	      if (id == null) {
 	          return null;

@@ -49,4 +49,21 @@ public class AppointmentServiceImpl extends
 		return (Long) this.getDao().executeQueryUnique(
 				"Appointment.countByTeacher", QueryCmdType.QUERY_NAME, accountId);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Appointment> listByCourseTeacher(Long courseTeacherId) {
+		List<Appointment> appointList = (List<Appointment>) this.getDao().executeQueryList("Appointment.listByCourseTeacher", QueryCmdType.QUERY_NAME, -1, -1, courseTeacherId);
+		if(appointList != null && appointList.size() > 0){
+			for(Appointment appoinment : appointList){
+				appoinment.getCourseTeacher();
+			}
+		}
+		return appointList;
+	}
+
+	@Override
+	public long countByCourseTeacher(Long courseTeacherId) {
+		return (Long) this.getDao().executeQueryUnique("Appointment.countByCourseTeacher", QueryCmdType.QUERY_NAME, courseTeacherId);
+	}
 }

@@ -27,4 +27,6 @@
 	</class>
 	<query name="Appointment.listByTeacher">from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
     <query name="Appointment.countByTeacher">select count(a.id) from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
+    <query name="Appointment.listByCourseTeacher">from cn.com.yarose.card.Appointment as a where a.courseTeacher.id=?</query>
+    <query name="Appointment.countByCourseTeacher">select count(a.id) from cn.com.yarose.card.Appointment as a where a.courseTeacher.id=?</query>
 </hibernate-mapping>

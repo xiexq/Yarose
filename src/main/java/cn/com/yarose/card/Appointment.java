@@ -18,7 +18,7 @@ public class Appointment implements java.io.Serializable {
 	@FieldMeta(label = "会员卡号", dictionary = true, editable = false, visible = false, summary = false)
 	private MemberCard mCard;
 
-	@FieldMeta(label = "编号", editable = false, visible = false, summary = false)
+	@FieldMeta(label = "预约编号", editable = false, visible = false, summary = false)
 	public String getCode() {
 		if (id == null) {
 			return null;
@@ -29,6 +29,17 @@ public class Appointment implements java.io.Serializable {
 	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
 	private CourseTeacher courseTeacher;
 
+	@FieldMeta(id = true, label = "课时", editable = true)
+	public Integer getLesson(){
+		if (courseTeacher != null) {
+			return courseTeacher.getLesson();
+		}
+		return null;
+	}
+	
+	@FieldMeta(id = true, label = "赠送课时", editable = true)
+	public Integer giveLesson;
+	
 	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
 	private Long courseTeacherId;
 
@@ -63,7 +74,20 @@ public class Appointment implements java.io.Serializable {
 		}
 		return "";
 	}
+	
+	public Date getCourseBeginTime(){
+		if (courseTeacher != null) {
+			return courseTeacher.getBeginTime();
+		}
+		return null;
+	}
 
+	public Date getCourseEndTime(){
+		if (courseTeacher != null) {
+			return courseTeacher.getEndTime();
+		}
+		return null;
+	}
 	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
 	private Integer status;
 
@@ -179,5 +203,13 @@ public class Appointment implements java.io.Serializable {
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
+	}
+
+	public Integer getGiveLesson() {
+		return giveLesson;
+	}
+
+	public void setGiveLesson(Integer giveLesson) {
+		this.giveLesson = giveLesson;
 	}
 }
