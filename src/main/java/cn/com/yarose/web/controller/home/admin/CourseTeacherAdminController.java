@@ -63,7 +63,7 @@ public class CourseTeacherAdminController extends
 					"teacherName");
 		}
 		return this.generateStringSortedSet("courseName", "teacherName",
-				"beginTime", "endTime", "lesson", "courseFee", "userId");
+				"beginTime", "endTime", "lesson", "courseFee", "userId","statusName");
 	}
 
 	@Override

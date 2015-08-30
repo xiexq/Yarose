@@ -74,6 +74,18 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "课程创建时间", datetime = true)
 	private Date createTime;
 
+	@FieldMeta(label = "课程状态", order = 1)
+	public String getStatusName() {
+		Date now = new Date();
+		if (beginTime != null && beginTime.after(now)) {
+			return "预约中";
+		}else if(endTime != null && endTime.before(now)){
+			return "已上";
+		} else {
+			return "未上";
+		}
+	}
+	
 	public Long getId() {
 		return id;
 	}

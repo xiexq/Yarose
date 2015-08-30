@@ -38,7 +38,12 @@ public class Constants {
 	public static final int EVALUATION_TYPE_USER = 0;
 	public static final int EVALUATION_TYPE_SHOP = 1;
 	
+	public static final int COURSE_TEACHER_STATUS_APPOINTMENT= 0;
+	public static final int COURSE_TEACHER_STATUS_LEARNED= 0;
+	public static final int COURSE_TEACHER_STATUS_UNLEARN= 0;
+	
 	private static Collection<NameValueBean> evaluationTypes;
+	private static Collection<NameValueBean> statusDicts;
 	
 	public synchronized static Collection<NameValueBean> getevaluationTypes(){
 		if( evaluationTypes == null ){
@@ -84,5 +89,24 @@ public class Constants {
 		c.set(Calendar.HOUR_OF_DAY, other.get(Calendar.HOUR_OF_DAY));
 		c.set(Calendar.MINUTE, other.get(Calendar.MINUTE));
 		return c.getTime();
+	}
+	
+	public synchronized static Collection<NameValueBean> getStatusDictionary(){
+		if( statusDicts == null ){
+			statusDicts=new ArrayList<NameValueBean>();
+			statusDicts.add(new NameValueBean("已上",COURSE_TEACHER_STATUS_LEARNED+""));
+			statusDicts.add(new NameValueBean("预约中",COURSE_TEACHER_STATUS_APPOINTMENT+""));
+			statusDicts.add(new NameValueBean("未上",COURSE_TEACHER_STATUS_UNLEARN+""));
+		}
+		return statusDicts;
+	}
+	
+	public static String getStatusDictionaryName(Integer value){
+		Collection<NameValueBean> nvbs = getStatusDictionary();
+		for (NameValueBean nvb : nvbs) {
+			if (nvb.getId().equals(value + ""))
+				return nvb.getName();
+		}
+		return "";
 	}
 }
