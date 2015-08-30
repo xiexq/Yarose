@@ -19,6 +19,7 @@ public class Constants {
 	public static String DICT_TYPE_STU_LEVEL = "stu_level";// 学生等级
 	public static String DICT_TYPE_MEMBER_CARD_TYPE = "member_card_type";// 会员卡类型
 	public static String DICT_TYPE_AGE_GROUP = "age_group";// 年龄段
+	public static String DICT_TYPE_AREA = "area";// 年龄段
 
 	// 角色
 	public static String ROLE_SUPER = "SUPER"; // 超级管理员
@@ -34,27 +35,30 @@ public class Constants {
 	public static final int APPOLINTMENT_UNCHECKED = 0;
 	public static final int APPOLINTMENT_CHECKED = 1;
 
-	//评价类型
+	// 评价类型
 	public static final int EVALUATION_TYPE_USER = 0;
 	public static final int EVALUATION_TYPE_SHOP = 1;
-	
-	public static final int COURSE_TEACHER_STATUS_APPOINTMENT= 0;
-	public static final int COURSE_TEACHER_STATUS_LEARNED= 0;
-	public static final int COURSE_TEACHER_STATUS_UNLEARN= 0;
-	
+
+	public static final int COURSE_TEACHER_STATUS_APPOINTMENT = 0;
+	public static final int COURSE_TEACHER_STATUS_LEARNED = 0;
+	public static final int COURSE_TEACHER_STATUS_UNLEARN = 0;
+
 	private static Collection<NameValueBean> evaluationTypes;
+
 	private static Collection<NameValueBean> statusDicts;
-	
-	public synchronized static Collection<NameValueBean> getevaluationTypes(){
-		if( evaluationTypes == null ){
+
+	public synchronized static Collection<NameValueBean> getevaluationTypes() {
+		if (evaluationTypes == null) {
 			evaluationTypes = new ArrayList<NameValueBean>();
-			evaluationTypes.add(new NameValueBean("学生",EVALUATION_TYPE_USER+""));
-			evaluationTypes.add(new NameValueBean("店长",EVALUATION_TYPE_SHOP+""));
+			evaluationTypes.add(new NameValueBean("学生", EVALUATION_TYPE_USER
+					+ ""));
+			evaluationTypes.add(new NameValueBean("店长", EVALUATION_TYPE_SHOP
+					+ ""));
 		}
 		return evaluationTypes;
 	}
-	
-	public static String getevaluationType(Integer value){
+
+	public static String getevaluationType(Integer value) {
 		Collection<NameValueBean> nvbs = getevaluationTypes();
 		for (NameValueBean nvb : nvbs) {
 			if (nvb.getId().equals(value + ""))
@@ -62,7 +66,7 @@ public class Constants {
 		}
 		return "";
 	}
-	
+
 	public static Date customBeginTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -90,18 +94,21 @@ public class Constants {
 		c.set(Calendar.MINUTE, other.get(Calendar.MINUTE));
 		return c.getTime();
 	}
-	
-	public synchronized static Collection<NameValueBean> getStatusDictionary(){
-		if( statusDicts == null ){
-			statusDicts=new ArrayList<NameValueBean>();
-			statusDicts.add(new NameValueBean("已上",COURSE_TEACHER_STATUS_LEARNED+""));
-			statusDicts.add(new NameValueBean("预约中",COURSE_TEACHER_STATUS_APPOINTMENT+""));
-			statusDicts.add(new NameValueBean("未上",COURSE_TEACHER_STATUS_UNLEARN+""));
+
+	public synchronized static Collection<NameValueBean> getStatusDictionary() {
+		if (statusDicts == null) {
+			statusDicts = new ArrayList<NameValueBean>();
+			statusDicts.add(new NameValueBean("已上",
+					COURSE_TEACHER_STATUS_LEARNED + ""));
+			statusDicts.add(new NameValueBean("预约中",
+					COURSE_TEACHER_STATUS_APPOINTMENT + ""));
+			statusDicts.add(new NameValueBean("未上",
+					COURSE_TEACHER_STATUS_UNLEARN + ""));
 		}
 		return statusDicts;
 	}
-	
-	public static String getStatusDictionaryName(Integer value){
+
+	public static String getStatusDictionaryName(Integer value) {
 		Collection<NameValueBean> nvbs = getStatusDictionary();
 		for (NameValueBean nvb : nvbs) {
 			if (nvb.getId().equals(value + ""))

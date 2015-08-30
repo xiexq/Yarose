@@ -125,7 +125,7 @@ public class AccountAdminController extends
 			return this.generateStringSortedSet("userid", "nick", "weixin",
 					"saler", "referee");
 		}
-		return this.generateStringSet("shopId", "userid", "nick", "weixin",
+		return this.generateStringSet("shop", "userid", "nick", "weixin",
 				"saler", "referee");
 	}
 
@@ -133,7 +133,7 @@ public class AccountAdminController extends
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) {
 		return this.generateStringSortedSet("userid", "password", "nick",
-				"shopId", "weixin", "phone", "email", "birthday", "remark",
+				"shop", "weixin", "phone", "email", "birthday", "remark",
 				"teachLevel", "address", "accesses", "occupation", "stuLevel",
 				"saler", "referee");
 	}
@@ -157,11 +157,6 @@ public class AccountAdminController extends
 				Constants.DICT_TYPE_TEACH_LEVEL, -1, -1);
 	}
 
-	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
-	public List<Shop> _shopIds(HttpServletRequest request) {
-		return shopService.listAll(-1, -1);
-	}
-
 	@DictionaryModel(label = "alias", val = "userid")
 	public List<Account> _ac_salers(String value, HttpServletRequest request) {
 		if (StringUtils.hasText(value)) {
@@ -178,6 +173,11 @@ public class AccountAdminController extends
 			return as.findByUserId(value + "%", 0, 10);
 		}
 		return null;
+	}
+
+	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
+	public List<Shop> _shops(HttpServletRequest request) {
+		return shopService.listAll(-1, -1);
 	}
 
 	@DictionaryModel(val = "id", label = "name")
