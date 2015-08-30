@@ -24,4 +24,18 @@ public class MemberCardServiceImpl extends
 				"MemberCard.findMaxSeqNum", QueryCmdType.QUERY_NAME);
 		return seqNum == null ? 0l : seqNum;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MemberCard> listByArea(Long id, int offset, int count) {
+		return (List<MemberCard>) this.getDao().executeQueryList(
+				"MemberCard.listByArea", QueryCmdType.QUERY_NAME, offset,
+				count, id);
+	}
+
+	@Override
+	public Long countByArea(Long id) {
+		return (Long) this.getDao().executeQueryUnique("MemberCard.countByArea",
+				QueryCmdType.QUERY_NAME, id);
+	}
 }

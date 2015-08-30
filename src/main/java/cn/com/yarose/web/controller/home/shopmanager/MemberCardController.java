@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
+import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.Dictionary;
@@ -63,6 +64,32 @@ public class MemberCardController extends
 		return this.generateStringSortedSet("cardNo", "userId", "typeName",
 				"purchaseLesson", "givingLesson", "usedLesson", "totalLesson",
 				"expireDate", "price");
+	}
+
+	@Override
+	public List<MemberCard> customList(int offset, int count,
+			OrderProperties orders, HttpServletRequest request)
+			throws Exception {
+		if (!isInRole(Constants.ROLE_SUPER)) {
+			Shop shop = this.getAccount().getShop();
+			if (shop != null && shop.getArea() != null) {
+				return ((MemberCardService) this.getCrudService()).listByArea(
+						shop.getArea().getId(), offset, count);
+			}
+		}
+		return super.customList(offset, count, orders, request);
+	}
+
+	@Override
+	public long customCount(HttpServletRequest request) throws Exception {
+		if (!isInRole(Constants.ROLE_SUPER)) {
+			Shop shop = this.getAccount().getShop();
+			if (shop != null && shop.getArea() != null) {
+				return ((MemberCardService) this.getCrudService())
+						.countByArea(shop.getArea().getId());
+			}
+		}
+		return super.customCount(request);
 	}
 
 	@Override
