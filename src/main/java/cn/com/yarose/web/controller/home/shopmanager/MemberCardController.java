@@ -104,7 +104,7 @@ public class MemberCardController extends
 				Shop shop = shopService.findById(shopId);
 				cmd.setShop(shop);
 			}
-			if (create) {  
+			if (create) {
 				cmd.setCreateDate(new Date());
 				cmd.setCreator(this.getAccount());
 				// 生成卡号规则（年份+月份+门店id+序列号）
