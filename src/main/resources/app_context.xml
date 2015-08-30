@@ -20,6 +20,7 @@
 		<aop:pointcut expression="execution(* cn.com.yarose.card.MemberCardService.*(..))" id="memberCardServicePT"/>
         <aop:pointcut expression="execution(* cn.com.yarose.card.EvaluationService.*(..))" id="evaluationServicePT"/>
 <aop:pointcut expression="execution(* cn.com.yarose.card.AppointHistoryService.*(..))" id="appointHistoryServicePT"/>
+<aop:pointcut expression="execution(* cn.com.yarose.card.CardPostPhoneService.*(..))" id="cardPostPhoneServicePT"/>
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="dictionaryServicePT"/>
 		<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopServicePT"/>
 		<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="shopManagerServicePT"/>
@@ -28,6 +29,7 @@
 	    <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="memberCardServicePT"/>
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="evaluationServicePT"/>
 <aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="appointHistoryServicePT"/>
+<aop:advisor advice-ref="app_api_txAdvice" pointcut-ref="cardPostPhoneServicePT"/>
 </aop:config>
 	<bean class="cn.com.yarose.base.impl.DictionaryServiceImpl" id="dictionaryService">
 		<property name="dao" ref="dictionaryDao"/>
@@ -61,5 +63,8 @@
     </bean>
 <bean class="cn.com.yarose.card.impl.AppointHistoryServiceImpl" id="appointHistoryService">
 <property name="dao" ref="appointHistoryDao"/>
+</bean>
+<bean class="cn.com.yarose.card.impl.CardPostPhoneServiceImpl" id="cardPostPhoneService">
+<property name="dao" ref="cardPostPhoneDao"/>
 </bean>
 </beans>
