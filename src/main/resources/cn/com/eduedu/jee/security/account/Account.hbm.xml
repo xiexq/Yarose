@@ -26,6 +26,8 @@
 		<property name="hasCard" column="has_card" />
 		<property name="saler" column="saler" />
 		<property name="birthday" column="birthday" />
+		<property name="remark" column="remark" />
+		<property name="referee" column="referee" not-null="true"/>
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
 		<property name="occupation" column="occupation" />

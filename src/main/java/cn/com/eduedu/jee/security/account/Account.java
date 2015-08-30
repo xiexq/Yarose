@@ -19,7 +19,6 @@ public class Account implements Authentication {
 	private static final long serialVersionUID = -4676809701822585221L;
 	public static final int STATUS_ENABLED = 1;
 	public static final int STATUS_DISABLED = 2;
-	public static final String DEFAULT_SUPER_USERID = "admin";
 	UserDetails details;
 	boolean authenticated = false;
 
@@ -46,16 +45,16 @@ public class Account implements Authentication {
 	@FieldMeta(label = "电子邮件", i18n = true, summary = false, msgLabelKey = "security.account.email.label")
 	String email;
 
-	@FieldMeta(label = "注册门店", i18n = true, summary = false, visible = false, dictionary = true, msgLabelKey = "security.account.shop.label")
+	@FieldMeta(label = "注册门店", i18n = true, summary = false, required = true, visible = false, dictionary = true, msgLabelKey = "security.account.shop.label")
 	Long shopId;
 
 	@FieldMeta(label = "权限", i18n = true, visible = false, required = true, summary = false, dictionary = true, msgLabelKey = "security.account.accesses.label")
 	Set<Access> accesses;
 
-	@FieldMeta(label = "微信号", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.weixin.label")
+	@FieldMeta(label = "微信号", i18n = true, summary = false, visible = false, required = true, msgLabelKey = "security.account.weixin.label")
 	String weixin;
 
-	@FieldMeta(label = "手机号", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.phone.label")
+	@FieldMeta(label = "手机号", i18n = true, summary = false, visible = false, required = true, msgLabelKey = "security.account.phone.label")
 	String phone;
 
 	@FieldMeta(label = "生日", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.birthday.label")
@@ -79,11 +78,17 @@ public class Account implements Authentication {
 	@FieldMeta(label = "职业", i18n = true, editable = false, group = "member", msgLabelKey = "security.account.occupation.label")
 	String occupation;
 
-	@FieldMeta(label = "营销人员", i18n = true, summary = false, autoComplete = true, group = "member", visible = false, msgLabelKey = "security.account.saler.label")
+	@FieldMeta(label = "营销人员账号", i18n = true, summary = false, autoComplete = true, group = "member", required = true, visible = false, msgLabelKey = "security.account.saler.label")
 	String saler;
+
+	@FieldMeta(label = "推荐人账号", i18n = true, summary = false, autoComplete = true, group = "member", visible = false, msgLabelKey = "security.account.referee.label")
+	String referee;
 
 	@FieldMeta(label = "会员级别", i18n = true, summary = false, visible = false, group = "member", dictionary = true, msgLabelKey = "security.account.stuLevel.label")
 	Integer stuLevel;
+
+	@FieldMeta(label = "备注", i18n = true, summary = false, text = true, visible = false, msgLabelKey = "security.account.remark.label")
+	String remark;
 
 	Integer isAdmin;
 
@@ -143,6 +148,14 @@ public class Account implements Authentication {
 		return this.nick;
 	}
 
+	public String getReferee() {
+		return referee;
+	}
+
+	public void setReferee(String referee) {
+		this.referee = referee;
+	}
+
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
@@ -161,6 +174,14 @@ public class Account implements Authentication {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Set<Access> getAccesses() {
@@ -305,7 +326,6 @@ public class Account implements Authentication {
 		int result = 1;
 		result = 31 * result
 				+ (this.userid == null ? 0 : this.userid.hashCode());
-
 		return result;
 	}
 

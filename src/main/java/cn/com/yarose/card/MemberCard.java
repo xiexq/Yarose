@@ -76,6 +76,9 @@ public class MemberCard implements java.io.Serializable {
 	@FieldMeta(label = "创建人", editable = false, summary = false)
 	private Account creator;
 
+	// 延期费
+	private Float postPhoePrice;
+
 	@FieldMeta(label = "会员卡类型", editable = false)
 	public String getTypeName() {
 		if (type != null && StringUtils.hasText(type.getName())) {
@@ -215,6 +218,17 @@ public class MemberCard implements java.io.Serializable {
 
 	public Long getSeqNum() {
 		return seqNum;
+	}
+
+	public Float getPostPhoePrice() {
+		if (postPhoePrice == null) {
+			return 0f;
+		}
+		return postPhoePrice;
+	}
+
+	public void setPostPhoePrice(Float postPhoePrice) {
+		this.postPhoePrice = postPhoePrice;
 	}
 
 	public Account getCreator() {

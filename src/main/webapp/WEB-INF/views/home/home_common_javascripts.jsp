@@ -251,7 +251,20 @@
 	function _member_card_admin(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/shopmanager/membercard'
+			url:'${ctxPath}/home/shopmanager/membercard',
+			listItemActions:[{label:"延期",func:function(event){
+				var li=event.data.li,id=li.data('id'),cardNo=_crudHelper.getListItemFieldValue(li,'cardNo'),div=$('<div></div>');
+				div.crud({url:'${ctxPath}/home/shopmanager/membercard/postphone',
+					action:'edit',params:{_card:id},showHeader:false,showSubviewTitle:false,createable:false,deleteable:false,
+					onSaveSuccess:function(){container.crud('refreshList');div.dialog('close');return false;}
+				}).dialog({title:'卡号“'+cardNo+'”延期',width:650,height:500,close:function(){$(this).remove();}});
+			},'cssClass':"ui-action-statistic"},
+			{label:"延期历史记录",func:function(event){
+				var li=event.data.li,id=li.data('id'),cardNo=_crudHelper.getListItemFieldValue(li,'cardNo'),div=$('<div></div>');
+				div.crud({url:'${ctxPath}/home/shopmanager/membercard/postphone',
+					action:'list',params:{_card:id},showHeader:false,showSubviewTitle:false,createable:false,editable:false,deleteable:false
+				}).dialog({title:'卡号“'+cardNo+'”延期历史记录',width:650,height:500,close:function(){$(this).remove();}});
+			},'cssClass':"ui-action-statistic"}]
 		});
 	}
 	

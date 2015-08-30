@@ -25,6 +25,7 @@
 		<property name="createDate" column="create_date"></property>
 		<many-to-one name="creator" column="creator" class="cn.com.eduedu.jee.security.account.Account" 
 		    not-null="true"></many-to-one>
+		<property name="postPhoePrice" column="post_phoe_price"></property>
 	</class>
 	<query name="MemberCard.listByUserId"><![CDATA[from cn.com.yarose.card.MemberCard as mc where mc.userId = ?]]></query>
 	<query name="MemberCard.findMaxSeqNum"><![CDATA[select max(seqNum) from cn.com.yarose.card.MemberCard]]></query>

@@ -110,8 +110,8 @@ public class AccountAdminController extends
 				}
 			}
 			if (result.getFieldErrorCount() == 0) {
-				 this.getCrudService().save(cmd);
-				 cmd.getAccessesName();
+				this.getCrudService().save(cmd);
+				cmd.getAccessesName();
 			}
 		}
 		return cmd;
@@ -122,18 +122,20 @@ public class AccountAdminController extends
 			throws Exception {
 		String isShop = request.getParameter("_shop");
 		if (StringUtils.hasText(isShop)) {
-			return this.generateStringSortedSet("shop", "userid", "nick",
-					"weixin");
+			return this.generateStringSortedSet("userid", "nick", "weixin",
+					"saler", "referee");
 		}
-		return this.generateStringSet("shopId", "userid", "nick", "weixin");
+		return this.generateStringSet("shopId", "userid", "nick", "weixin",
+				"saler", "referee");
 	}
 
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
 			boolean create) {
 		return this.generateStringSortedSet("userid", "password", "nick",
-				"shopId", "weixin", "phone", "email", "birthday", "teachLevel",
-				"address", "accesses", "occupation", "stuLevel", "saler");
+				"shopId", "weixin", "phone", "email", "birthday", "remark",
+				"teachLevel", "address", "accesses", "occupation", "stuLevel",
+				"saler", "referee");
 	}
 
 	@Override
@@ -162,6 +164,15 @@ public class AccountAdminController extends
 
 	@DictionaryModel(label = "alias", val = "userid")
 	public List<Account> _ac_salers(String value, HttpServletRequest request) {
+		if (StringUtils.hasText(value)) {
+			AccountService as = (AccountService) this.getCrudService();
+			return as.findByUserId(value + "%", 0, 10);
+		}
+		return null;
+	}
+
+	@DictionaryModel(label = "alias", val = "userid")
+	public List<Account> _ac_referees(String value, HttpServletRequest request) {
 		if (StringUtils.hasText(value)) {
 			AccountService as = (AccountService) this.getCrudService();
 			return as.findByUserId(value + "%", 0, 10);
