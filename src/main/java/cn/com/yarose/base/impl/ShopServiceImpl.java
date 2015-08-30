@@ -18,5 +18,4 @@ public class ShopServiceImpl extends DaoBasedServiceImpl<Shop, Long> implements 
     }
     return null;
   }
-
 }

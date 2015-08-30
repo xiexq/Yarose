@@ -29,4 +29,6 @@
 	</class>
 	<query name="MemberCard.listByUserId"><![CDATA[from cn.com.yarose.card.MemberCard as mc where mc.userId = ?]]></query>
 	<query name="MemberCard.findMaxSeqNum"><![CDATA[select max(seqNum) from cn.com.yarose.card.MemberCard]]></query>
+	<query name="MemberCard.listByArea"><![CDATA[from cn.com.yarose.card.MemberCard as m where m.shop.area.id=?]]></query>
+	<query name="MemberCard.countByArea"><![CDATA[select count(m.id) from cn.com.yarose.card.MemberCard as m where m.shop.area.id=?]]></query>
 </hibernate-mapping>

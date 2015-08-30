@@ -50,4 +50,6 @@
 	<query name="Account.listByShopId">from cn.com.eduedu.jee.security.account.Account as a where a.shop.id = ?</query>
 	<query name="Account.listByUserId">from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
 	<query name="Account.countByUserId">select count(a.accountId) from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
+	<query name="Account.listByArea">from cn.com.eduedu.jee.security.account.Account as a where a.shop.area.id = ?</query>
+	<query name="Account.countByArea">select count(a.id) from cn.com.eduedu.jee.security.account.Account as a where a.shop.area.id = ?</query>
 </hibernate-mapping>
