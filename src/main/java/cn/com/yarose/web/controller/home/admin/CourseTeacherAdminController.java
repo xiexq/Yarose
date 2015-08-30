@@ -63,7 +63,7 @@ public class CourseTeacherAdminController extends
 					"teacherName");
 		}
 		return this.generateStringSortedSet("courseName", "teacherName",
-				"beginTime", "endTime", "lesson", "courseFee", "userId");
+				"beginTime", "endTime", "lesson", "courseFee", "userId","statusName");
 	}
 
 	@Override
@@ -208,6 +208,7 @@ public class CourseTeacherAdminController extends
 		if (this.validate(cmd, result, request, create)) {
 			if (create) {
 				cmd.setCreateTime(new Date());
+				cmd.setStatus(Constants.COURSE_TEACHER_STATUS_APPOINTMENT);
 			}
 		}
 		return super.customSave(cmd, result, request, response, create);

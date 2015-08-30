@@ -25,6 +25,7 @@ import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.Dictionary;
 import cn.com.yarose.base.DictionaryService;
+import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
@@ -172,6 +173,11 @@ public class AccountAdminController extends
 			return as.findByUserId(value + "%", 0, 10);
 		}
 		return null;
+	}
+
+	@DictionaryModel(label = "name", val = "id", header = true, headerIsJustForSearch = true, headerLabel = "请选择")
+	public List<Shop> _shops(HttpServletRequest request) {
+		return shopService.listAll(-1, -1);
 	}
 
 	@DictionaryModel(val = "id", label = "name")
