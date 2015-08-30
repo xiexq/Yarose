@@ -74,6 +74,9 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "课程创建时间", datetime = true)
 	private Date createTime;
 
+	@FieldMeta(label = "课程状态")
+	private Integer status;
+	
 	@FieldMeta(label = "课程状态", order = 1)
 	public String getStatusName() {
 		Date now = new Date();
@@ -184,5 +187,13 @@ public class CourseTeacher implements java.io.Serializable {
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

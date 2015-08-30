@@ -25,6 +25,7 @@
 		<property name="createTime" column="create_time" type="timestamp"
 			update="false" />
 		<property name="courseFee" column="course_fee" />
+		<property name="status" column="status" />
 	</class>
 	<query name="CourseTeacher.listByCourseId"><![CDATA[from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=? order by tm.createTime desc]]></query>
 	<query name="CourseTeacher.countTeacherAllManagers"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.course.id=?]]></query>

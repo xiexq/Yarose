@@ -58,6 +58,9 @@
 	<bean class="cn.com.yarose.card.validator.MemberCardValidator" id="memberCardValidator">
 	<property name="accountService" ref="account_accountService"/>
 	</bean>
+	<bean class="cn.com.yarose.base.validate.CourseTeacherValidator" id="courseTeacherValidator">
+		<property name="courseTeacherService" ref="courseTeacherService"/>
+	</bean>
     <bean class="cn.com.yarose.card.impl.EvaluationServiceImpl" id="evaluationService">
     <property name="dao" ref="evaluationDao"/>
     </bean>
