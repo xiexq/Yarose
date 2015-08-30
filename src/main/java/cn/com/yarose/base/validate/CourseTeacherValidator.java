@@ -41,7 +41,7 @@ public class CourseTeacherValidator implements Validator {
 			}
 		}
 		if(cmd.getBeginTime().before(new Date())){
-			errors.rejectValue("beginTime", "beginTime.error","在当前时间之前,课程已经开始不能编辑");
+			errors.rejectValue("beginTime", "beginTime.error","不能在当前时间之前");
 		}
 	}
 }

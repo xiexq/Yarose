@@ -27,6 +27,7 @@ import cn.com.eduedu.jee.security.account.Access;
 import cn.com.eduedu.jee.security.account.AccessService;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
+import cn.com.eduedu.jee.security.exception.NoRightsException;
 import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseService;
 import cn.com.yarose.base.CourseTeacher;
@@ -34,12 +35,15 @@ import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.base.DictionaryService;
 import cn.com.yarose.base.Shop;
 import cn.com.yarose.base.ShopService;
+import cn.com.yarose.base.validate.CourseTeacherValidator;
+import cn.com.yarose.card.Appointment;
+import cn.com.yarose.card.AppointmentService;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/teacher/managers")
-@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
+@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class,validator=CourseTeacherValidator.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
 public class CourseTeacherAdminController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
 
@@ -53,7 +57,8 @@ public class CourseTeacherAdminController extends
 	private AccessService accessService;
 	@Resource(name = "dictionaryService")
 	private DictionaryService dictionaryService;
-
+	@Resource(name="appointmentService")
+	private AppointmentService appointmentService;
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
@@ -338,5 +343,14 @@ public class CourseTeacherAdminController extends
 			return list;
 		}
 		return as;
+	}
+	
+	@Override
+	public void customDelete(Long id, HttpServletRequest request) throws Exception {
+		List<Appointment> appList = appointmentService.listByCourseTeacher(id);
+		if(appList != null && appList.size() > 0){
+			throw new NoRightsException("该课程已经被预约不能删除");
+		}
+		super.customDelete(id, request);
 	}
 }
