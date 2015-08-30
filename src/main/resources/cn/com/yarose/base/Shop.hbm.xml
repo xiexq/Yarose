@@ -13,6 +13,8 @@
 		<property name="desc" column="description"></property>
 		<property name="address" type="string"></property>
 		<property name="phone" type="string"></property>
+		<many-to-one class="cn.com.yarose.base.Dictionary" name="area"
+			column="area" lazy="false"></many-to-one>
 	</class>
 	<query name="Shop.findByName">from cn.com.yarose.base.Shop as shop where shop.name=?</query>
 </hibernate-mapping>

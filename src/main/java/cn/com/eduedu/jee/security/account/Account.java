@@ -14,11 +14,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.yarose.base.Dictionary;
+import cn.com.yarose.base.Shop;
 
 public class Account implements Authentication {
 	private static final long serialVersionUID = -4676809701822585221L;
-	public static final int STATUS_ENABLED = 1;
-	public static final int STATUS_DISABLED = 2;
 	UserDetails details;
 	boolean authenticated = false;
 
@@ -46,7 +46,7 @@ public class Account implements Authentication {
 	String email;
 
 	@FieldMeta(label = "注册门店", i18n = true, summary = false, required = true, visible = false, dictionary = true, msgLabelKey = "security.account.shop.label")
-	Long shopId;
+	Shop shop;
 
 	@FieldMeta(label = "权限", i18n = true, visible = false, required = true, summary = false, dictionary = true, msgLabelKey = "security.account.accesses.label")
 	Set<Access> accesses;
@@ -86,6 +86,12 @@ public class Account implements Authentication {
 
 	@FieldMeta(label = "会员级别", i18n = true, summary = false, visible = false, group = "member", dictionary = true, msgLabelKey = "security.account.stuLevel.label")
 	Integer stuLevel;
+
+	/**
+	 * 冗余字段
+	 */
+	@FieldMeta(label = "区域", i18n = true, summary = false, visible = false, dictionary = true, msgLabelKey = "security.account.area.label")
+	Dictionary area;
 
 	@FieldMeta(label = "备注", i18n = true, summary = false, text = true, visible = false, msgLabelKey = "security.account.remark.label")
 	String remark;
@@ -220,6 +226,14 @@ public class Account implements Authentication {
 		return authorities;
 	}
 
+	public Dictionary getArea() {
+		return area;
+	}
+
+	public void setArea(Dictionary area) {
+		this.area = area;
+	}
+
 	public Object getCredentials() {
 		return this.password;
 	}
@@ -260,12 +274,12 @@ public class Account implements Authentication {
 		this.weixin = weixin;
 	}
 
-	public Long getShopId() {
-		return this.shopId;
+	public Shop getShop() {
+		return shop;
 	}
 
-	public void setShopId(Long shopId) {
-		this.shopId = shopId;
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 	public Long getTeachLevel() {

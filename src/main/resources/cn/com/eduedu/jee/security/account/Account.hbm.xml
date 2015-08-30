@@ -16,7 +16,6 @@
 			not-null="true"></property>
 		<property name="nick" length="50" />
 		<property name="email" length="150" unique="true" />
-		<property name="shopId" column="shop_id" />
 		<property name="weixin" column="weixin" />
 		<property name="phone" column="phone" />
 		<property name="teachLevel" column="teach_level" />
@@ -37,6 +36,7 @@
 			<many-to-many class="cn.com.eduedu.jee.security.account.Access"
 				column="access_id" />
 		</set>
+		<many-to-one name="shop" lazy="false" class="cn.com.yarose.base.Shop" column="shop" />
 	</class>
 	<query name="Account.loadByUserid">from cn.com.eduedu.jee.security.account.Account as a
 		where a.userid=?
@@ -47,7 +47,7 @@
 	<query name="Account.findByUserId">from cn.com.eduedu.jee.security.account.Account as a where
 		a.userid like ? order by a.userid
 	</query>
-	<query name="Account.listByShopId">from cn.com.eduedu.jee.security.account.Account as a where a.shopId = ?</query>
+	<query name="Account.listByShopId">from cn.com.eduedu.jee.security.account.Account as a where a.shop.id = ?</query>
 	<query name="Account.listByUserId">from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
 	<query name="Account.countByUserId">select count(a.accountId) from cn.com.eduedu.jee.security.account.Account as a where a.saler = ?</query>
 </hibernate-mapping>
