@@ -100,7 +100,7 @@ public class MemberCardController extends
 			// 门店管理员需要设置门店
 			boolean isShop = getIsShop(request);
 			if (isShop) {
-				Long shopId = this.getAccount().getShopId();
+				Long shopId = this.getAccount().getShop().getId();
 				Shop shop = shopService.findById(shopId);
 				cmd.setShop(shop);
 			}
