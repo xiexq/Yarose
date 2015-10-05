@@ -2,7 +2,6 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-
 <hibernate-mapping package="cn.com.eduedu.jee.security.account">
 	<class name="Account" table="t_sec_account" lazy="true">
 		<id name="accountId" column="account_id" type="long">
@@ -15,7 +14,7 @@
 		<property name="password" column="password" length="50"
 			not-null="true"></property>
 		<property name="nick" length="50" />
-		<property name="email" length="150" unique="true" />
+		<property name="email" length="150"/>
 		<property name="weixin" column="weixin" />
 		<property name="phone" column="phone" />
 		<property name="teachLevel" column="teach_level" />
