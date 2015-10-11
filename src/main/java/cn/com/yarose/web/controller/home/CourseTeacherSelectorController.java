@@ -17,20 +17,24 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/course/teacher/selector")
-@CRUDControllerMeta(title = "课程选择", service = CourseTeacherService.class, listable = true,countable=true,searchable=true)
-public class CourseTeacherSelectorController extends BaseCRUDControllerExt<CourseTeacher, Long> {
+@CRUDControllerMeta(title = "课程选择", service = CourseTeacherService.class, listable = true, countable = true, searchable = true)
+public class CourseTeacherSelectorController extends
+		BaseCRUDControllerExt<CourseTeacher, Long> {
 
-  
-  @Override
-  public Set<String> customListFields(HttpServletRequest request) throws Exception {
-    return this.generateStringSortedSet("courseName","shopName","teacherName","beginTime","endTime");
-  }
-  
-  @Override
-  public List<CourseTeacher> customList(int offset, int count, OrderProperties orders,
-      HttpServletRequest request) throws Exception {
-	  Date date = new Date();
-    return ((CourseTeacherService)this.getCrudService()).listByBeginTime(date);
-  }
+	@Override
+	public Set<String> customListFields(HttpServletRequest request)
+			throws Exception {
+		return this.generateStringSortedSet("courseName", "shopName",
+				"teacherName", "beginTime", "endTime");
+	}
+
+	@Override
+	public List<CourseTeacher> customList(int offset, int count,
+			OrderProperties orders, HttpServletRequest request)
+			throws Exception {
+		Date date = new Date();
+		return ((CourseTeacherService) this.getCrudService())
+				.listByBeginTime(date);
+	}
 
 }

@@ -10,9 +10,9 @@ import cn.com.yarose.web.controller.BaseControllerExt;
 
 @Controller
 @RequestMapping("/home")
-public class HomeIndex extends BaseControllerExt{
+public class HomeIndex extends BaseControllerExt {
 	@RequestMapping("/index")
-	public String index(HttpServletRequest request,Model model){
+	public String index(HttpServletRequest request, Model model) {
 		this.rejectWebServletCfgs(model);
 		this.rejectAccountInfo(model);
 		return "home/index";

@@ -2,6 +2,7 @@
 <%@ include file="../includes/tags.jsp"%>
 <link href="${staticResPath}/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
 <link href="${staticResPath}/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'/>
+<link href="${staticResPath}/styles/mobile/menu.css" rel='stylesheet' media='all'/>
 <style>
 .calendar_hover{background:#6DCE14;cursor:pointer;}
 </style>
@@ -10,6 +11,7 @@
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.js"></script>
 <script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
+<%-- <script type="text/javascript" src="${staticResPath}/script/nav4.js"></script> --%>
 <script>
 	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva;
 	function _clearContainer(tar){
@@ -56,43 +58,79 @@
 			_goHash(anchor);
 		}
 		$(document).ready(function(){
-			leftMenu=$( 'div .ui-layout-left');
-			var left=leftMenu;
-			left.accordion({collapsible:true,active:false,heightStyle:'content'});
-			container=$('.ui-layout-right'),idCounter=0,accordIdx=0;
-			$('ul',left).each(function(){
-				$('li a',$(this)).each(function(){
-					var t=$(this),id=t.prop('id'),href=t.prop('href');
-					t.data('idx',accordIdx);
-					if(!id){id='sub_menu_item_'+idCounter;t.prop('id',id);idCounter++;}
-					if(href){t.data('url',href);}
-					t.prop('href','#'+id);
-					var idx=href.indexOf('javascript:');
-					if(idx==0){
-						var f=href.substring('javascript:'.length);
-						t.data('func',f);
+			if(is_pc()){
+				$('.ui-layout-bottom').hide();
+				leftMenu=$( 'div .ui-layout-left');
+				var left=leftMenu;
+				left.accordion({collapsible:true,active:false,heightStyle:'content'});
+				container=$('.ui-layout-right'),idCounter=0,accordIdx=0;
+				$('ul',left).each(function(){
+					$('li a',$(this)).each(function(){
+						var t=$(this),id=t.prop('id'),href=t.prop('href');
+						t.data('idx',accordIdx);
+						if(!id){id='sub_menu_item_'+idCounter;t.prop('id',id);idCounter++;}
+						if(href){t.data('url',href);}
+						t.prop('href','#'+id);
+						var idx=href.indexOf('javascript:');
+						if(idx==0){
+							var f=href.substring('javascript:'.length);
+							t.data('func',f);
+						}
+					}).on('click',_leftmenu_select_handle);
+					accordIdx++;
+				});
+				_jeeSetupAjax();/*类库方法来初始化ajax安装。*/
+				lrResizeLayout=new LRAutoLayout(left,container);/*让界面支持自动调整高度*/
+				_inlineWindow=new InlineWindowFactory();
+				/*获得当前的链接锚点*/
+				var anchor=window.location.hash;
+				if(!_goHash(anchor)){
+					if(!_goHash('.start_node')){
+						_goHash('ul li a:first');
+					};
+				}
+				$(window).on('hashchange', onHistory);
+			}else{
+				$('.ui-layout-left').hide();
+				container=$('.ui-layout-right');
+				bottomMenu=$('.ui-layout-bottom');
+				_jeeSetupAjax();/*类库方法来初始化ajax安装。*/
+				$('#nav4_ul ul li a').click(function(){
+					if($(this).hasClass('on')){
+						$('#nav4_ul ul li a').removeClass('on');
+					}else{
+						$('#nav4_ul ul li a').removeClass('on');
+						$(this).addClass('on');
 					}
-				}).on('click',_leftmenu_select_handle);
-				accordIdx++;
-			});
-			_jeeSetupAjax();/*类库方法来初始化ajax安装。*/
-			lrResizeLayout=new LRAutoLayout(left,container);/*让界面支持自动调整高度*/
-			_inlineWindow=new InlineWindowFactory();
-			/*获得当前的链接锚点*/
-			var anchor=window.location.hash;
-			if(!_goHash(anchor)){
-				if(!_goHash('.start_node')){
-					_goHash('ul li a:first');
-				};
+				});
+				$('.ui-layout-right').click(function(){
+					$('#nav4_ul ul li a').removeClass('on');
+				});
+				$('.ui-header').click(function(){
+					$('#nav4_ul ul li a').removeClass('on');
+				});
+			    $('#nav4_ul ul li dl dd a:first span').trigger('click');
 			}
-			$(window).on('hashchange', onHistory);
 		});
 	});
 	
+	//验证是否为pc端
+	function is_pc(){
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {  
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {flag = false; break;}  
+        }  
+        return flag;  
+	}   
+	
 	function _account_admin(isShop){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",enableNextEdit:true,params:{'_shop':isShop},
-			onEdit:function(){
+		container.crud({url:"${ctxPath }/home/admin/account",params:{'_shop':isShop},
+			onSaveSuccess:function(){
+				$(this).crud('refreshList');
+			},onEdit:function(){
 				$("input[name='accesses']").each(function(){
 					if($(this).val()=='TEACHER'&&!$(this).prop('checked')){
 						$(".ui-fieldset-teacher").hide();
@@ -115,8 +153,7 @@
 	
 	function _access_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'
-		});
+		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'});
 	}
 	
 	function _dictionary_admin(){

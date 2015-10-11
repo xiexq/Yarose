@@ -20,14 +20,6 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 	private PasswordEncoder passwordEncoder;
 	private UserDetailsService userService;
 
-	public Account findById(Long id) {
-		Account account = (Account) super.findById(id);
-		if (account != null) {
-			account.getAccessesName();
-		}
-		return account;
-	}
-
 	public Authentication authenticate(Authentication token)
 			throws AuthenticationException {
 		UsernamePasswordAuthenticationToken uptoken = (UsernamePasswordAuthenticationToken) token;

@@ -33,7 +33,7 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/account")
-@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, clientValidation = true, createable = true, editable = true, deleteable = true, searchable = true, viewable = true)
+@CRUDControllerMeta(title = "账号管理", service = AccountService.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true, viewable = true)
 public class AccountAdminController extends
 		BaseCRUDControllerExt<Account, Long> {
 
@@ -112,7 +112,6 @@ public class AccountAdminController extends
 			}
 			if (result.getFieldErrorCount() == 0) {
 				this.getCrudService().save(cmd);
-				cmd.getAccessesName();
 			}
 		}
 		return cmd;

@@ -33,7 +33,7 @@
 			lazy="false">
 			<key column="role_id"></key>
 			<many-to-many class="cn.com.eduedu.jee.security.account.Access"
-				column="access_id" />
+				column="access_id" lazy="false"/>
 		</set>
 		<many-to-one name="shop" lazy="false" class="cn.com.yarose.base.Shop" column="shop" />
 	</class>

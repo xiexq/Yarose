@@ -18,7 +18,7 @@ import cn.com.yarose.base.Dictionary;
 import cn.com.yarose.base.Shop;
 
 public class Account implements Authentication {
-	private static final long serialVersionUID = -4676809701822585221L;
+	private static final long serialVersionUID = 1L;
 	UserDetails details;
 	boolean authenticated = false;
 
@@ -27,73 +27,78 @@ public class Account implements Authentication {
 
 	@NotNull
 	@Size(min = 5, max = 35)
-	@FieldMeta(label = "用户名", i18n = true, required = true, description = "请用字母、数字和下划线组成。", msgLabelKey = "security.account.userid.label", msgDescriptKey = "security.account.userid.desc")
+	@FieldMeta(label = "用户名", i18n = true, required = true, description = "请用字母、数字和下划线组成。")
 	String userid;
 
 	@Size(max = 20)
 	@NotNull
-	@FieldMeta(label = "密码", i18n = true, summary = false, visible = false, required = true, password = true, passwordCheckStrength = true, msgLabelKey = "security.account.password.label")
+	@FieldMeta(label = "密码", i18n = true, summary = false, visible = false, required = true, password = true)
 	String password;
 
 	@Size(max = 20)
 	@NotNull
-	@FieldMeta(label = "姓名", i18n = true, required = true, msgLabelKey = "security.account.nick.label")
+	@FieldMeta(label = "姓名", i18n = true, required = true)
 	String nick;
 
 	@Email
-	@Size(max = 150)
-	@FieldMeta(label = "电子邮件", i18n = true, summary = false, msgLabelKey = "security.account.email.label")
+	@FieldMeta(label = "电子邮件", i18n = true, summary = false)
 	String email;
 
-	@FieldMeta(label = "注册门店", i18n = true, summary = false, required = true, visible = false, dictionary = true, msgLabelKey = "security.account.shop.label")
+	@FieldMeta(label = "注册门店", i18n = true, summary = false, required = true, visible = false, dictionary = true)
+	@NotNull
 	Shop shop;
 
-	@FieldMeta(label = "权限", i18n = true, visible = false, required = true, summary = false, dictionary = true, msgLabelKey = "security.account.accesses.label")
+	@FieldMeta(label = "权限", i18n = true, visible = false, required = true, summary = false, dictionary = true)
+	@NotNull
 	Set<Access> accesses;
 
-	@FieldMeta(label = "微信号", i18n = true, summary = false, visible = false, required = true, msgLabelKey = "security.account.weixin.label")
+	@FieldMeta(label = "微信号", summary = false, visible = false, required = true)
 	String weixin;
 
-	@FieldMeta(label = "手机号", i18n = true, summary = false, visible = false, required = true, msgLabelKey = "security.account.phone.label")
+	@FieldMeta(label = "手机号", summary = false, visible = false, required = true)
 	String phone;
 
-	@FieldMeta(label = "生日", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.birthday.label")
+	@FieldMeta(label = "生日", summary = false, visible = false)
 	Date birthday;
 
-	@FieldMeta(label = "教师级别", i18n = true, summary = false, visible = false, group = "teacher", dictionary = true, msgLabelKey = "security.account.level.label")
-	Long teachLevel;
-
-	@FieldMeta(label = "标准课时费", i18n = true, summary = false, visible = false, group = "teacher", msgLabelKey = "security.account.courseFee.label")
-	Float courseFee;
-
-	@FieldMeta(label = "邮寄地址", i18n = true, summary = false, visible = false, group = "teacher", msgLabelKey = "security.account.adress.label")
-	String address;
-
-	@FieldMeta(label = "是否已办卡", i18n = true, summary = false, visible = false, msgLabelKey = "security.account.hasCard.label")
+	@FieldMeta(label = "是否已办卡", summary = false, visible = false)
 	Integer hasCard;
 
-	@FieldMeta(label = "创建日期", i18n = true, editable = false, datetime = true, msgLabelKey = "security.account.createTime.label")
+	@FieldMeta(label = "创建日期", editable = false, datetime = true)
 	Date createTime;
 
-	@FieldMeta(label = "职业", i18n = true, editable = false, group = "member", msgLabelKey = "security.account.occupation.label")
+	// teacher group begin
+	@FieldMeta(label = "教师级别", summary = false, visible = false, dictionary = true, group = "teacher")
+	Long teachLevel;
+
+	@FieldMeta(label = "标准课时费", summary = false, visible = false, group = "teacher")
+	Float courseFee;
+
+	@FieldMeta(label = "邮寄地址", summary = false, visible = false, group = "teacher")
+	String address;
+	// teacher group end
+
+	// member group begin
+	@FieldMeta(label = "职业", editable = false, group = "member")
 	String occupation;
 
-	@FieldMeta(label = "营销人员账号", i18n = true, summary = false, autoComplete = true, group = "member", required = true, visible = false, msgLabelKey = "security.account.saler.label")
+	@FieldMeta(label = "营销人员账号", summary = false, autoComplete = true, group = "member", visible = false)
 	String saler;
 
-	@FieldMeta(label = "推荐人账号", i18n = true, summary = false, autoComplete = true, group = "member", visible = false, msgLabelKey = "security.account.referee.label")
+	@FieldMeta(label = "推荐人账号", summary = false, autoComplete = true, group = "member", visible = false)
 	String referee;
 
-	@FieldMeta(label = "会员级别", i18n = true, summary = false, visible = false, group = "member", dictionary = true, msgLabelKey = "security.account.stuLevel.label")
+	@FieldMeta(label = "会员级别", summary = false, visible = false, group = "member", dictionary = true)
 	Integer stuLevel;
+	// member group end
 
 	/**
 	 * 冗余字段
 	 */
-	@FieldMeta(label = "区域", i18n = true, summary = false, visible = false, dictionary = true, msgLabelKey = "security.account.area.label")
+	@FieldMeta(label = "区域", summary = false, visible = false, dictionary = true)
 	Dictionary area;
 
-	@FieldMeta(label = "备注", i18n = true, summary = false, text = true, visible = false, msgLabelKey = "security.account.remark.label")
+	@FieldMeta(label = "备注", summary = false, text = true, visible = false)
 	String remark;
 
 	Integer isAdmin;
@@ -198,12 +203,12 @@ public class Account implements Authentication {
 		this.accesses = accesses;
 	}
 
-	@FieldMeta(label = "权限", i18n = true, summary = false, editable = false, msgLabelKey = "security.account.accesses.label")
+	@FieldMeta(label = "权限", summary = false, editable = false)
 	public String getAccessesName() {
 		StringBuffer sb = new StringBuffer();
-		if (this.accesses != null) {
-			for (Access access : this.accesses) {
-				sb.append(access.toString());
+		if (accesses != null) {
+			for (Access access : accesses) {
+				sb.append(access.getName() + " ");
 			}
 		}
 		return sb.toString();
