@@ -6,8 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.5,
- minimum-scale=1.5, maximum-scale=1.5, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1,
+ minimum-scale=1, maximum-scale=1, user-scalable=no"/>
 <title><spring:message code="app.title" /></title>
 <%@ include file="../includes/common_links.jsp"%>
 </head>
@@ -39,7 +39,7 @@
 							    <li><a href="javascript:_access_admin()">权限管理</a></li>
 								<li><a href="javascript:_account_admin()">账号管理</a></li>
 								<li><a href="javascript:_course_admin()">课程管理</a></li>
-								<li><a href="javascript:_course_grant()">课程安排</a></li>
+								<li><a href="javascript:_course_plan()">课程安排</a></li>
 								<li><a href="javascript:_member_card_admin()">会员卡管理</a></li>
 								<li><a href="javascript:_course_appointment()">预约管理</a></li>
 								<li><a href="javascript:_evaluation_management()">评价管理</a></li>
@@ -54,7 +54,7 @@
 							<ul>
 							    <li><a href="javascript:_account_admin('shop')">账号管理</a></li>
 								<li><a href="javascript:_course_admin()">课程管理</a></li>
-								<li><a href="javascript:_course_grant()">课程安排</a></li>
+								<li><a href="javascript:_course_plan()">课程安排</a></li>
 								<li><a href="javascript:_member_card_admin()">会员卡管理</a></li>
 								<li><a href="javascript:_course_appointment()">预约管理</a></li>
 								<li><a href="javascript:_evaluation_management()">评价管理</a></li>

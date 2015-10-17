@@ -186,8 +186,8 @@ public class AccountAdminController extends
 	@DictionaryModel(label = "alias", val = "userid")
 	public List<Account> _ac_salers(String value, HttpServletRequest request) {
 		if (StringUtils.hasText(value)) {
-			AccountService as = (AccountService) this.getCrudService();
-			return as.findByUserId(value + "%", 0, 10);
+			return ((AccountService) this.getCrudService()).findByUserId(value
+					+ "%", 0, 10);
 		}
 		return null;
 	}
@@ -195,8 +195,8 @@ public class AccountAdminController extends
 	@DictionaryModel(label = "alias", val = "userid")
 	public List<Account> _ac_referees(String value, HttpServletRequest request) {
 		if (StringUtils.hasText(value)) {
-			AccountService as = (AccountService) this.getCrudService();
-			return as.findByUserId(value + "%", 0, 10);
+			return ((AccountService) this.getCrudService()).findByUserId(value
+					+ "%", 0, 10);
 		}
 		return null;
 	}

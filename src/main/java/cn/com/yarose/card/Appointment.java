@@ -3,6 +3,7 @@ package cn.com.yarose.card;
 import java.util.Date;
 
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
+import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.utils.Constants;
 
@@ -12,8 +13,10 @@ public class Appointment implements java.io.Serializable {
 	@FieldMeta(id = true, label = "ID", editable = false)
 	Long id;
 
-	@FieldMeta(label = "会员名称", editable = false, visible = false, summary = false)
+	@FieldMeta(label = "会员名称", editable = false, autoComplete = true, visible = false, summary = false)
 	private String userId;
+
+	private Account userAccount;
 
 	@FieldMeta(label = "会员卡号", dictionary = true, editable = false, visible = false, summary = false)
 	private MemberCard mCard;
@@ -23,30 +26,61 @@ public class Appointment implements java.io.Serializable {
 		if (id == null) {
 			return null;
 		}
-		return Constants.getFormatId(this.id, 5);
+		return Constants.getFormatId(id, 5);
 	}
 
 	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
 	private CourseTeacher courseTeacher;
 
 	@FieldMeta(id = true, label = "课时", editable = true)
-	public Integer getLesson(){
+	public Integer getLesson() {
 		if (courseTeacher != null) {
 			return courseTeacher.getLesson();
 		}
 		return null;
 	}
-	
-	@FieldMeta(id = true, label = "赠送课时", editable = true)
-	public Integer giveLesson;
-	
+
 	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
 	private Long courseTeacherId;
+
+	@FieldMeta(id = true, label = "状态", editable = true, dictionary = true)
+	private Integer status;
+
+	@FieldMeta(id = true, label = "预约时间", editable = true, datetime = true)
+	private Date createTime;
+
+	@FieldMeta(id = true, label = "核销时间", editable = true, datetime = true)
+	private Date checkTime;
+
+	@FieldMeta(id = true, label = "核销人", editable = true)
+	private String checkUserId;
+
+	@FieldMeta(id = true, label = "其他消费", editable = true)
+	private Float otherConsum;
+
+	@FieldMeta(id = true, label = "备注", editable = true, text = true)
+	private String remark;
 
 	@FieldMeta(label = "会员卡号", visible = true, editable = true, summary = false)
 	public String getCardNo() {
 		if (mCard != null) {
 			return mCard.getCardNo();
+		}
+		return "";
+	}
+
+	@FieldMeta(label = "微信号", visible = false, editable = false, summary = false)
+	public String getUserWeiXin() {
+		if (userAccount != null) {
+			return userAccount.getWeixin();
+		}
+		return "";
+	}
+
+	@FieldMeta(label = "昵称", visible = false, editable = false, summary = false)
+	public String getUserNick() {
+		if (userAccount != null) {
+			return userAccount.getNick();
 		}
 		return "";
 	}
@@ -74,40 +108,20 @@ public class Appointment implements java.io.Serializable {
 		}
 		return "";
 	}
-	
-	public Date getCourseBeginTime(){
+
+	public Date getCourseBeginTime() {
 		if (courseTeacher != null) {
 			return courseTeacher.getBeginTime();
 		}
 		return null;
 	}
 
-	public Date getCourseEndTime(){
+	public Date getCourseEndTime() {
 		if (courseTeacher != null) {
 			return courseTeacher.getEndTime();
 		}
 		return null;
 	}
-	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
-	private Integer status;
-
-	@FieldMeta(id = true, label = "预约时间", editable = true, datetime = true)
-	private Date createTime;
-
-	@FieldMeta(id=true,label="核销时间",editable=true,datetime=true)
-	private Date checkTime;
-	
-	@FieldMeta(id=true,label="核销人",editable=true)
-	private String chechUserId;
-	
-	@FieldMeta(id=true,label="核销人",editable=true)
-	private Long accountId;
-	
-	@FieldMeta(id=true,label="其他消费",editable=true)
-	private Float otherConsum;
-
-	@FieldMeta(id = true, label = "备注", editable = true, text = true)
-	private String remark;
 
 	public Long getId() {
 		return id;
@@ -153,6 +167,14 @@ public class Appointment implements java.io.Serializable {
 		return createTime;
 	}
 
+	public Account getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(Account userAccount) {
+		this.userAccount = userAccount;
+	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
@@ -185,31 +207,15 @@ public class Appointment implements java.io.Serializable {
 		return checkTime;
 	}
 
-	public String getChechUserId() {
-		return chechUserId;
+	public String getCheckUserId() {
+		return checkUserId;
 	}
 
-	public Long getAccountId() {
-		return accountId;
+	public void setCheckUserId(String checkUserId) {
+		this.checkUserId = checkUserId;
 	}
 
 	public void setCheckTime(Date checkTime) {
 		this.checkTime = checkTime;
-	}
-
-	public void setChechUserId(String chechUserId) {
-		this.chechUserId = chechUserId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
-	public Integer getGiveLesson() {
-		return giveLesson;
-	}
-
-	public void setGiveLesson(Integer giveLesson) {
-		this.giveLesson = giveLesson;
 	}
 }

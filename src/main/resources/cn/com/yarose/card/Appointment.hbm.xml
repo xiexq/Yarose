@@ -11,6 +11,8 @@
 		</id>
 		<many-to-one class="cn.com.yarose.base.CourseTeacher" name="courseTeacher"
 			column="course_Teacher_id" not-null="true" lazy="false"></many-to-one>
+		<many-to-one class="cn.com.eduedu.jee.security.account.Account" name="userAccount"
+			column="user_account_id" lazy="false"></many-to-one>
 		<many-to-one class="cn.com.yarose.card.MemberCard" name="mCard"
 			column="member_card_id" not-null="true" lazy="false"></many-to-one>
 		<property name="status" column="status"
@@ -22,11 +24,12 @@
 		<property name="otherConsum" column="other_consum"></property>
 		<property name="remark" column="remark"></property>
 		<property name="checkTime" column="check_time"></property>
-		<property name="chechUserId" column="check_userId"></property>
-		<property name="accountId" column="account_id"></property>
+		<property name="checkUserId" column="check_userId"></property>
 	</class>
 	<query name="Appointment.listByTeacher">from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
     <query name="Appointment.countByTeacher">select count(a.id) from cn.com.yarose.card.Appointment as a where a.courseTeacher.teacher.accountId=?</query>
     <query name="Appointment.listByCourseTeacher">from cn.com.yarose.card.Appointment as a where a.courseTeacher.id=?</query>
     <query name="Appointment.countByCourseTeacher">select count(a.id) from cn.com.yarose.card.Appointment as a where a.courseTeacher.id=?</query>
+    <query name="Appointment.listByCheckStatus">from cn.com.yarose.card.Appointment a where a.status = ? order by a.createTime desc</query>
+    <query name="Appointment.countByCheckStatus">select count(*) from cn.com.yarose.card.Appointment a where a.status=?</query>
 </hibernate-mapping>

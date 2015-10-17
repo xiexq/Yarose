@@ -83,6 +83,11 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 				userId);
 	}
 
+	public Account findByUserId(String userId) {
+		return (Account) this.getDao().executeQueryUnique("from cn.com.eduedu.jee.security.account.Account as a where a.userid =?",
+				QueryCmdType.HSQL, userId);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Account> listByRole(String role, int offset, int count) {

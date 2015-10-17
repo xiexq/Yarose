@@ -30,10 +30,10 @@ public class CourseTeacher implements java.io.Serializable {
 		}
 		return "";
 	}
-	
+
 	@FieldMeta(label = "课程名称", visible = true, editable = true, summary = false)
 	private String courseName;
-	
+
 	@FieldMeta(label = "课程名称", visible = true, editable = true, summary = false)
 	public String getCourseName() {
 		if (course != null) {
@@ -65,6 +65,19 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "课程结束时间", datetime = true, time = true, required = true)
 	private Date endTime;
 
+	/**
+	 * 冗余字段，仅用于预约管理，显示课程时间
+	 */
+	@FieldMeta(label = "课程开始时间", datetime = true, editable = false)
+	public Date getBeginDate() {
+		return beginTime;
+	}
+
+	@FieldMeta(label = "课程结束时间", datetime = true, editable = false)
+	public Date getEndDate() {
+		return endTime;
+	}
+
 	@FieldMeta(label = "课时", required = true)
 	private Integer lesson;
 
@@ -76,19 +89,19 @@ public class CourseTeacher implements java.io.Serializable {
 
 	@FieldMeta(label = "课程状态")
 	private Integer status;
-	
+
 	@FieldMeta(label = "课程状态", order = 1)
 	public String getStatusName() {
 		Date now = new Date();
 		if (beginTime != null && beginTime.after(now)) {
 			return "预约中";
-		}else if(endTime != null && endTime.before(now)){
+		} else if (endTime != null && endTime.before(now)) {
 			return "已上";
 		} else {
 			return "未上";
 		}
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

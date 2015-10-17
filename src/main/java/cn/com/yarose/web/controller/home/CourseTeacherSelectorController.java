@@ -25,7 +25,7 @@ public class CourseTeacherSelectorController extends
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("courseName", "shopName",
-				"teacherName", "beginTime", "endTime");
+				"teacherName", "beginDate", "endDate");
 	}
 
 	@Override

@@ -26,4 +26,5 @@ public abstract interface AccountService extends
 
 	Long countByArea(Long id);
 
+	Account findByUserId(String userId);
 }

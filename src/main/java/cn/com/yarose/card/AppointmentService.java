@@ -4,18 +4,25 @@ import java.util.List;
 
 import cn.com.eduedu.jee.service.BaseSearchService;
 
-public interface AppointmentService extends BaseSearchService<Appointment, Long> {
+public interface AppointmentService extends
+		BaseSearchService<Appointment, Long> {
 
-  List<Appointment> listAll(boolean isCheck, Integer status, int offset, int count);
+	/**
+	 * 列出指定核销状态下的数据
+	 * @param status
+	 * @param offset
+	 * @param count
+	 * @return
+	 */
+	List<Appointment> listByCheckStatus(Integer status, int offset, int count);
+	
+	Long countByCheckStatus(Integer status);
 
-  long countAll(boolean isCheck, Integer status);
+	List<Appointment> listByTeacher(Long accountId, int offset, int count);
 
-List<Appointment> listByTeacher(Long accountId, int offset, int count);
+	Long countByTeacher(Long accountId);
 
-long countByTeacher(Long accountId);
+	List<Appointment> listByCourseTeacher(Long courseTeacherId);
 
-List<Appointment> listByCourseTeacher(Long courseTeacherId);
-
-long countByCourseTeacher(Long courseTeacherId);
-
+	Long countByCourseTeacher(Long courseTeacherId);
 }
