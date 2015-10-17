@@ -26,4 +26,12 @@ public abstract interface AccountService extends
 
 	Long countByArea(Long id);
 
+	public boolean getExistAccountByNick(String nick);
+	/**
+	 * 生成激活账户的一个随机串，邮箱用户和手机用户返回串不一样
+	 * @param id
+	 * @return
+	 */
+	String generateEnableString(Long id);
+
 }

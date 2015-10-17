@@ -42,18 +42,25 @@
 									<button type="submit" class="ui-action-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 										<span class="ui-button-text">登录</span>
 									</button>
+									<button id="register" class="ui-action-register ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="ui-button-text">注册</span>
+									</button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>=
 	</div>
 	<script type="text/javascript">
 		(function($){
 			document.getElementById('j_username').focus();
 			if($.fn.button){$('button').button();}
+			
+			$("#register").on('click',function(){
+				window.open('${ctxPath}/public/register');
+			})
 		})(jQuery);
 	</script>
 </body>

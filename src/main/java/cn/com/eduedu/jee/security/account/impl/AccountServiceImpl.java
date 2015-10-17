@@ -134,4 +134,16 @@ public class AccountServiceImpl extends DaoBasedServiceImpl<Account, Long>
 		return (Long) this.getDao().executeQueryUnique("Account.countByArea",
 				QueryCmdType.QUERY_NAME, id);
 	}
+
+	@Override
+	public boolean getExistAccountByNick(String nick) {
+		return ((Long) getDao().executeQueryUnique("Account.countByNick",
+				QueryCmdType.QUERY_NAME, nick)) > 0;
+	}
+
+	@Override
+	public String generateEnableString(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

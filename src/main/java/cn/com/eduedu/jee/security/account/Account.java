@@ -102,6 +102,11 @@ public class Account implements Authentication {
 	String remark;
 
 	Integer isAdmin;
+	
+	/**
+	 * 发送验证的次数
+	 */
+	Integer sendVerifyCodeCount = 0;
 
 	public String getAlias() {
 		return nick + "(" + userid + ")";
@@ -362,5 +367,13 @@ public class Account implements Authentication {
 		} else if (!this.userid.equals(other.userid))
 			return false;
 		return true;
+	}
+
+	public Integer getSendVerifyCodeCount() {
+		return sendVerifyCodeCount;
+	}
+
+	public void setSendVerifyCodeCount(Integer sendVerifyCodeCount) {
+		this.sendVerifyCodeCount = sendVerifyCodeCount;
 	}
 }

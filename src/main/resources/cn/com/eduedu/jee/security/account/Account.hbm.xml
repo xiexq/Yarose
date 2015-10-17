@@ -43,6 +43,9 @@
 	<query name="Account.countByUserid">select count(a.accountId) from
 		cn.com.eduedu.jee.security.account.Account as a where a.userid=?
 	</query>
+	<query name="Account.countByNick">select count(a.accountId) from
+		cn.com.eduedu.jee.security.account.Account as a where a.nick=?
+	</query>
 	<query name="Account.findByUserId">from cn.com.eduedu.jee.security.account.Account as a where
 		a.userid like ? order by a.userid
 	</query>
