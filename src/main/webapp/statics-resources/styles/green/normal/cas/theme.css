@@ -1,0 +1,35 @@
+#container>.ui-body .ui-container{
+	background:url('images/title_image.png') no-repeat right bottom;
+	background-origin:content-box;
+}
+#container .ui-crud-widget .ui-widget-header{
+	border-color:#99cc00;
+}
+#loginForm form .ui-field-constr-required .ui-field-label, #get_password .ui-field-constr-required .ui-field-label{
+	padding:0;
+	background:none;
+}
+#container #registerForm.ui-register-info h1{
+	color:#669900;
+}
+/*CAS首页*/
+.ui-user-digest .ui-account-info table td{
+	border:0;
+}
+.ui-user-digest .ui-account-info table .nick{
+	color:#669900;
+}
+/*CAS按钮定义*/
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-password-edit{
+	background-position:0 0;
+}
+.ui-crud-widget .ui-list .ui-list-body table .ui-list-item .ui-action-bar .ui-button.ui-action-components{
+	background-position:-24px 0;
+}
+/*嵌入登录页面*/
+.ui-embed-login .ui-mc-container{
+	border:1px solid #99cc00;
+}
+.ui-embed-login #container .ui-crud-widget .ui-widget-header{
+	border:0;
+}

@@ -1,0 +1,446 @@
+/*normalize basic elements*/
+html{
+	-webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%; 
+}
+body{
+	margin:0;
+	width:100%;
+	min-width:320px;
+	font-family:"Microsoft Yahei","微软雅黑",Helvetica,Arial,sans-serif,"宋体";
+	color:#666;
+	font-size:14px;
+	line-height:1.5;
+	background-color:#f2f6df;
+}
+a{
+	color:#669900;
+	text-decoration:none;
+}
+h1,h2,h3{
+	margin:0;
+	text-rendering:optimizelegibility;
+	color:#444;
+	font-weight:normal;
+}
+h1{
+	font-size:20px;
+	line-height:34px;
+}
+h2{
+	font-size:16px;
+	line-height:36px;
+}
+h3{
+	font-size:14px;
+}
+p{
+	margin:0 0 10px 0;
+}
+img {
+    border: 0;
+	width: auto\9;
+  	height: auto;
+  	max-width: 100%;
+  	vertical-align: middle;
+  	border: 0;
+  	-ms-interpolation-mode: bicubic;
+}
+ul{
+	padding:0;
+	margin:0;
+}
+li{
+	list-style:none;
+}
+fieldset {
+    border:0;
+    margin:0;
+    padding:0;
+}
+button,input{
+    font-family:inherit;
+    font-size:100%;
+    margin:0;
+	line-height:normal;
+	*overflow: visible;
+	cursor:pointer;
+}
+input[type="checkbox"],input[type="radio"] {
+    box-sizing:border-box;
+    padding:0;
+	margin:0;
+	line-height:normal;
+	background-color:transparent;
+	width:20px;
+	height:20px;
+}
+input[type="text"],input[type="password"],input[type="email"]{
+	display:inline-block;
+	height:40px;
+	width:100%;
+	padding:0;
+	margin:0;
+	line-height:20px;
+	vertical-align:middle;
+	background-color:#ffffff;
+	border:1px solid #ccc;
+	border-top:1px solid #9f9f9f;
+	text-indent:10px;
+	-webkit-appearance:none;
+}
+input:-webkit-input-placeholder, input:-moz-placeholder,input:-ms-input-placeholder{
+	color:#999;
+}
+button, .ui-button{
+	text-align:center;	
+	border:1px solid #dedede;
+	background-color:#efefef;
+	color:#666;
+}
+.ui-button-primary{
+	color:#ffffff;
+	background-color:#ffbb33;
+	border-color:#ffa700; 
+}
+.ui-button-secondary{
+	color: #ffffff;
+	background-color:#99cc00;
+	border-color:#729900;
+}
+/*popup*/
+.ui-popup-tip{
+	position:absolute;
+	min-width:200px;
+	max-width:90%;
+	z-index:100;
+	border:1px solid #e1e1e1;
+	background-color:#fff;
+	box-shadow: 0 1px 3px #ccc;
+}
+.ui-popup-tip .ui-info{
+	padding:20px;
+}
+.ui-popup-tip .ui-info-warn{
+	text-align:center;
+}
+.ui-popup-tip .ui-info .ui-button{
+	margin:10px 5px 0 5px;
+}
+.ui-popup-tip .ui-info-err p, .ui-popup-tip .ui-info-pass p, .ui-popup-tip .ui-info-alert p, .ui-popup-tip .ui-info-loading p{
+	padding-left:20px;
+	word-wrap:break-word;
+	word-break:break-all;
+}
+.ui-popup-tip .ui-info-err p{
+	background:url('images/info_icon_error.png') no-repeat left top;
+}
+.ui-popup-tip .ui-info-pass p{
+	background:url('images/info_icon_correct.png') no-repeat left top;
+}
+.ui-popup-tip .ui-info-alert p{
+	background:url('images/info_icon_warning.png') no-repeat left top;
+}
+.ui-popup-tip .ui-info-loading p{
+	background:url('images/loading_16.gif') no-repeat left top;
+}
+/*layouts*/
+#container{
+	width:100%;
+	height:100%;
+}
+#container>.ui-header{
+	height:44px;
+	background-color:#99cc00;
+}
+.ui-header .ui-topnav .ui-logo{
+	margin:0 auto;
+	padding:5px 0;
+	width:150px;
+}
+.ui-header .ui-topnav .ui-logo img{
+	float:left;
+	margin-right:10px;
+}
+.ui-header .ui-topnav .ui-logo h1{
+	color:#fff;
+}
+#container>.ui-body{
+	text-align:center;
+}
+.ui-weak-container{
+	background-color:#363636;
+	color:#fff;
+}
+.ui-footer{
+	padding:12px;
+	text-align:center;
+}
+.ui-footer .ui-logo, .ui-footer #quick_links{
+	display:none;
+}
+/*登录、注册*/
+.ui-login-form .ui-widget-header{
+	border-bottom:1px solid #99cc00;
+}
+.ui-login-form .ui-widget-content .ui-desc{
+	line-height:30px;
+}
+.ui-login-form .ui-widget-content .ui-edit-pane{
+	padding:20px 10px;
+	text-align:left;
+}
+#loginForm .ui-widget-content .ui-edit-pane{
+	padding-bottom:0;
+}
+.ui-login-form .ui-widget-content .ui-edit-pane .ui-field-item{
+	margin-bottom:15px;
+}
+.ui-login-form .ui-widget-content .ui-edit-pane .ui-field-item label{
+	display:none;
+}
+.ui-login-form .ui-widget-content .ui-edit-pane .ui-field-item .ui-field-info{
+	display:block;
+	line-height:2;
+}
+.ui-login-form .ui-edit-pane .ui-field-info .ui-field-tip, .ui-login-form .ui-edit-pane .ui-field-info .ui-field-desc{
+	color:#999;
+}
+.ui-login-form .ui-edit-pane .ui-field-info .ui-validate-wrong-msg{
+	color: #ff6600;
+}
+.ui-login-form .ui-edit-pane .ui-field-info .ui-validate-pass-msg{
+	color: #669900;
+}
+.ui-captcha .ui-input{
+	width:100px;
+}
+.ui-captcha img{
+	height:42px;
+	margin:0 10px;
+}
+.ui-captcha .ui-captcha-refresh-btn{
+	padding:0;
+	border:0;
+	background:none;
+	color:#669900;
+}
+/***密码强度***/
+.ui-field-password-strength{
+	display:inline-block;
+}
+.ui-field-password-strength .weak{
+	color:#ff6600;
+}
+.ui-field-password-strength .ui-chart-wrapper{
+	display:inline-block;
+	width:200px;
+	height:18px;
+	border:1px solid #e1e1e1;
+	background-color:#ffffff;
+	margin:0 5px;
+	position:relative;
+	vertical-align:middle;
+}
+.ui-field-password-strength .ui-chart-wrapper .rate{
+	display:inline-block;
+	position:absolute;
+	top:0;
+	left:0;
+	height:18px;
+}
+.ui-field-password-strength .ui-chart-wrapper .rate-1{
+	background-color:#ff4444;
+}
+.ui-field-password-strength .ui-chart-wrapper .rate-2{
+	background-color:#ffbb33;
+}
+.ui-field-password-strength .ui-chart-wrapper .rate-3{
+	background-color:#33b5e5;
+}
+.ui-field-password-strength .ui-chart-wrapper .rate-4{
+	background-color:#99cc00;
+}
+.ui-field-password-strength .special{
+	color: #669900;
+}
+.ui-login-form .ui-edit-pane .ui-form-operate-bar{
+	margin-top:15px;
+}
+.ui-login-form .ui-edit-pane .ui-form-operate-bar .ui-button{
+	display:block;
+	width:100%;
+	font-size:16px;
+	padding:10px;
+}
+.ui-login-form .ui-edit-pane .ui-form-operate-bar .ui-action-submit{
+	margin-bottom:10px;
+}
+#loginForm .ui-widget-content+div{
+	text-align:right;
+	padding:10px;
+}/*找回密码*/
+.ui-autocomplete{
+	position:absolute;
+	top:0;
+	left:0;
+	cursor:default;
+	max-width:95%;
+	min-width:318px;
+	border:1px solid #e1e1e1;
+	background-color:#fff;
+}
+.ui-menu .ui-menu-item a{
+	text-decoration:none;
+	display:block;
+	padding:2px 10px;
+	line-height:24px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.ui-menu .ui-menu-item a:hover{
+	background-color:#f7f7f7;
+}
+.ui-register-info{
+	padding:60px 10px 30px;
+}
+.ui-register-info h3{
+	font-size:18px;
+	margin-bottom:30px;
+}
+.ui-register-info p a{
+	display:block;
+	padding:10px;
+	font-size:16px;
+	background-color:#99cc00;
+	border:1px solid #669900;
+	color:#fff;
+}
+.ui-ac-container{
+	background-color:#fff;
+}
+#tenants_list{
+	padding:10px;
+}
+#tenants_list .ui-tenants-list li{
+	margin-bottom:5px;
+}
+#tenants_list .ui-tenants-list li img{
+	height:45px;
+}
+
+/*个人资料*/
+.ui-top-navigator{
+	height:34px;
+	padding:5px;
+	position:relative;
+	background-color:#99cc00;
+}
+.ui-top-navigator .ui-action-return{
+	position:absolute;
+	left:10px;
+	top:10px;
+	padding:0;
+	border:0;
+	background:url('images/back.png') no-repeat 0 1px;
+	height:24px;
+	width:24px;
+	line-height:24px;
+	text-indent:-1000px;
+	overflow:hidden;
+}
+.ui-top-navigator h2{
+	color:#fff;
+	line-height:34px;
+	font-size:20px;
+	text-align:center;
+}
+.ui-account-info{
+	padding:30px 20px;
+	font-size:16px;
+	overflow:hidden;
+	background:#fff url('images/account_info_bg.png') repeat-x 0 0;
+}
+.ui-account-info img{
+	float:left;
+	margin-right:20px;
+	width:80px;
+	height:80px;
+	border:1px solid #e1e1e1;
+}
+.ui-account-info h3{
+	font-size:20px;
+	line-height:2;
+}
+.ui-account-info ul{
+	font-size:14px;
+}
+.ui-user-info{
+	background-color:#fff;
+	clear:left;
+	font-size:16px;
+	line-height:2.5;
+}
+.ui-user-info ul li{
+	clear:left;
+	overflow:hidden;
+	border-bottom:1px solid #e1e1e1;
+	padding:0 10px;
+	color:#000;
+}
+.ui-user-info ul li:first-child{
+	border-top:1px solid #e1e1e1;
+}
+.ui-user-info ul li label{
+	width:100px;
+	float:left;
+	display:block;
+	color:#666;
+}
+.ui-user-info ul li:last-child label{
+	float:none;
+}
+.ui-apps{
+	padding:20px 10px;
+	background-color:#f8f8f8;
+}
+.ui-apps h3{
+	font-size:22px;
+	color:#99cc00;
+}
+.ui-apps h4{
+	font-size:20px;
+	font-weight:normal;
+	margin:10px 0;
+	padding:5px 10px 5px 37px;
+	line-height:32px;
+	border-bottom:1px solid #99cc00;
+	color:#000;
+}
+.ui-apps .ui-android-apps{
+	background:url('images/android.png') no-repeat 0 5px;
+}
+.ui-apps ul{
+	overflow:hidden;
+	padding:10px;
+}
+.ui-apps ul li{
+	float:left;
+	padding:5px 10px;
+	text-align:center;
+	line-height:2;
+	width:60px;
+}
+.ui-apps ul li img{
+	width:50px;
+	height:50px;
+	display:block;
+	margin:0 auto;
+}
+.ui-apps ul li a{
+	display:block;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
