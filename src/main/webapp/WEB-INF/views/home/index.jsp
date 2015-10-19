@@ -6,8 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1,
- minimum-scale=1, maximum-scale=1, user-scalable=no"/>
 <title><spring:message code="app.title" /></title>
 <%@ include file="../includes/common_links.jsp"%>
 </head>
@@ -83,7 +81,6 @@
 					</div>
 					</sec:authorize>
 				</div>
-				
 				
 				<!--  底部菜单，用于手机端显示 -->
 				<div class="ui-layout-bottom nav4">
