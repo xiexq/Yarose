@@ -34,4 +34,5 @@ public abstract interface AccountService extends
 	 */
 	String generateEnableString(Long id);
 
+	Account findByUserId(String userId);
 }

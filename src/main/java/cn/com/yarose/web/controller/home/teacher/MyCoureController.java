@@ -24,7 +24,7 @@ public class MyCoureController extends
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
 		return this.generateStringSortedSet("courseName", "shopName",
-				"beginTime", "endTime", "lesson", "courseFee", "userId");
+				"beginDate", "endDate", "lesson", "courseFee", "userId");
 	}
 
 	@Override

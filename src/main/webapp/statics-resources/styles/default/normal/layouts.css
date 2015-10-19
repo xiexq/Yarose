@@ -23,7 +23,6 @@ body{
 }
 .ui-header .ui-topnav{
 	width:90%;
-	min-width:700px;
 	text-align:right;
 	position:relative;
 	margin:0 auto;
@@ -49,7 +48,6 @@ body{
 
 .ui-layout-column-4-1{
 	width:90%;
-	min-width:700px;
 	margin:36px auto 0;
 	display: block;
 }
@@ -95,7 +93,7 @@ body{
 	text-align:left;
 	}
 .ui-layout-column-4-1 .ui-layout-right .ui-tabs{
-	margin:10px 20px 20px;
+	margin:10px 20px 45px;
 }
 .ui-dialog{
 	font-size:14px;

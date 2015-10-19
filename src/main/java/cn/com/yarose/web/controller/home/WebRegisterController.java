@@ -1,9 +1,8 @@
 package cn.com.yarose.web.controller.home;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -19,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
+import cn.com.eduedu.jee.security.account.Access;
+import cn.com.eduedu.jee.security.account.AccessService;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
-import cn.com.eduedu.jee.security.tenant.Tenant;
-import cn.com.eduedu.jee.security.tenant.TenantHelper;
 import cn.com.eduedu.jee.util.StringUtils;
 import cn.com.yarose.register.RegisterForm;
+import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
-import cn.com.yarose.web.controller.WebRequestParams;
 
 @Controller
 @RequestMapping("/home/register")
@@ -36,6 +35,8 @@ public class WebRegisterController extends
 	
 	@Resource(name="account_accountService")
 	AccountService accountService;
+	@Resource(name = "account_accessService")
+	private AccessService accessService;
 	
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request,
@@ -45,7 +46,7 @@ public class WebRegisterController extends
 					"passwordConfirm");
 		} else {
 			return this.generateStringSortedSet("userid", "password",
-					"passwordConfirm", "email", "nick");
+					"passwordConfirm","nick");
 		}
 
 	}
@@ -57,26 +58,6 @@ public class WebRegisterController extends
 		return null;
 	}
 
-//	public List<String> _ac_emails(String query, HttpServletRequest request) {
-//		if (query != null && query.length() > 0) {
-//			String input = null;
-//			int idx = query.indexOf('@');
-//			if (idx != -1) {
-//				input = query.substring(idx + 1);
-//				query = query.substring(0, idx);
-//			}
-//			List<String> emailServers = config.getEmailServers();
-//			List<String> beans = new ArrayList<String>();
-//			for (String s : emailServers) {
-//				if (input == null || s.indexOf(input) == 1) {
-//					beans.add(query + s);
-//				}
-//			}
-//			return beans;
-//		}
-//		return null;
-//	}
-
 	/**
 	 * 注册用户信息保存
 	 */
@@ -85,8 +66,6 @@ public class WebRegisterController extends
 			HttpServletRequest request, ResponseObject response, boolean create)
 			throws Exception {
 		if (this.validate(cmd, result, request, true)) {
-			WebRequestParams params = WebRequestParams.buildFromRequest(
-					request, null);
 			boolean hasErr = false;
 			if (!cmd.getPassword().equals(cmd.getPasswordConfirm())) {
 				result.rejectValue("password", "not.matchs", "和确认密码不一致");
@@ -109,8 +88,6 @@ public class WebRegisterController extends
 			}
 			// 进行保存操作
 			if (!hasErr) {
-				// 进行账号的填写和验证激活码的生成，并且进行保存
-				Tenant tenant = TenantHelper.getTenantFromRequest(request);
 				Account account = new Account();
 				String addr=request.getHeader("X-Real-IP");
 				if(!StringUtils.hasText(addr)){
@@ -122,12 +99,17 @@ public class WebRegisterController extends
 				account.setCreateTime(new Date());
 				account.setNick(cmd.getNick());
 				account.setUserid(cmd.getUserid());
+				Access ta = accessService.findById(Constants.ROLE_MEMBER);
+				Set<Access> accesses = new HashSet<Access>();
+				accesses.add(ta);
+				account.setAccesses(accesses);
+				account.setStuLevel(null);
+				account.setOccupation(null);
+				account.setSaler(null);
 				account.setPassword(accountService.getPasswordEncoder().encodePassword(cmd.getPassword(), ""));
 				account.setEmail(cmd.getEmail());
-				//account.setRegisterReferer(params.getRegisterReferer());
 				if (StringUtils.hasText(account.getEmail())) {
 					account = accountService.save(account);
-					//this.sendVerifyCode(account, false, params, tenant, request);
 				} else {
 					account = accountService.save(account);
 				}
@@ -151,63 +133,5 @@ public class WebRegisterController extends
 		return isMobile(request) ? "register_success_page_mobile"
 				: "register_success_page";
 	}
-	
-//	private String sendVerifyCode(Account account, boolean validateCount,
-//			WebRequestParams params, Tenant tenant, HttpServletRequest request)
-//			throws Exception {
-//		Integer count = account.getSendVerifyCodeCount();
-//		if (validateCount) {
-//			if (count >= 3) {
-//				return "您最多只能发送3次激活码！要再次激活此账号请与管理员联系。";
-//			}
-//		}
-//		if (count == null) {
-//			count = 0;
-//		}
-//		// 向任务队列里面加入一个发邮件任务
-//		String serverName = "MailServer";
-//		Map<String, Object> values = new HashMap<String, Object>();
-//		String token = accountService.generateEnableString(account
-//				.getAccountId());
-//		values.put("userNick", account.getNick());
-//		String path = "/web/register/enabled?t=" + token + "&service="
-//				+ params.getService();
-//		path = path + "&_tenant=" + tenant.getCode();
-//		values.put("enableLink",
-//				TenantHelper.getAppServiceUrlFromRequest(request) + path);
-//		String appTitle = tenant.getName()
-//				+ this.getApplicationContext().getMessage("app.title", null,
-//						"CAS", LocaleContextHolder.getLocale());
-//		values.put("appTitle", appTitle);
-//		SimpleEMailMessage m = new SimpleEMailMessage();
-//		if (StringUtils.hasText(tenant.getServiceEmail())
-//				&& StringUtils.hasText(tenant.getServiceEmailSmtpServer())) {
-//			m.setFrom(tenant.getServiceEmail());
-//			serverName = tenant.getCode();
-//			// 注册一个服务器
-//			this.mailServerRegistry
-//					.addServer(new SMTPMailServer(tenant.getServiceEmail(),
-//							tenant.getServiceEmailSmtpServer(),
-//							StringUtils.hasText(tenant
-//									.getServiceEmailSmtpUsername()) ? tenant
-//									.getServiceEmailSmtpUsername() : tenant
-//									.getServiceEmail(), tenant
-//									.getServiceEmailSmtpPassword(), StringUtils
-//									.hasText(tenant
-//											.getServiceEmailSmtpPassword()),
-//							tenant.getCode()));
-//		}
-//		m.setSubject(appTitle + "注册激活");
-//		m.setTo(account.getEmail());
-//		ByteArrayOutputStream out = new ByteArrayOutputStream();
-//		templateService.render(new FileInputStream(this.config.getTemplateDir()
-//				+ File.separator + "enable_account.vm"), out, values);
-//		m.setText(out.toString("utf-8"));
-//		MailSenderTask task = new MailSenderTask(mailSender, serverName, m,
-//				true);
-//		taskScheduler.schedule(task, new Date());
-//		return null;
-//	}
-	
 	
 }

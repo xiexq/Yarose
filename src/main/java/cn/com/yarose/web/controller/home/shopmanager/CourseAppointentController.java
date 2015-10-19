@@ -105,7 +105,7 @@ public class CourseAppointentController extends BaseCRUDControllerExt<Appointmen
 			Long courseTeacherId = this.getRequestCourseId(request);
 			CourseTeacher ct = courseTeacherService.findById(courseTeacherId);
 			cmd.setCourseTeacher(ct);
-			cmd.setStatus(Constants.APPOLINTMENT_UNCHECKED);
+			cmd.setStatus(Constants.APPOINTMENT_UNCHECKED);
 		}
 		return super.customSave(cmd, result, request, response, create);
 	}

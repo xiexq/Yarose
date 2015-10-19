@@ -32,8 +32,8 @@ public class Constants {
 	public static final int DICTIONARY_INACTIVE = 1;
 
 	// 是否核销
-	public static final int APPOLINTMENT_UNCHECKED = 0;
-	public static final int APPOLINTMENT_CHECKED = 1;
+	public static final int APPOINTMENT_UNCHECKED = 0;
+	public static final int APPOINTMENT_CHECKED = 1;
 
 	// 评价类型
 	public static final int EVALUATION_TYPE_USER = 0;

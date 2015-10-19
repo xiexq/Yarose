@@ -25,9 +25,6 @@ public class PublicController extends BaseControllerExt {
 	public String registerEntry(HttpServletRequest request, Model model,
 			HttpServletResponse response) throws IOException {
 		this.rejectWebServletCfgs(model);
-		WebRequestParams params = WebRequestParams.buildFromRequest(request,
-				response);
-		model.addAttribute("webRequestParams", params);
 		return isMobile(request) ? "register_page_mobile"
 				: "register_page";
 	}

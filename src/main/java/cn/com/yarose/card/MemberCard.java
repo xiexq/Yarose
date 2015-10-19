@@ -52,7 +52,7 @@ public class MemberCard implements java.io.Serializable {
 	 * 已使用课时
 	 */
 	@FieldMeta(label = "已使用课时")
-	private Integer usedLesson;
+	private Integer usedLesson=0;
 	/**
 	 * 成交价
 	 */
@@ -107,6 +107,18 @@ public class MemberCard implements java.io.Serializable {
 	 * 卡号的默认起始卡号
 	 */
 	private Long seqNum;
+
+	/**
+	 * 可使用课时=总课时-已使用课时
+	 * 
+	 * @return
+	 */
+	public Integer getCanUseLesson() {
+		if (totalLesson - usedLesson >= 0) {
+			return totalLesson - usedLesson;
+		}
+		return 0;
+	}
 
 	public Long getId() {
 		return id;

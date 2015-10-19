@@ -23,8 +23,8 @@ public class MyAppointmentController extends
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
-		return this.generateStringSortedSet("code", "courseName", "shopName",
-				"teacherName");
+		return this.generateStringSortedSet("code", "userId", "courseName",
+				"shopName", "teacherName");
 	}
 
 	@Override

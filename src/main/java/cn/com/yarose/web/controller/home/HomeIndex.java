@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cn.com.yarose.utils.CheckMobileUtil;
 import cn.com.yarose.web.controller.BaseControllerExt;
 
 @Controller
@@ -15,6 +16,10 @@ public class HomeIndex extends BaseControllerExt {
 	public String index(HttpServletRequest request, Model model) {
 		this.rejectWebServletCfgs(model);
 		this.rejectAccountInfo(model);
+		boolean isMobile = CheckMobileUtil.isMobile(request);
+		if (isMobile) {
+			return "home/mobile_index";
+		}
 		return "home/index";
 	}
 }

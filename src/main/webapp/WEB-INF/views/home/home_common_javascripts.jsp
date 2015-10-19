@@ -11,9 +11,8 @@
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/fullcalendar/fullcalendar.js"></script>
 <script type="text/javascript" src="${staticResPath}/script/jquery.fancybox.pack.js"></script>
-<%-- <script type="text/javascript" src="${staticResPath}/script/nav4.js"></script> --%>
 <script>
-	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva;
+	var container=null,leftMenu=null,_inlineWindow=null,lrResizeLayout,preva,searchFormColumn=1;
 	function _clearContainer(tar){
 		if(!tar){tar=container;}
 		if(tar.hasClass('ui-crud-widget')){tar.crud('destroy');}
@@ -59,6 +58,7 @@
 		}
 		$(document).ready(function(){
 			if(is_pc()){
+				searchFormColumn=2;
 				$('.ui-layout-bottom').hide();
 				leftMenu=$( 'div .ui-layout-left');
 				var left=leftMenu;
@@ -125,9 +125,10 @@
         return flag;  
 	}   
 	
+	//账号管理
 	function _account_admin(isShop){
 		_clearContainer();
-		container.crud({url:"${ctxPath }/home/admin/account",params:{'_shop':isShop},
+		container.crud({url:"${ctxPath }/home/admin/account",params:{'_shop':isShop},searchFormColumn:searchFormColumn,
 			onSaveSuccess:function(){
 				$(this).crud('refreshList');
 			},onEdit:function(){
@@ -151,6 +152,7 @@
 		});
 	}
 	
+	//权限管理
 	function _access_admin(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'});
@@ -170,14 +172,16 @@
 		childrenList.crud({url:"${ctxPath}/home/admin/dictionary",title:'根目录',params:{'_type':0}});
 	}
 	
+	//门店管理
 	function _shop_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/shops'});
+		container.crud({url:'${ctxPath}/home/admin/shops',searchFormColumn:searchFormColumn});
 	}
 	
+	//课程管理
 	function _course_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/courses'});
+		container.crud({url:'${ctxPath}/home/admin/courses',searchFormColumn:searchFormColumn});
 	}
 	
 	function _add_hover(){
@@ -199,7 +203,8 @@
 			);
 	}
 	
-	function _course_grant(){
+	//课程安排
+	function _course_plan(){
 		_clearContainer();
 		container.crud({
 			url:'${ctxPath}/home/admin/teacher/managers',initShowSearchForm:true,
@@ -235,12 +240,12 @@
 	
 	function _edit_event_day(date){
 		var shopId = $("select[name='searchShop']",container).val(),div=$('<div/>');
-        div.dialog({
+		div.dialog({
 			title:formatDate(new Date(date))+'课程安排',width:800,height:600
 		}).crud({
-			url:'${ctxPath }/home/admin/teacher/managers',
+			url:'${ctxPath }/home/admin/teacher/managers',searchFormColumn:searchFormColumn,
 			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
-			listItemActions:[{label:'预约',func:function(event){_appointment_course(event,div,date);},cssClass:'ui-action-statistic'}],
+			listItemActions:[{label:'预约',func:function(event){_appointment_course(event,date);},cssClass:'ui-action-statistic'}],
 			onFieldValueChange:function(data,field){
 				if(field.name=='teacher'){
 					var tid=$(this).crud("getEditFieldVal","teacher");
@@ -267,13 +272,14 @@
 		});
 	}
 	
-	function _appointment_course(event,div,date){
-		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
-		var mc=$('<div></div>'),svc=new StackViewController(div);
-		svc.push(mc);
-		mc.crud({
-			url:'${ctxPath }/home/admin/course/appointment',title:courseName+'的预约情况',
-			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回',func:function(){_edit_event_day(date);}}]
+	//课程预约（课程安排）
+	function _appointment_course(event,date){
+		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName'),mc=$("<div/>");
+		mc.dialog({
+			title:formatDate(new Date(date))+'课程安排',width:800,height:600
+		}).crud('reset').crud({
+			url:'${ctxPath }/home/admin/course/appointment',title:"“"+courseName+"”预约记录",searchFormColumn:searchFormColumn,
+			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回',func:function(){div.dialog('close');}}]
 		});
 	}
 	
@@ -288,7 +294,7 @@
 	function _member_card_admin(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/shopmanager/membercard',
+			url:'${ctxPath}/home/shopmanager/membercard',searchFormColumn:searchFormColumn,
 			listItemActions:[{label:"延期",func:function(event){
 				var li=event.data.li,id=li.data('id'),cardNo=_crudHelper.getListItemFieldValue(li,'cardNo'),div=$('<div></div>');
 				div.crud({url:'${ctxPath}/home/shopmanager/membercard/postphone',
@@ -305,42 +311,36 @@
 		});
 	}
 	
+	//课程预约
 	function _course_appointment(){
 		_clearContainer();
-		var mc=$('<div></div>'),svc=new StackViewController(container);
-		svc.push(mc);
+		var svc=new StackViewController(container);
 		var tab=$('<div><ul><li><a href="#uncheck">未核销</a></li><li><a href="#checked">已核销</a></li></ul></div>'),
 		uncheck=$('<div id="uncheck"></div>'),checked=$('<div id="checked"></div>');
 		tab.append(uncheck).append(checked);
-		uncheck.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'uncheck'},showHeader:false,
-			listItemActions:[{label:'核销',func:function(event){_appointment_audit(event);},cssClass:'ui-action-statistic'}]
-			 				
+		uncheck.crud({url:'${ctxPath}/home/shop/manager/appointment',showHeader:false,editable:false,searchFormColumn:searchFormColumn,
+		    listItemActions:[{label:'核销',func:function(event){_appointment_audit(event);},cssClass:'ui-action-statistic'}]
 		});
-		checked.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_act:'checked'},editable:false,createable:false,deleteable:false,showHeader:false
-		});
+		checked.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_checked:'checked'},editable:false,createable:false,deleteable:false,showHeader:false,searchFormColumn:searchFormColumn});
 		container.append(tab);
 		tab.tabs();
 	}
 	
+	//预约核销
 	function _appointment_audit(event){
 		var li=event.data.li,id=li.data('id');
-		if(id){
+		if(!!id){
 			var dialog=$('<div></div>');
-			dialog.dialog({title:'填写处理信息',width:650,height:500,close:function(){$(this).remove();}});
+			dialog.dialog({title:'填写核销信息',width:650,height:500,close:function(){$(this).remove();}});
 			dialog.crud({
-				url:'${ctxPath }/home/shop/manager/appointment/',
-				params:{_type:'check'},title:'预约核销',action:'edit',actionTarget:id,showHeader:false,i18n:{editLabel:'核销'},
+				url:'${ctxPath }/home/shop/manager/appointment/',searchFormColumn:searchFormColumn,
+				params:{_type:'check'},title:'核销预约',action:'edit',actionTarget:id,showHeader:false,i18n:{editLabel:'核销'},
 				onSaveSuccess:function(event,target){
-					var t=$(this);
-					t.crud('tipInfo','核销成功！','pass');
-					setTimeout(function(){
-						c.crud('refreshList');
-					},1500);
-					return false;
-				},
-				onCancelEdit:function(){
-					var t=$(this);
-					setTimeout(function(){t.dialog('close');},10);
+					$(this).crud('tipInfo','核销成功！','pass');
+					setTimeout(function(){$(this).dialog('close');},1500);
+					_course_appointment();
+				},onCancelEdit:function(){
+					setTimeout(function(){$(this).dialog('close');},10);
 				}
 			});
 		}
@@ -349,7 +349,7 @@
 	function _evaluation_management(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},editable:false,deleteable:false,createable:false,listSelectStyle:'none',
+			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},editable:false,deleteable:false,createable:false,listSelectStyle:'none',searchFormColumn:searchFormColumn,
 			listItemActions:[{label:'评价',func:function(event){_user_valuation(event,container);},cssClass:'ui-action-statistic'}]
 		});
 	}
@@ -359,33 +359,26 @@
 		var dialog=$('<div/>'),win=$(window),ww=win.width(),wh=win.height();
 		dialog.dialog({
 			title:courseName+'的评价',width:ww-100,height:wh-100,close:function(){$(this).dialog('destroy').remove();}
-		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',showHeader:false,
+		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',showHeader:false,searchFormColumn:searchFormColumn,
 			onSaveSuccess:function(){
-				var tt=$(this);
-				tt.crud('tipInfo','保存成功！','pass',null,1000);
-				setTimeout(function(){
-					tt.crud("refreshList");
-				},1000);
-			},
-			onCancelEdit:function(){
-				var tt=$(this);
-				tt.crud("refreshList");
-			}
+				$(this).crud('tipInfo','保存成功！','pass',null,1000);
+				setTimeout(function(){$(this).crud("refreshList");},1000);
+			},onCancelEdit:function(){$(this).crud("refreshList");}
 		});
 	}
 	
 	function _my_course(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/teacher/my/course',listSelectStyle:'none'});
+		container.crud({url:'${ctxPath}/home/teacher/my/course',listSelectStyle:'none',searchFormColumn:searchFormColumn});
 	}
 	
 	function _my_member(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/my/saler/member',listSelectStyle:'none'});
+		container.crud({url:'${ctxPath}/home/my/saler/member',listSelectStyle:'none',searchFormColumn:searchFormColumn});
 	}
 	
 	function _my_appointment(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/teacher/my/appointment',listSelectStyle:'none'});
+		container.crud({url:'${ctxPath}/home/teacher/my/appointment',listSelectStyle:'none',searchFormColumn:searchFormColumn});
 	}
 </script>
