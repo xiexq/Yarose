@@ -22,7 +22,7 @@
 	(function(){
 		$(document).ready(function(){
 			$.ui.crud.prototype.options.i18n.submitLabel='提交';
-			$('#registerForm').crud({url:'${ctxPath}/home/register',action:'edit',
+			$('#registerForm').crud({url:'${ctxPath}/web/register',action:'edit',
 				desc:'如果您已经注册了账号请直接<a href="${ctxPath}/public/login">登录</a>。',
 				editShowCancelBtn:false,showSubviewTitle:false,
 				onFieldValueChange:function(event,data){
@@ -33,7 +33,7 @@
 				},
 				onSaveSuccess:function(event,data){
 					var id=data.entityID;
-					setTimeout(function(){window.location='${ctxPath}/home/register/success/'+id;},50);
+					setTimeout(function(){window.location='${ctxPath}/web/register/success/'+id;},50);
 					return false;
 				}
 			});

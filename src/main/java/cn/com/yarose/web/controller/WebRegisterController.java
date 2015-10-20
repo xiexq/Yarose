@@ -1,4 +1,4 @@
-package cn.com.yarose.web.controller.home;
+package cn.com.yarose.web.controller;
 
 import java.io.IOException;
 import java.util.Date;
@@ -25,10 +25,9 @@ import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.eduedu.jee.util.StringUtils;
 import cn.com.yarose.register.RegisterForm;
 import cn.com.yarose.utils.Constants;
-import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/home/register")
+@RequestMapping("/web/register")
 @CRUDControllerMeta(title = "注册", createable = true, enableCaptcha = true, clientValidation = true)
 public class WebRegisterController extends
 		BaseCRUDControllerExt<RegisterForm, Long> {
