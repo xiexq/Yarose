@@ -11,7 +11,7 @@
 </head>
 <body style="margin:0;">
 	<div id="container" style="width:100%;">
-		<div style="width:100%;height:60px;background-color: #4575B4;margin:0;">
+		<div style="width:100%;height:50px;margin:0;" class="ui-header ui-highlight-bar">
 			<div style="width:80%;margin:0 auto;min-width:700px;">
 				<%-- <img src="${staticResPath}/images/logo.png" style="float:left;"></img> --%>
 			</div>
