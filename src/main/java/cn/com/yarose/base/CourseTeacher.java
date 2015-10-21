@@ -17,16 +17,24 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "课程名称", dictionary = true, visible = true, editable = true, summary = false, required = true)
 	private Course course;
 
-	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	@FieldMeta(label = "上课门店", dictionary = true, visible = true, editable = true, summary = false, required = true)
 	private Shop shop;
 
-	@FieldMeta(label = "所属门店", dictionary = true, visible = true, editable = true, summary = false)
+	@FieldMeta(label = "上课门店", dictionary = true, visible = true, editable = true, summary = false)
 	private Shop searchShop;
 
-	@FieldMeta(label = "所属门店", visible = true, editable = true, summary = false)
+	@FieldMeta(label = "上课门店", visible = true, editable = false, summary = false)
 	public String getShopName() {
 		if (shop != null) {
 			return shop.getName();
+		}
+		return "";
+	}
+
+	@FieldMeta(label = "门店地址", visible = false, editable = false, summary = false)
+	public String getShopAddress() {
+		if (shop != null) {
+			return shop.getAddress();
 		}
 		return "";
 	}
@@ -73,6 +81,9 @@ public class CourseTeacher implements java.io.Serializable {
 		return beginTime;
 	}
 
+	/**
+	 * 冗余字段，仅用于预约管理，显示课程时间
+	 */
 	@FieldMeta(label = "课程结束时间", datetime = true, editable = false)
 	public Date getEndDate() {
 		return endTime;

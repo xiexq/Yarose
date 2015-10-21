@@ -381,4 +381,27 @@
 		_clearContainer();
 		container.crud({url:'${ctxPath}/home/teacher/my/appointment',listSelectStyle:'none',searchFormColumn:searchFormColumn});
 	}
+	
+	function _member_course_appointing(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/member/course/teacher',
+			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+	}
+	
+	//未核销的会员预约
+	function _uncheck_member_course_appoint(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/member/course/appoint/uncheck',
+			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+	}
+	
+	// 已核销的会员预约
+	function _checked_member_course_appoint(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/member/course/appoint/checked',
+			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+	}
 </script>

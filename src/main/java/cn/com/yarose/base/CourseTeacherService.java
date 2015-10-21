@@ -28,4 +28,12 @@ public interface CourseTeacherService extends
 	List<CourseTeacher> listByTeacher(Long accountId, int offset, int count);
 
 	long countByTeacher(Long accountId);
+
+	/**
+	 * 列出所有还未上的课程
+	 * @param offset
+	 * @param count
+	 * @return
+	 */
+	List<CourseTeacher> listAllActive(int offset, int count);
 }
