@@ -93,4 +93,12 @@ public class CourseTeacherServiceImpl extends
 				"CourseTeacher.countByTeacher", QueryCmdType.QUERY_NAME,
 				accountId);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseTeacher> listAllActive(int offset, int count) {
+		return (List<CourseTeacher>) this.getDao().executeQueryList(
+				"CourseTeacher.listAllActive", QueryCmdType.QUERY_NAME, offset,
+				count, new Date());
+	}
 }

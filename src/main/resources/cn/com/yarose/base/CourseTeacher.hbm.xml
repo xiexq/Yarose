@@ -37,4 +37,5 @@
 	<query name="CourseTeacher.countByEndTime"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm  where tm.endTime <= ? ]]></query>
     <query name="CourseTeacher.countByTeacher"><![CDATA[select count(tm.id) from cn.com.yarose.base.CourseTeacher tm where tm.teacher.accountId = ? ]]></query>
     <query name="CourseTeacher.listByTeacher"><![CDATA[from cn.com.yarose.base.CourseTeacher tm where tm.teacher.accountId = ? ]]></query>
+    <query name="CourseTeacher.listAllActive"><![CDATA[from cn.com.yarose.base.CourseTeacher tm where tm.beginTime >= ? ]]></query>
 </hibernate-mapping>

@@ -75,6 +75,17 @@
 				    </dl>
 			    </li>
 			</sec:authorize>
+			<sec:authorize ifAnyGranted="ROLE_MEMBER">
+			    <li>
+				    <a href="#"><span>个人中心</span></a>
+				    <dl>
+					    <dd><a href="javascript:_member_course_appointing()"><span>现在预约课程</span></a></dd>
+					    <dd><a href="javascript:_uncheck_member_course_appoint()"><span>已预约成功</span></a></dd>
+					    <dd><a href="javascript:_checked_member_course_appoint()"><span>预约历史记录</span></a></dd>
+					    <dd><a href="#"><span>修改账号信息</span></a></dd>
+				    </dl>
+			    </li>
+			</sec:authorize>
 		</ul>
 	</div>
 	</nav>

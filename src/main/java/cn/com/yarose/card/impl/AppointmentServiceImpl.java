@@ -22,7 +22,8 @@ public class AppointmentServiceImpl extends
 	@Override
 	public Long countByCheckStatus(Integer status) {
 		return (Long) this.getDao().executeQueryUnique(
-				"Appointment.countByCheckStatus", QueryCmdType.QUERY_NAME, status);
+				"Appointment.countByCheckStatus", QueryCmdType.QUERY_NAME,
+				status);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -59,5 +60,14 @@ public class AppointmentServiceImpl extends
 		return (Long) this.getDao().executeQueryUnique(
 				"Appointment.countByCourseTeacher", QueryCmdType.QUERY_NAME,
 				courseTeacherId);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Appointment> listActiveByUserIdAndStatus(String userId,
+			int status, int offset, int count) {
+		return (List<Appointment>) this.getDao().executeQueryList(
+				"Appointment.listActiveByUserIdAndStatus",
+				QueryCmdType.QUERY_NAME, offset, count, userId, status);
 	}
 }
