@@ -41,12 +41,10 @@
 									</ul>
 								</fieldset>
 								<div class="ui-form-operate-bar">
-									<button type="submit" class="ui-action-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+									<button id="submit" type="submit" class="ui-action-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 										<span class="ui-button-text">登录</span>
 									</button>
-									<button id="register" class="ui-action-register ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-										<span class="ui-button-text">注册</span>
-									</button>
+									<input type="button" id="register" value="注册" class="ui-action-register ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
 								</div>
 							</form>
 						</div>
