@@ -33,4 +33,5 @@
     <query name="Appointment.listByCheckStatus">from cn.com.yarose.card.Appointment a where a.status = ? order by a.createTime desc</query>
     <query name="Appointment.countByCheckStatus">select count(*) from cn.com.yarose.card.Appointment a where a.status=?</query>
     <query name="Appointment.listActiveByUserIdAndStatus">from cn.com.yarose.card.Appointment a where a.userId=? and a.status=? order by a.createTime desc</query>
+    <query name="Appointment.listByUserIdAndCourseId">from cn.com.yarose.card.Appointment a where a.userId=? and a.courseTeacher.id=?</query>
 </hibernate-mapping>

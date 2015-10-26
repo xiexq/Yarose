@@ -20,9 +20,9 @@ import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/member/course/appoint/checked")
+@RequestMapping("/my/course/appoint/checked")
 @CRUDControllerMeta(title = "预约历史记录", service = AppointmentService.class, listable = true, viewable = true)
-public class CheckedCourseAppointController extends
+public class MyCheckedCourseAppointController extends
 		BaseCRUDControllerExt<Appointment, Long> {
 
 	@Resource(name = "memberCardService")

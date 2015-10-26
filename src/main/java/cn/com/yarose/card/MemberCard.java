@@ -64,6 +64,7 @@ public class MemberCard implements java.io.Serializable {
 	 */
 	@FieldMeta(label = "有效期", required = true)
 	private Date expireDate;
+	
 	/**
 	 * 会员账号
 	 */

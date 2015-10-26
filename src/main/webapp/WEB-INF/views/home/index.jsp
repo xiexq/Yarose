@@ -80,61 +80,20 @@
 						</ul>
 					</div>
 					</sec:authorize>
-				</div>
-				
-				<!--  底部菜单，用于手机端显示 -->
-				<div class="ui-layout-bottom nav4">
-				<nav>
-				<div id="nav4_ul" class="nav_4">
-				<ul class="box">
-					  <sec:authorize ifAnyGranted="ROLE_SUPER, ROLE_user_admin">
-						    <li>
-							    <a href="#"><span>系统管理</span></a>
-							    <dl>
-								    <dd><a href="javascript:_dictionary_admin()"><span>字典管理</span></a></dd>
-								    <dd><a href="javascript:_access_admin()"><span>权限管理</span></a></dd>
-								    <dd><a href="javascript:_account_admin()"><span>账号管理</span></a></dd>
-								    <dd><a href="javascript:_course_admin()"><span>课程管理</span></a></dd>
-								    <dd><a href="javascript:_course_grant()"><span>课程安排</span></a></dd>
-								    <dd><a href="javascript:_member_card_admin()"><span>会员卡管理</span></a></dd>
-								    <dd><a href="javascript:_course_appointment()"><span>预约管理</span></a></dd>
-								    <dd><a href="javascript:_evaluation_management()"><span>评价管理</span></a></dd>
-							    </dl>
-						    </li>
-						</sec:authorize>
-						<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_SHOP_MANAGER">
-						    <li>
-							    <a href="#"><span>门店管理</span></a>
-							    <dl>
-								    <dd><a href="javascript:_account_admin('shop')"><span>账号管理</span></a></dd>
-								    <dd><a href="javascript:_course_admin()"><span>课程管理</span></a></dd>
-								    <dd><a href="javascript:_course_grant()"><span>课程安排</span></a></dd>
-								    <dd><a href="javascript:_member_card_admin()"><span>会员卡管理</span></a></dd>
-								    <dd><a href="javascript:_course_appointment()"><span>预约管理</span></a></dd>
-								    <dd><a href="javascript:_evaluation_management()"><span>评价管理</span></a></dd>
-							    </dl>
-						    </li>
-						</sec:authorize>
-						<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_TEACHER">
-						    <li>
-							    <a href="#"><span>老师管理</span></a>
-							    <dl>
-								    <dd><a href="javascript:_my_course()"><span>我的课程</span></a></dd>
-								    <dd><a href="javascript:_my_appointment()"><span>预约管理</span></a></dd>
-							    </dl>
-						    </li>
-						</sec:authorize>
-						<sec:authorize ifAnyGranted="ROLE_SUPER,ROLE_TEACHER">
-						    <li>
-							    <a href="#"><span>营销人员管理</span></a>
-							    <dl>
-								    <dd><a href="javascript:_my_member()"><span>我的会员</span></a></dd>
-							    </dl>
-						    </li>
-						</sec:authorize>
-					</ul>
-				</div>
-				</nav>
+					<sec:authorize ifAnyGranted="ROLE_MEMBER">
+					<h3>
+					    <a href="#">个人中心</a>
+					</h3>
+					<div>
+					    <ul>
+					         <li><a href="javascript:_member_course_appointing()">现在预约课程</a></li>
+					         <li><a href="javascript:_uncheck_member_course_appoint()">已预约成功</a></li>
+					         <li><a href="javascript:_checked_member_course_appoint()">预约历史记录</a></li>
+					         <li><a href="javascript:_my_account_info()">个人信息</a></li>
+					         <li><a href="javascript:_my_member_card()">我的会员卡</a></li>
+					    </ul>
+					 </div>
+			        </sec:authorize>
 				</div>
 			</div>
 			<div class="ui-layout-right ui-mc-container"></div>

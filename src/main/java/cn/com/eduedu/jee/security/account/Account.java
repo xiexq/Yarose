@@ -35,6 +35,13 @@ public class Account implements Authentication {
 	@FieldMeta(label = "密码", i18n = true, summary = false, visible = false, required = true, password = true)
 	String password;
 
+	/**
+	 * 冗余字段，用于修改密码
+	 */
+	@Size(max = 20)
+	@FieldMeta(label = "确认密码", summary = false, visible = false, password = true)
+	String confirmPassword;
+
 	@Size(max = 20)
 	@NotNull
 	@FieldMeta(label = "姓名", i18n = true, required = true)
@@ -102,7 +109,7 @@ public class Account implements Authentication {
 	String remark;
 
 	Integer isAdmin;
-	
+
 	/**
 	 * 发送验证的次数
 	 */
@@ -142,6 +149,14 @@ public class Account implements Authentication {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getPassword() {
