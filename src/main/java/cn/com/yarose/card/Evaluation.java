@@ -35,7 +35,7 @@ public class Evaluation implements java.io.Serializable{
 		return "";
 	}
 	
-	@FieldMeta(label = "评价", visible = true, editable = true, summary = false,text = true)
+	@FieldMeta(label = "评论详情", visible = true, editable = true, summary = false,text = true)
 	private String content;
 	
 	@FieldMeta(label = "评价人", visible = true, editable = true, summary = false)

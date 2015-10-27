@@ -24,4 +24,5 @@
 	</class>
 	<query name="Evaluation.listByCourseTeacherId">from cn.com.yarose.card.Evaluation as e where e.courseTeacher.id = ? order by e.createTime desc</query>
 	<query name="Evaluation.countByCourseTeacherId">select count(e.id) from cn.com.yarose.card.Evaluation as e where e.courseTeacher.id = ? </query>
+	<query name="Evaluation.listByCourseId">from cn.com.yarose.card.Evaluation as e where e.courseTeacher.course.id=? order by e.createTime desc</query>
 </hibernate-mapping>

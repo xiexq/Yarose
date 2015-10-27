@@ -385,10 +385,23 @@
 	// 现在预约课程
 	function _member_course_appointing(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/my/course/teacher',
+		var svc=new StackViewController(container),div=$("<div/>");
+		svc.push(div);
+		div.crud({url:'${ctxPath}/my/course/teacher',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,listShowActionBar:false,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
-			listItemActions:[{label:'预约',func:function(event){_my_course_appoint(event,container);},cssClass:'ui-action-statistic'}]
+			listItemActions:[{label:'预约',func:function(event){_my_course_appoint(event,div);},cssClass:'ui-action-statistic'},
+			                 {label:'评价',func:function(event){_view_course_evlation(event,svc,container);},cssClass:'ui-action-statistic'}]
+		});
+	}
+	
+	function _view_course_evlation(event,svc,container){
+		var li=event.data.li,cid=li.data('id'),div=$('<div/>');
+		container.load("${ctxPath}/my/course/teacher/star/"+cid);
+		svc.push(div);
+		div.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
+			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,listShowHeader:false,
+			actions:[{label:'返回课程预约',func:function(){container.html('');svc.pop();}}]
 		});
 	}
 	
@@ -432,7 +445,7 @@
 	// 我的会员卡
 	 function _my_member_card(){
 		 _clearContainer();
-		 container.crud({url:'${ctxPath}/my/member/card',showHeader:false,showActionBar:false,listSelectStyle:'none'});
+		 container.crud({url:'${ctxPath}/my/member/card',showHeader:false,showActionBar:false,listSelectStyle:'none',listShowActionBar:false,});
 	 }
 	
 	// 未核销的会员预约

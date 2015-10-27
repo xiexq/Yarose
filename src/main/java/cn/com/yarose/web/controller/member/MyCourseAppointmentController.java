@@ -135,4 +135,9 @@ public class MyCourseAppointmentController extends
 		}
 		return resp;
 	}
+	
+	@RequestMapping("/star/{cid}")
+	public String viewStar(@PathVariable("cid") Long cid){
+		return "home/star";
+	}
 }

@@ -61,6 +61,17 @@ public class Appointment implements java.io.Serializable {
 	@FieldMeta(id = true, label = "备注", editable = true, text = true)
 	private String remark;
 
+	/**
+	 * 冗余字段，仅用于预约历史，显示课程预约时间
+	 */
+	@FieldMeta(label = "课程开始时间", datetime = true, editable = false, visible = false, summary = false)
+	public Date getBeginDate() {
+		if (courseTeacher != null) {
+			return courseTeacher.getBeginTime();
+		}
+		return null;
+	}
+
 	@FieldMeta(label = "会员卡号", visible = true, editable = true, summary = false)
 	public String getCardNo() {
 		if (mCard != null) {

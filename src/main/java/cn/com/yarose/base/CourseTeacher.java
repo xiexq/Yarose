@@ -11,7 +11,7 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(id = true, label = "ID", editable = false)
 	Long id;
 
-	@FieldMeta(label = "任课老师", dictionary = true, visible = true, editable = true, summary = false, required = true)
+	@FieldMeta(label = "授课老师", dictionary = true, visible = true, editable = true, summary = false, required = true)
 	private Account teacher;
 
 	@FieldMeta(label = "课程名称", dictionary = true, visible = true, editable = true, summary = false, required = true)
@@ -50,7 +50,7 @@ public class CourseTeacher implements java.io.Serializable {
 		return "";
 	}
 
-	@FieldMeta(label = "任课老师", visible = true, editable = true, summary = false)
+	@FieldMeta(label = "授课老师", visible = true, editable = true, summary = false)
 	public String getTeacherName() {
 		if (teacher != null) {
 			return teacher.getName();
