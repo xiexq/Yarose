@@ -277,7 +277,7 @@
 		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName'),mc=$("<div/>");
 		mc.dialog({
 			title:formatDate(new Date(date))+'课程安排',width:800,height:600
-		}).crud('reset').crud({
+		}).crud({
 			url:'${ctxPath }/home/admin/course/appointment',title:"“"+courseName+"”预约记录",searchFormColumn:searchFormColumn,
 			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回',func:function(){mc.dialog('close');}}]
 		});
