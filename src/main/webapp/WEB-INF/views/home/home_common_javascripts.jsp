@@ -382,26 +382,106 @@
 		container.crud({url:'${ctxPath}/home/teacher/my/appointment',listSelectStyle:'none',searchFormColumn:searchFormColumn});
 	}
 	
+	// 现在预约课程
 	function _member_course_appointing(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/member/course/teacher',
-			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
-			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+		var svc=new StackViewController(container),div=$("<div/>");
+		svc.push(div);
+		div.crud({url:'${ctxPath}/my/course/teacher',
+			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,listShowActionBar:false,
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
+			listItemActions:[{label:'预约',func:function(event){_my_course_appoint(event,div);},cssClass:'ui-action-statistic'},
+			                 {label:'评价',func:function(event){_view_course_evlation(event,svc,container);},cssClass:'ui-action-statistic'}]
+		});
 	}
 	
-	//未核销的会员预约
+	function _view_course_evlation(event,svc,container){
+		var li=event.data.li,cid=li.data('id'),div=$('<div/>');
+		container.load("${ctxPath}/my/course/teacher/star/"+cid);
+		svc.push(div);
+		div.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
+			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,listShowHeader:false,
+			actions:[{label:'返回课程预约',func:function(){container.html('');svc.pop();}}]
+		});
+	}
+	
+	 function _my_course_appoint(event,container){
+		var li=event.data.li,cid=li.data('id'),div=$('<div/>');
+		// 验证当前用户是否有会员卡
+		$.get("${ctxPath }/my/member/card/canappoint/"+cid,function(data){
+			if(data&&data.success){
+				var win=$(window),ww=win.width(),wh=win.height();
+				div.dialog({title:'请选择会员卡...',width:ww-100,height:wh-100,
+					buttons:{'确定':function(){
+								   var sel=div.crud('selected');
+								   if(!!sel){
+									 // 保存到预约记录里面
+									  $.get("${ctxPath }/my/course/teacher/appointment/"+cid+"/"+sel.val(),function(d){
+										  if(d&&d.success){
+											  div.crud('tipInfo','预约成功！','pass',null,2000);
+											  div.dialog('destroy').remove();
+										  }else if(d&&d.notenough){
+											  div.crud('tipInfo',"该会员卡余额不足！",'pass',null,2000);
+										  }else if(d&&d.expired){
+											  div.crud('tipInfo',"该会员卡已过期！",'pass',null,2000);
+										  }
+								      });
+								   }else{
+									   div.crud('tipInfo','请选择会员卡！','pass',null,1000);
+								   }
+						    },'取消':function(){div.dialog('destroy').remove();}
+				    },close:function(){$(this).dialog('destroy').remove();}
+				}).crud({
+					url:'${ctxPath}/my/member/card',showHeader:false,showActionBar:false,listSelectStyle:'radio',listShowActionBar:false
+				});
+			}else if(data&&data.appointed){
+				container.crud('tipInfo','您已预约过该课程，请勿重复预约！','pass',null,2000);
+			}else if(data&&data.nocard){
+				container.crud('tipInfo','没有可使用的会员卡！','pass',null,2000);
+			}
+		});
+	}
+
+	// 我的会员卡
+	 function _my_member_card(){
+		 _clearContainer();
+		 container.crud({url:'${ctxPath}/my/member/card',showHeader:false,showActionBar:false,listSelectStyle:'none',listShowActionBar:false,});
+	 }
+	
+	// 未核销的会员预约
 	function _uncheck_member_course_appoint(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/member/course/appoint/uncheck',
+		container.crud({url:'${ctxPath}/my/course/appoint/uncheck',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
-			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
+			listItemActions:[{label:'取消预约',func:function(event){_cancle_appointment(event,container);},cssClass:'ui-action-statistic'}]
+		});
+	}
+	
+	// 取消预约
+	function _cancle_appointment(event,container){
+		var li=event.data.li,aid=li.data('id');
+		$.get("${ctxPath }/my/course/appoint/uncheck/cancle/"+aid,function(data){
+			if(data&&data.success){
+				container.crud('tipInfo','已成功取消该次预约！','pass',null,2000);
+				container.crud('refreshList');
+			}else{
+				container.crud('tipInfo','取消预约失败！','pass',null,2000);
+			}
+		});
 	}
 	
 	// 已核销的会员预约
 	function _checked_member_course_appoint(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/member/course/appoint/checked',
+		container.crud({url:'${ctxPath}/my/course/appoint/checked',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+	}
+	
+	// 个人信息
+	function _my_account_info(){
+		_clearContainer();
+		container.crud({url:'${ctxPath}/my/account/info',action:'view',actionTarget:'${jeeAccount.accountId}',viewTableColumn:2,viewStyle:'table',showSubviewTitle:false});
 	}
 </script>

@@ -70,4 +70,13 @@ public class AppointmentServiceImpl extends
 				"Appointment.listActiveByUserIdAndStatus",
 				QueryCmdType.QUERY_NAME, offset, count, userId, status);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Appointment> listByUserIdAndCourseId(String userId,
+			Long courseId) {
+		return (List<Appointment>) this.getDao().executeQueryList(
+				"Appointment.listByUserIdAndCourseId", QueryCmdType.QUERY_NAME,
+				-1, -1, userId, courseId);
+	}
 }

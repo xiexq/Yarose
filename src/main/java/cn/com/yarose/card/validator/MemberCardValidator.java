@@ -1,6 +1,5 @@
 package cn.com.yarose.card.validator;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.validation.Errors;
@@ -33,10 +32,6 @@ public class MemberCardValidator implements Validator {
 			if (as == null || as.size() == 0) {
 				errors.rejectValue("userId", "userId.error", "不存在");
 			}
-		}
-		if (cmd.getExpireDate() != null
-				&& cmd.getExpireDate().before(new Date())) {
-			errors.rejectValue("expireDate", "expireDate.error", "有效期不能在现在之前");
 		}
 	}
 }

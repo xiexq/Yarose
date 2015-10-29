@@ -28,9 +28,9 @@ import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
-@RequestMapping("/member/course/teacher")
+@RequestMapping("/my/course/teacher")
 @CRUDControllerMeta(title = "现在预约课程", service = CourseTeacherService.class, listable = true, viewable = true)
-public class CourseAppointmentController extends
+public class MyCourseAppointmentController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
 
 	@Resource(name = "memberCardService")
@@ -63,8 +63,8 @@ public class CourseAppointmentController extends
 	@Override
 	public Set<String> customViewFields(HttpServletRequest request)
 			throws Exception {
-		return this.generateStringSortedSet("courseName", "beginTime",
-				"endTime", "shopName", "shopAddress", "teacherName", "lesson");
+		return this.generateStringSortedSet("courseName", "beginDate",
+				"endDate", "shopName", "shopAddress", "teacherName", "lesson");
 	}
 
 	/**
@@ -107,20 +107,37 @@ public class CourseAppointmentController extends
 			CourseTeacher course = ((CourseTeacherService) this
 					.getCrudService()).findById(courseId);
 			MemberCard card = memberCardService.findById(cardId);
-			// 验证会员卡的课时余额是否够用
-			if (card.getCanUseLesson() >= course.getLesson()) {
-				Appointment appointment = new Appointment();
-				appointment.setUserAccount(this.getAccount());
-				appointment.setUserId(this.getAccount().getUserid());
-				appointment.setCourseTeacher(course);
-				appointment.setCourseTeacherId(courseId);
-				appointment.setmCard(card);
-				appointment.setStatus(Constants.APPOINTMENT_UNCHECKED);
-				appointment.setCreateTime(new Date());
-				appointmentService.save(appointment);
-				resp.setSuccess(true);
+			// 验证该会员卡是否已过期
+			if (card.getExpireDate().after(new Date())) {
+				// 验证会员卡的课时余额是否够用
+				if (card.getCanUseLesson() >= course.getLesson()) {
+					Appointment appointment = new Appointment();
+					appointment.setUserAccount(this.getAccount());
+					appointment.setUserId(this.getAccount().getUserid());
+					appointment.setCourseTeacher(course);
+					appointment.setCourseTeacherId(courseId);
+					appointment.setmCard(card);
+					appointment.setStatus(Constants.APPOINTMENT_UNCHECKED);
+					appointment.setCreateTime(new Date());
+					appointmentService.save(appointment);
+					// 从会员卡中减去使用的课时
+					Integer usedLesson = card.getUsedLesson()
+							+ course.getLesson();
+					card.setUsedLesson(usedLesson);
+					memberCardService.save(card);
+					resp.setSuccess(true);
+				} else {
+					resp.put("notenough", true);
+				}
+			} else {
+				resp.put("expired", true);
 			}
 		}
 		return resp;
+	}
+	
+	@RequestMapping("/star/{cid}")
+	public String viewStar(@PathVariable("cid") Long cid){
+		return "home/star";
 	}
 }

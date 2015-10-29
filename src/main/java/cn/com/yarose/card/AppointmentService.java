@@ -38,4 +38,13 @@ public interface AppointmentService extends
 	 */
 	List<Appointment> listActiveByUserIdAndStatus(String userId, int status,
 			int offset, int count);
+
+	/**
+	 * 判断用户是否已经预约该课程
+	 * 
+	 * @param userId
+	 * @param courseId
+	 * @return
+	 */
+	List<Appointment> listByUserIdAndCourseId(String userId, Long courseId);
 }
