@@ -402,9 +402,7 @@
 		ec.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
 			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,
 			actions:[{label:'返回课程预约',func:function(){svc.pop();}}],
-			onListSuccess:function(){
-				$('td .ui-list-column-content').addClass('evaluation-content');
-			}
+			onListSuccess:function(){$('tbody',ec).css({'font-size':'8px'});}
 		});
 	}
 	
@@ -477,10 +475,49 @@
 	// 已核销的会员预约
 	function _checked_member_course_appoint(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/my/course/appoint/checked',
+		var svc=new StackViewController(container),div=$("<div/>");
+		svc.push(div);
+		div.crud({url:'${ctxPath}/my/course/appoint/checked',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
-			listItemActions:[{label:'评价',func:function(event){_cancle_appointment(event,container);},cssClass:'ui-action-statistic'}]
+			listItemActions:[{label:'评价',func:function(event){_create_course_evlation(event,svc,false);},cssClass:'ui-action-statistic'}]
+		});
+	}
+	
+	// 会员课程评价
+	function _create_course_evlation(event,svc){
+		var li=event.data.li,cid=li.data('id'),div=$('<div/>'),sc=$('<div/>'),vc=$('<div/>'),ec=$('<div/>');
+		sc.load("${ctxPath}/my/course/teacher/star/"+cid);
+		div.append(sc).append(ec).append(vc);svc.push(div);
+		// 验证是否已经评价过该课程
+		var actions=[{label:'返回课程预约',func:function(){svc.pop();}}];
+		$.get("${ctxPath}/member/course/evaluation/edit/isevaluated",{"__cid":cid},function(data){
+			if(data&&data.success){
+			    actions=[];
+				ec.crud({url:'${ctxPath}/member/course/evaluation/edit',params:{"__cid":cid},showHeader:false,action:'edit',createable:true,
+					editable:true,listable:true,viewable:true,showSubviewTitle:false,editShowCancelBtn:false,
+					actions:[{label:'返回课程预约',func:function(){svc.pop();}}],
+					onEditSubmit:function(){
+						var content = $(this).crud('getEditFieldVal',"content");
+						var level = $(this).crud('getEditFieldVal',"level");
+						$.get("${ctxPath}/member/course/evaluation/edit/save/"+cid,{'content':content,'level':level},function(data){
+							if(data&&data.success){
+								ec.crud('tipInfo','评价成功！','pass',null,2000);
+								ec.html('您已评价过该课程预约！');
+							}else{
+								ec.crud('tipInfo','评价失败，请重试！','pass',null,2000);
+							}
+						});
+						return false;
+					}
+				});
+			}else{
+				ec.html('您已评价过该课程预约！');
+			}
+		});
+		vc.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
+			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,
+			actions:actions,onListSuccess:function(){$('tbody',vc).css({'font-size':'8px'});}
 		});
 	}
 	

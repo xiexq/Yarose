@@ -13,10 +13,20 @@ public interface EvaluationService extends BaseSearchService<Evaluation, Long> {
 	/**
 	 * 列出指定课程的所有评价
 	 * 
-	 * @param id 课程id
+	 * @param id
+	 *            课程id
 	 * @param offset
 	 * @param count
 	 * @return
 	 */
 	List<Evaluation> listByCourseId(Long id, int offset, int count);
+
+	/**
+	 * 获取该用户对指定课程的评论
+	 * 
+	 * @param accountId
+	 * @param cid
+	 * @return
+	 */
+	List<Evaluation> listByUserAndCourseTeacher(Long accountId, Long cid);
 }

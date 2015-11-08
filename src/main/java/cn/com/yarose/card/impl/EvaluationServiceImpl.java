@@ -40,4 +40,12 @@ public class EvaluationServiceImpl extends
 				"Evaluation.listByCourseId", QueryCmdType.QUERY_NAME, offset,
 				count, id);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Evaluation> listByUserAndCourseTeacher(Long accountId, Long cid) {
+		return (List<Evaluation>) this.getDao().executeQueryList(
+				"Evaluation.listByUserAndCourseTeacher",
+				QueryCmdType.QUERY_NAME, -1, -1, accountId, cid);
+	}
 }

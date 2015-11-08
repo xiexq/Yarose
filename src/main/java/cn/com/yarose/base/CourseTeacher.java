@@ -23,6 +23,15 @@ public class CourseTeacher implements java.io.Serializable {
 	@FieldMeta(label = "上课门店", dictionary = true, visible = true, editable = true, summary = false)
 	private Shop searchShop;
 
+	public CourseTeacher(Long id) {
+		super();
+		this.id = id;
+	}
+
+	public CourseTeacher() {
+		super();
+	}
+
 	@FieldMeta(label = "上课门店", visible = true, editable = false, summary = false)
 	public String getShopName() {
 		if (shop != null) {
