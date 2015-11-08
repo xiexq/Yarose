@@ -167,7 +167,7 @@ public class AccountAdminController extends
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
-		return this.generateStringSortedSet("userid", "password", "nick",
+		return this.generateStringSortedSet("userid","nick",
 				"email", "accessesName", "weixin");
 	}
 
