@@ -50,7 +50,7 @@ public class MyUncheckCourseAppointController extends
 				.listActiveByUserIdAndStatus(userId,
 						Constants.APPOINTMENT_UNCHECKED, -1, -1);
 	}
-
+	
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {

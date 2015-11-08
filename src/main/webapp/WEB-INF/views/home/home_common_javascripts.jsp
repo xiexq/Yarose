@@ -391,17 +391,20 @@
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,listShowActionBar:false,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
 			listItemActions:[{label:'预约',func:function(event){_my_course_appoint(event,div);},cssClass:'ui-action-statistic'},
-			                 {label:'评价',func:function(event){_view_course_evlation(event,svc,container);},cssClass:'ui-action-statistic'}]
+			                 {label:'评价',func:function(event){_view_course_evlation(event,svc);},cssClass:'ui-action-statistic'}]
 		});
 	}
 	
-	function _view_course_evlation(event,svc,container){
-		var li=event.data.li,cid=li.data('id'),div=$('<div/>');
-		container.load("${ctxPath}/my/course/teacher/star/"+cid);
-		svc.push(div);
-		div.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
-			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,listShowHeader:false,
-			actions:[{label:'返回课程预约',func:function(){container.html('');svc.pop();}}]
+	function _view_course_evlation(event,svc){
+		var li=event.data.li,cid=li.data('id'),div=$('<div/>'),sc=$('<div/>'),ec=$('<div/>');
+		sc.load("${ctxPath}/my/course/teacher/star/"+cid);
+		div.append(sc).append(ec);svc.push(div);
+		ec.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
+			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,
+			actions:[{label:'返回课程预约',func:function(){svc.pop();}}],
+			onListSuccess:function(){
+				$('td .ui-list-column-content').addClass('evaluation-content');
+			}
 		});
 	}
 	
@@ -476,7 +479,9 @@
 		_clearContainer();
 		container.crud({url:'${ctxPath}/my/course/appoint/checked',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
-			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false});
+			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
+			listItemActions:[{label:'评价',func:function(event){_cancle_appointment(event,container);},cssClass:'ui-action-statistic'}]
+		});
 	}
 	
 	// 个人信息

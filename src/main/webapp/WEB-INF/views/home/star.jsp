@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link href="${staticResPath}/styles/mobile/star.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="${staticResPath}/scripts/jquery.all.min.js"></script>
 <body>
 <div id="xzw_starSys">
+	<span class="total-star-level">总体评价：</span>
 	<div id="xzw_starBox">
 		<ul class="star" id="star">
 			<li><a href="javascript:void(0)" title="1" class="one-star">1</a></li>
@@ -15,7 +14,7 @@
 		</ul>
 		<div class="current-rating" id="showb"></div>
 	</div>
-	<div class="description"></div>
+	<div class="description">（一般）</div>
 </div>
 </body>
 <script type="text/javascript">
@@ -24,4 +23,3 @@ $(document).ready(function(){
     $("#showb").css("width",24);
 });
 </script>
-

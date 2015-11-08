@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import org.springframework.util.StringUtils;
+
 import cn.com.eduedu.jee.entity.NameValueBean;
 
 public class Constants {
@@ -40,8 +42,8 @@ public class Constants {
 	public static final int EVALUATION_TYPE_SHOP = 1;
 
 	public static final int COURSE_TEACHER_STATUS_APPOINTMENT = 0;
-	public static final int COURSE_TEACHER_STATUS_LEARNED = 0;
-	public static final int COURSE_TEACHER_STATUS_UNLEARN = 0;
+	public static final int COURSE_TEACHER_STATUS_UNLEARN = 1;
+	public static final int COURSE_TEACHER_STATUS_LEARNED = 2;
 
 	private static Collection<NameValueBean> evaluationTypes;
 
@@ -115,5 +117,23 @@ public class Constants {
 				return nvb.getName();
 		}
 		return "";
+	}
+
+	/**
+	 * 隐藏控制显示名称,以*号代替,只显示后面4位
+	 * 
+	 * @return
+	 */
+	public static String getHideName(String accountName) {
+		if (StringUtils.hasText(accountName) && accountName.length() >= 4) {
+			int length = accountName.length();
+			// 取后面4位
+			accountName = accountName.substring(length - 4, length);
+			// 前面的位数用*号代替
+			for (int i = 0; i < length - 4; i++) {
+				accountName = "*" + accountName;
+			}
+		}
+		return accountName;
 	}
 }

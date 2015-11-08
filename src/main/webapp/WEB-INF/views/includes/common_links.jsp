@@ -5,6 +5,7 @@
 <link href="${staticResPath}/styles/green/normal/all/ui.themes.min.css" rel="stylesheet" type="text/css"/>
 <link href="${staticResPath}/styles/green/normal/qa/theme.css" rel="stylesheet" type="text/css"/>
 <link href="${staticResPath}/styles/layouts/layouts.css" rel="stylesheet" type="text/css"/>
+<link href="${staticResPath}/styles/mobile/star.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript" src="${staticResPath}/scripts/jquery.all.min.js"></script>
 <script type="text/javascript" src="${staticResPath}/scripts/ui-widgets/ui.widgets.all.min.js"></script>
