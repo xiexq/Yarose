@@ -12,8 +12,9 @@
 <body style="margin:0;">
 	<div id="container" style="width:100%;">
 		<div style="width:100%;height:50px;margin:0;" class="ui-header ui-highlight-bar">
-			<div style="width:80%;margin:0 auto;min-width:700px;">
-				<%-- <img src="${staticResPath}/images/logo.png" style="float:left;"></img> --%>
+			<div style="width:80%;margin:0 auto;min-width:300px;height: 36px">
+				<img src="${staticResPath}/images/logo.png" style="float:left;margin-top: 7px;height: 36px"></img>
+				 <h2 style="float:left;margin-top: 7px;height: 36px">yarose会员系统</h2>
 			</div>
 		</div>
 		<div style="width:80%;margin:30px auto;">
@@ -54,14 +55,13 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		(function($){
-			document.getElementById('j_username').focus();
-			if($.fn.button){$('button').button();}
-			
-			$("#register").on('click',function(){
-				window.open('${ctxPath}/public/register');
-			})
-		})(jQuery);
+	(function($){
+		document.getElementById('j_username').focus();
+		if($.fn.button){$('button').button();}
+		$("#register").on('click',function(){
+			window.location='${ctxPath}/public/register';
+		})
+	})(jQuery);
 	</script>
 </body>
 </html>

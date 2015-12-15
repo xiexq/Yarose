@@ -118,7 +118,7 @@ public class Constants {
 		}
 		return "";
 	}
-
+	
 	/**
 	 * 隐藏控制显示名称,以*号代替,只显示后面4位
 	 * 

@@ -14,12 +14,12 @@
 		</ul>
 		<div class="current-rating" id="showb"></div>
 	</div>
-	<div class="description">（一般）</div>
+	<div class="description">${description}</div>
 </div>
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
     var stepW = 24;
-    $("#showb").css("width",24);
+    $("#showb").css("width",24*${star});
 });
 </script>

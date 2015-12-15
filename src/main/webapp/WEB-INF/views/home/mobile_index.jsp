@@ -14,12 +14,11 @@
 <body>
    <div class="ui-header ui-highlight-bar">
 		<div class="ui-topnav ui-container">
-			<div class="ui-logo" style="width:100%;height:50px;margin:0;">
-				<h1 title="${_appName }">${_appName }</h1>
-			</div>
-			<div class="ui-accounts">
-				${jeeAccount.nick}(${jeeAccount.userid })<a
-					href="${ctxPath }/logout">注销</a>
+			<div class="ui-logo" style="width:300px;height:36px">
+				    <img src="${staticResPath}/images/logo.png"/>
+				</div>
+				<div class="ui-accounts">
+					${jeeAccount.nick}(${jeeAccount.userid })<a href="${ctxPath }/logout">注销</a>
 			</div>
 		</div>
 	</div>
@@ -81,7 +80,8 @@
 					    <dd><a href="javascript:_member_course_appointing()"><span>现在预约课程</span></a></dd>
 					    <dd><a href="javascript:_uncheck_member_course_appoint()"><span>已预约成功</span></a></dd>
 					    <dd><a href="javascript:_checked_member_course_appoint()"><span>预约历史记录</span></a></dd>
-					    <dd><a href="#"><span>修改账号信息</span></a></dd>
+					    <dd><a href="javascript:_my_member_card()"><span>我的会员卡</span></a></dd>
+					    <dd><a href="javascript:_my_account_info()"><span>个人信息</span></a></dd>
 				    </dl>
 			    </li>
 			</sec:authorize>

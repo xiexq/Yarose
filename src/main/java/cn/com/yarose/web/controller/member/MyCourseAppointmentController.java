@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +19,13 @@ import cn.com.eduedu.jee.mvc.response.ResponseItem;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.eduedu.jee.security.account.AccountService;
+import cn.com.yarose.base.Course;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
+import cn.com.yarose.card.Evaluation;
+import cn.com.yarose.card.EvaluationService;
 import cn.com.yarose.card.MemberCard;
 import cn.com.yarose.card.MemberCardService;
 import cn.com.yarose.utils.Constants;
@@ -44,6 +48,9 @@ public class MyCourseAppointmentController extends
 
 	@Resource(name = "appointmentService")
 	private AppointmentService appointmentService;
+	
+	@Resource(name = "evaluationService")
+	private EvaluationService evaluationService;
 
 	@Override
 	public Set<String> customListFields(HttpServletRequest arg0)
@@ -136,8 +143,28 @@ public class MyCourseAppointmentController extends
 		return resp;
 	}
 	
+	/**
+	 * 查询出当前课程的星级
+	 * 
+	 * @param cid
+	 * @return
+	 */
 	@RequestMapping("/star/{cid}")
-	public String viewStar(@PathVariable("cid") Long cid){
+	public String viewStar(@PathVariable("cid") Long cid, Model model) {
+		CourseTeacher ct = courseTeacherService.findById(cid);
+		if (ct != null) {
+			List<Evaluation> list = evaluationService.listByCourseId(
+					ct.getCourse().getId(), -1, -1);
+			if (list != null && list.size() > 0) {
+				int star = 0;
+				for (Evaluation eval : list) {
+					star += eval.getLevel();
+				}
+				star = Math.round(star / list.size());
+				model.addAttribute("star", star);
+				model.addAttribute("description", Evaluation.getEvalContent(star));
+			}
+		}
 		return "home/star";
 	}
 }

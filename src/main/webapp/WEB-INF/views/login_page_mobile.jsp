@@ -48,7 +48,6 @@
 						d.input.prop('placeholder','用户名');
 					}else if(d.field.name=='password'){
 						d.input.prop('placeholder','密码');
-						$(this).append('<div><a href="${ctxPath}/web/password/entry" target="'+(simple?'_blank':'_self')+'">忘记密码?</a></div>');
 					}
 				}
 			});

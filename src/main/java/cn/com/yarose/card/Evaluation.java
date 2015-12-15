@@ -1,9 +1,12 @@
 package cn.com.yarose.card;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import cn.com.eduedu.jee.entity.NameValueBean;
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.CourseTeacher;
@@ -82,8 +85,34 @@ public class Evaluation implements java.io.Serializable {
 	@FieldMeta(id = true, label = "评价时间", editable = true)
 	private Date createTime;
 
-	@FieldMeta(id = true, label = "星级", editable = true)
+	@FieldMeta(id = true, label = "星级", editable = true, dictionary = true)
 	private Integer level;
+	
+	public static List<NameValueBean> getLevelDicts() {
+		List<NameValueBean> list = new ArrayList<NameValueBean>();
+		list.add(new NameValueBean("一星", "1"));
+		list.add(new NameValueBean("二星", "2"));
+		list.add(new NameValueBean("三星", "3"));
+		list.add(new NameValueBean("四星", "4"));
+		list.add(new NameValueBean("五星", "5"));
+		return list;
+	}
+	
+	public static String getEvalContent(int star){
+		if(star==0){
+			return "";
+		}else if(star==1){
+			return "不错";
+		}else if(star==2){
+			return "还行";
+		}else if(star==3){
+			return "一般";
+		}else if(star==4){
+			return "很好";
+		}else{
+			return "极好的";
+		}
+	}
 
 	public Long getId() {
 		return id;

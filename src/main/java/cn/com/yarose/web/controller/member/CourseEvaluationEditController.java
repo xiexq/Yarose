@@ -1,5 +1,7 @@
 package cn.com.yarose.web.controller.member;
 
+import java.net.URLDecoder;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.com.eduedu.jee.entity.NameValueBean;
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
+import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.yarose.base.CourseTeacherService;
 import cn.com.yarose.card.Appointment;
@@ -65,13 +70,14 @@ public class CourseEvaluationEditController extends
 	@RequestMapping("/save/{cid}")
 	@ResponseBody
 	public ResponseObject saveEval(@PathVariable("cid") Long cid,
-			HttpServletRequest request, Evaluation cmd) {
+			HttpServletRequest request, @ModelAttribute Evaluation cmd) {
 		ResponseObject resp = new ResponseObject(false);
 		if (cid != null && cmd != null) {
 			cmd.setAccount(this.getAccount());
 			Appointment app = appointmentService.findById(cid);
 			cmd.setCourseTeacher(app.getCourseTeacher());
 			cmd.setCreateTime(new Date());
+			cmd.setContent(URLDecoder.decode(cmd.getContent()));
 			cmd.setType(Constants.EVALUATION_TYPE_USER);
 			String stuLevel = Constants.getevaluationType(this.getAccount()
 					.getStuLevel());
@@ -101,5 +107,10 @@ public class CourseEvaluationEditController extends
 			}
 		}
 		return resp;
+	}
+	
+	@DictionaryModel
+	public List<NameValueBean> _levels(HttpServletRequest request) {
+		return Evaluation.getLevelDicts();
 	}
 }

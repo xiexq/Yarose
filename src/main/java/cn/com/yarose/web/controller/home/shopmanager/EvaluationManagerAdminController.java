@@ -117,4 +117,8 @@ public class EvaluationManagerAdminController extends BaseCRUDControllerExt<Eval
 		return super.customSave(cmd, result, request, response, create);
 	}
 	
+	@DictionaryModel
+	public List<NameValueBean> _levels(HttpServletRequest request) {
+		return Evaluation.getLevelDicts();
+	}
 }

@@ -13,12 +13,12 @@
 	<div id="ui-container">
 		<div class="ui-header ui-highlight-bar">
 			<div class="ui-topnav ui-container">
-				<div class="ui-logo" style="width:100%;height:50px;margin:0;">
-					<h1 title="${_appName }">${_appName }</h1>
+				<div class="ui-logo" style="width:300px;height:36px">
+				    <img src="${staticResPath}/images/logo.png"/>
+				    <h2>yarose会员系统</h2>
 				</div>
 				<div class="ui-accounts">
-					${jeeAccount.nick}(${jeeAccount.userid })<a
-						href="${ctxPath }/logout">注销</a>
+					${jeeAccount.nick}(${jeeAccount.userid })<a href="${ctxPath }/logout">注销</a>
 				</div>
 			</div>
 		</div>
@@ -88,8 +88,8 @@
 					         <li><a href="javascript:_member_course_appointing()">现在预约课程</a></li>
 					         <li><a href="javascript:_uncheck_member_course_appoint()">已预约成功</a></li>
 					         <li><a href="javascript:_checked_member_course_appoint()">预约历史记录</a></li>
-					         <li><a href="javascript:_my_account_info()">个人信息</a></li>
 					         <li><a href="javascript:_my_member_card()">我的会员卡</a></li>
+					         <li><a href="javascript:_my_account_info()">个人信息</a></li>
 					    </ul>
 					 </div>
 			        </sec:authorize>

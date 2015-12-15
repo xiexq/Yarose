@@ -155,7 +155,7 @@
 	//权限管理
 	function _access_admin(){
 		_clearContainer();
-		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none'});
+		container.crud({url:'${ctxPath}/home/admin/access',listSelectStyle:'none',refreshable:false});
 	}
 	
 	function _dictionary_admin(){
@@ -480,44 +480,35 @@
 		div.crud({url:'${ctxPath}/my/course/appoint/checked',
 			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
-			listItemActions:[{label:'评价',func:function(event){_create_course_evlation(event,svc,false);},cssClass:'ui-action-statistic'}]
+			listItemActions:[{label:'评价',func:function(event){_create_course_evlation(event,div,svc);},cssClass:'ui-action-statistic'}]
 		});
 	}
 	
 	// 会员课程评价
-	function _create_course_evlation(event,svc){
-		var li=event.data.li,cid=li.data('id'),div=$('<div/>'),sc=$('<div/>'),vc=$('<div/>'),ec=$('<div/>');
-		sc.load("${ctxPath}/my/course/teacher/star/"+cid);
-		div.append(sc).append(ec).append(vc);svc.push(div);
+	function _create_course_evlation(event,div,svc){
+		var li=event.data.li,cid=li.data('id'),ec=$('<div/>');
 		// 验证是否已经评价过该课程
-		var actions=[{label:'返回课程预约',func:function(){svc.pop();}}];
 		$.get("${ctxPath}/member/course/evaluation/edit/isevaluated",{"__cid":cid},function(data){
 			if(data&&data.success){
-			    actions=[];
+				svc.push(ec);
 				ec.crud({url:'${ctxPath}/member/course/evaluation/edit',params:{"__cid":cid},showHeader:false,action:'edit',createable:true,
-					editable:true,listable:true,viewable:true,showSubviewTitle:false,editShowCancelBtn:false,
-					actions:[{label:'返回课程预约',func:function(){svc.pop();}}],
+					editable:true,listable:false,viewable:false,showSubviewTitle:false,
 					onEditSubmit:function(){
 						var content = $(this).crud('getEditFieldVal',"content");
 						var level = $(this).crud('getEditFieldVal',"level");
-						$.get("${ctxPath}/member/course/evaluation/edit/save/"+cid,{'content':content,'level':level},function(data){
+						$.get("${ctxPath}/member/course/evaluation/edit/save/"+cid,{'content':encodeURI(content),'level':level},function(data){
 							if(data&&data.success){
-								ec.crud('tipInfo','评价成功！','pass',null,2000);
-								ec.html('您已评价过该课程预约！');
+								ec.crud('tipInfo','评价成功！','pass',null,2000);svc.pop();
 							}else{
 								ec.crud('tipInfo','评价失败，请重试！','pass',null,2000);
 							}
 						});
 						return false;
-					}
+					},onCancelEdit:function(){svc.pop();}
 				});
 			}else{
-				ec.html('您已评价过该课程预约！');
+				div.crud('tipInfo','您已评价过该课程！','pass',null,2000);
 			}
-		});
-		vc.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
-			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,
-			actions:actions,onListSuccess:function(){$('tbody',vc).css({'font-size':'8px'});}
 		});
 	}
 	
