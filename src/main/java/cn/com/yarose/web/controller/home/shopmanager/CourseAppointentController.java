@@ -49,7 +49,7 @@ public class CourseAppointentController extends BaseCRUDControllerExt<Appointmen
 	
 	@Override
 	public Set<String> customEditFields(HttpServletRequest request, boolean create) throws Exception {
-		return this.generateStringSortedSet("userId","","mCard");	
+		return this.generateStringSortedSet("userId","mCard");	
 	}
 	
 	@DictionaryModel(cascade = true, cascadeField = "userId", label = "cardNo", val = "id")
@@ -101,7 +101,6 @@ public class CourseAppointentController extends BaseCRUDControllerExt<Appointmen
 			if(create){
 				cmd.setCreateTime(new Date());
 			}
-			
 			Long courseTeacherId = this.getRequestCourseId(request);
 			CourseTeacher ct = courseTeacherService.findById(courseTeacherId);
 			cmd.setCourseTeacher(ct);

@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.com.eduedu.jee.entity.annotation.FieldMeta;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.yarose.base.CourseTeacher;
+import cn.com.yarose.base.Shop;
 import cn.com.yarose.utils.Constants;
 
 public class Appointment implements java.io.Serializable {
@@ -29,36 +30,48 @@ public class Appointment implements java.io.Serializable {
 		return Constants.getFormatId(id, 5);
 	}
 
-	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
+	@FieldMeta(label = "课程", editable = true, dictionary = true)
 	private CourseTeacher courseTeacher;
 
-	@FieldMeta(id = true, label = "课时", editable = true)
+	@FieldMeta(label = "课时", editable = true)
 	public Integer getLesson() {
 		if (courseTeacher != null) {
 			return courseTeacher.getLesson();
 		}
 		return null;
 	}
-
-	@FieldMeta(id = true, label = "课程", editable = true, dictionary = true)
+	
+	@FieldMeta(label = "课程", editable = true, dictionary = true)
 	private Long courseTeacherId;
 
-	@FieldMeta(id = true, label = "状态", editable = true, dictionary = true)
+	/**
+	 * 冗余属性
+	 */
+	@FieldMeta(label = "上课门店", dictionary = true)
+	private Shop shop;
+
+	/**
+	 * 冗余属性
+	 */
+	@FieldMeta(label = "上课日期")
+	private Date schoolDate;
+
+	@FieldMeta(label = "状态", editable = true, dictionary = true)
 	private Integer status;
 
-	@FieldMeta(id = true, label = "预约时间", editable = true, datetime = true)
+	@FieldMeta(label = "预约时间", editable = true, datetime = true)
 	private Date createTime;
 
-	@FieldMeta(id = true, label = "核销时间", editable = true, datetime = true)
+	@FieldMeta(label = "核销时间", editable = true, datetime = true)
 	private Date checkTime;
 
-	@FieldMeta(id = true, label = "核销人", editable = true)
+	@FieldMeta(label = "核销人", editable = true)
 	private String checkUserId;
 
-	@FieldMeta(id = true, label = "其他消费", editable = true)
+	@FieldMeta(label = "其他消费", editable = true)
 	private Float otherConsum;
 
-	@FieldMeta(id = true, label = "备注", editable = true, text = true)
+	@FieldMeta(label = "备注", editable = true, text = true)
 	private String remark;
 
 	/**
@@ -184,6 +197,22 @@ public class Appointment implements java.io.Serializable {
 
 	public void setUserAccount(Account userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public Date getSchoolDate() {
+		return schoolDate;
+	}
+
+	public void setSchoolDate(Date schoolDate) {
+		this.schoolDate = schoolDate;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 	public void setCreateTime(Date createTime) {

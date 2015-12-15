@@ -319,7 +319,27 @@
 		uncheck=$('<div id="uncheck"></div>'),checked=$('<div id="checked"></div>');
 		tab.append(uncheck).append(checked);
 		uncheck.crud({url:'${ctxPath}/home/shop/manager/appointment',showHeader:false,editable:false,searchFormColumn:searchFormColumn,
-		    listItemActions:[{label:'核销',func:function(event){_appointment_audit(event);},cssClass:'ui-action-statistic'}]
+		    listItemActions:[{label:'核销',func:function(event){_appointment_audit(event);},cssClass:'ui-action-statistic'}],
+		    onFieldValueChange:function(data,field){
+				if(field.name=='shop'||field.name=='schoolDate'){
+					var select=$('select[name=courseTeacher]');
+			    	select.empty();
+					var shopId=$(this).crud("getEditFieldVal","shop");
+					var schoolDate=$(this).crud("getEditFieldVal","schoolDate");
+					if(shopId&&schoolDate){
+						$.get('${ctxPath}/home/shop/manager/appointment/course/'+shopId+'/'+schoolDate,function(data){
+							if(data&&data.success){
+								var courses=data.courses;
+								if(courses&&courses.length>0){
+									for(var i=0; i<courses.length; i++){
+									 	select.append("<option value='"+courses[i].id+"'>"+courses[i].courseName+"</option>");
+									}
+								}
+							}
+						});
+						}
+					}
+				}
 		});
 		checked.crud({url:'${ctxPath}/home/shop/manager/appointment',params:{_checked:'checked'},editable:false,createable:false,deleteable:false,showHeader:false,searchFormColumn:searchFormColumn});
 		container.append(tab);

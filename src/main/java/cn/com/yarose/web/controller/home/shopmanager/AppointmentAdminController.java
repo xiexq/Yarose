@@ -1,5 +1,8 @@
 package cn.com.yarose.web.controller.home.shopmanager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -11,17 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.eduedu.jee.mvc.controller.CRUDControllerMeta;
 import cn.com.eduedu.jee.mvc.controller.DictionaryModel;
-import cn.com.eduedu.jee.mvc.controller.DictionaryModelType;
+import cn.com.eduedu.jee.mvc.response.ResponseItem;
 import cn.com.eduedu.jee.mvc.response.ResponseObject;
 import cn.com.eduedu.jee.order.OrderProperties;
 import cn.com.eduedu.jee.security.account.Account;
 import cn.com.eduedu.jee.security.account.AccountService;
 import cn.com.yarose.base.CourseTeacher;
 import cn.com.yarose.base.CourseTeacherService;
+import cn.com.yarose.base.Shop;
+import cn.com.yarose.base.ShopService;
 import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
 import cn.com.yarose.card.MemberCard;
@@ -43,6 +50,9 @@ public class AppointmentAdminController extends
 
 	@Resource(name = "courseTeacherService")
 	private CourseTeacherService courseTeacherService;
+
+	@Resource(name = "shopService")
+	private ShopService shopService;
 
 	/**
 	 * 验证是否是核销预约操作
@@ -82,7 +92,8 @@ public class AppointmentAdminController extends
 					"lesson");
 		}
 		// 添加预约
-		return this.generateStringSortedSet("userId", "mCard", "courseTeacher");
+		return this.generateStringSortedSet("userId", "mCard", "shop",
+				"schoolDate", "courseTeacher");
 	}
 
 	@Override
@@ -187,11 +198,8 @@ public class AppointmentAdminController extends
 		return null;
 	}
 
-	@DictionaryModel(header = true, label = "courseName", val = "id", type = DictionaryModelType.URL, url = "/home/course/teacher/selector")
-	public CourseTeacher _courseTeachers(HttpServletRequest request, Object obj) {
-		if (obj != null) {
-			return (CourseTeacher) obj;
-		}
+	@DictionaryModel(header = true, label = "courseName", val = "id")
+	public List<CourseTeacher> _courseTeachers(HttpServletRequest request) {
 		return null;
 	}
 
@@ -201,5 +209,46 @@ public class AppointmentAdminController extends
 			return accountService.findByUserId(value + "%", 0, 10);
 		}
 		return null;
+	}
+
+	@DictionaryModel(label = "name", val = "id")
+	public List<Shop> _shops(HttpServletRequest request) {
+		return shopService.listAll(-1, -1);
+	}
+
+	@ResponseBody
+	@RequestMapping("/course/{shopId}/{dateStr}")
+	public ResponseObject getCourseTeachers(
+			@PathVariable("shopId") Long shopId,
+			@PathVariable("dateStr") String dateStr) throws ParseException {
+		ResponseObject resp = new ResponseObject(false);
+		if (shopId != null && StringUtils.hasText(dateStr)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = sdf.parse(dateStr);
+			Date beginDate = Constants.customBeginTime(date);
+			Date endDate = Constants.customEndTime(date);
+			List<CourseTeacher> ccs = courseTeacherService.listByShopAndDay(
+					shopId, beginDate, endDate);
+			if (ccs != null && ccs.size() > 0) {
+				List<ResponseItem> items = resp.createListChildren("courses");
+				for (CourseTeacher cc : ccs) {
+					// 获取开始结束时间的时间点
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(cc.getBeginTime());
+					String beginStr = calendar.get(Calendar.HOUR_OF_DAY) + ":"
+							+ calendar.get(Calendar.MINUTE);
+					calendar.setTime(cc.getEndTime());
+					String endStr = calendar.get(Calendar.HOUR_OF_DAY) + ":"
+							+ calendar.get(Calendar.MINUTE);
+					ResponseItem item = new ResponseItem();
+					item.put("id", cc.getId()+"");
+					item.put("courseName", cc.getCourseName() + "("
+							+ beginStr + "——" + endStr + ")");
+					items.add(item);
+				}
+				resp.setSuccess(true);
+			}
+		}
+		return resp;
 	}
 }
