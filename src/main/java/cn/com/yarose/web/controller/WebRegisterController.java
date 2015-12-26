@@ -78,6 +78,13 @@ public class WebRegisterController extends
 			throws Exception {
 		if (this.validate(cmd, result, request, true)) {
 			boolean hasErr = false;
+			if(cmd.getUserid() != null){
+				String regEx = "/^[a-zA-Z0-9_]{5,20}$/";
+				if(!cmd.getUserid().matches(regEx)){
+					result.rejectValue("userid", "not.matchs", "请用字母、数字和下划线组成。");
+					hasErr = true;
+				}
+			}
 			if (!cmd.getPassword().equals(cmd.getPasswordConfirm())) {
 				result.rejectValue("password", "not.matchs", "和确认密码不一致");
 				hasErr = true;

@@ -14,9 +14,9 @@ public class RegisterForm implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@FieldMeta(id=true,editable=false,visible=false,summary=false)
 	Long id;
-	@FieldMeta(label="用户名",required=true,remoteValidation=true)
+	@FieldMeta(label="用户名",required=true,remoteValidation=true,description = "请用字母、数字和下划线组成。")
 	@NotNull
-	@Size(min=5,max=100)
+	@Size(min=5,max=20)
 	String userid;
 	@FieldMeta(label="电子邮件",required=true,tip=false,description="填写真实的电子邮件以用于找回密码",autoComplete=true)
 	@Email
