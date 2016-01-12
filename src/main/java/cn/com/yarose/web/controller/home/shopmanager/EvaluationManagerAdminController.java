@@ -1,7 +1,5 @@
 package cn.com.yarose.web.controller.home.shopmanager;
 
-
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -29,94 +27,104 @@ import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/shop/evaluation/manager")
-@CRUDControllerMeta(title = "评价管理", service = EvaluationService.class, listable = true,viewable = true, searchable = true,createable=true,editable=true,deleteable=true)
-public class EvaluationManagerAdminController extends BaseCRUDControllerExt<Evaluation, Long> {
-	
-	private CourseTeacherService courseTeacherService;
-	
-	@Resource(name="courseTeacherService")
-	public void setCourseTeacherService(CourseTeacherService courseTeacherService){
-		this.courseTeacherService = courseTeacherService;
-	}
-	
+@CRUDControllerMeta(title = "评价管理", service = EvaluationService.class, listable = true, viewable = true, createable = true, editable = false, deleteable = false)
+public class EvaluationManagerAdminController extends
+		BaseCRUDControllerExt<Evaluation, Long> {
+
+	@Resource(name = "courseTeacherService")
+	CourseTeacherService courseTeacherService;
+
 	@Override
-	public Set<String> customListFields(HttpServletRequest arg0) throws Exception {
-		return this.generateStringSortedSet("id","accountName","evaluationTypeName","level","createTime");
+	public Set<String> customListFields(HttpServletRequest arg0)
+			throws Exception {
+		return this.generateStringSortedSet("id", "accountName",
+				"evaluationTypeName", "level", "createTime");
 	}
-	
+
 	@Override
-	public Set<String> customViewFields(HttpServletRequest request, Evaluation entity) throws Exception {
-		return this.generateStringSortedSet("accountName","evaluationTypeName","shopName","courseName","level","content","createTime");
+	public Set<String> customViewFields(HttpServletRequest request,
+			Evaluation entity) throws Exception {
+		return this.generateStringSortedSet("accountName",
+				"evaluationTypeName", "shopName", "courseName", "level",
+				"content", "createTime");
 	}
-	
+
 	@Override
-	public Set<String> customHideFields(HttpServletRequest request, CRUDPhase phase) {
+	public Set<String> customHideFields(HttpServletRequest request,
+			CRUDPhase phase) {
 		return this.generateStringSortedSet("id");
 	}
-	
+
 	@Override
-	public Set<String> customEditFields(HttpServletRequest request, Evaluation entity) throws Exception {
-		return this.generateStringSortedSet("content","level");
+	public Set<String> customEditFields(HttpServletRequest request,
+			Evaluation entity) throws Exception {
+		return this.generateStringSortedSet("content", "level");
 	}
-	
+
 	@Override
-	public Set<String> customSearchFields(HttpServletRequest request) throws Exception {
+	public Set<String> customSearchFields(HttpServletRequest request)
+			throws Exception {
 		return this.generateStringSortedSet("type");
 	}
-	
+
 	@Override
-	public List<Evaluation> customSearch(Evaluation example, int offset, int count, OrderProperties orders,
-			HttpServletRequest request) throws Exception {
+	public List<Evaluation> customSearch(Evaluation example, int offset,
+			int count, OrderProperties orders, HttpServletRequest request)
+			throws Exception {
 		return super.customSearch(example, offset, count, orders, request);
 	}
-	
+
 	@DictionaryModel(header = true, headerLabel = "请选择")
-	public Collection<NameValueBean> _types(HttpServletRequest request){
+	public Collection<NameValueBean> _types(HttpServletRequest request) {
 		return Constants.getevaluationTypes();
 	}
+
 	@Override
-	public List<Evaluation> customList(int offset, int count, OrderProperties orders, HttpServletRequest request)
+	public List<Evaluation> customList(int offset, int count,
+			OrderProperties orders, HttpServletRequest request)
 			throws Exception {
 		EvaluationService es = (EvaluationService) this.getCrudService();
 		String courseTeacherId = request.getParameter("_id");
-		if(courseTeacherId != null){
+		if (courseTeacherId != null) {
 			return es.listByCourseTeacherId(Long.parseLong(courseTeacherId));
 		}
 		return null;
 	}
-	
+
 	@Override
 	public long customCount(HttpServletRequest request) throws Exception {
 		EvaluationService es = (EvaluationService) this.getCrudService();
 		String courseTeacherId = request.getParameter("_id");
-		if(courseTeacherId != null){
+		if (courseTeacherId != null) {
 			return es.countByCourseTeacherId(Long.parseLong(courseTeacherId));
 		}
 		return 0L;
 	}
-	
+
 	@Override
-	public Evaluation customSave(Evaluation cmd, BindingResult result, HttpServletRequest request, ResponseObject response,
-			boolean create) throws Exception {
+	public Evaluation customSave(Evaluation cmd, BindingResult result,
+			HttpServletRequest request, ResponseObject response, boolean create)
+			throws Exception {
 		if (this.validate(cmd, result, request, create)) {
 			String courseTeacherId = request.getParameter("_id");
-			if(courseTeacherId != null){
-				CourseTeacher ct = courseTeacherService.findById(Long.parseLong(courseTeacherId));
+			if (courseTeacherId != null) {
+				CourseTeacher ct = courseTeacherService.findById(Long
+						.parseLong(courseTeacherId));
 				cmd.setCourseTeacher(ct);
 			}
-			if(create){
+			if (create) {
 				cmd.setCreateTime(new Date());
 			}
 			cmd.setAccount(this.getAccount());
-			if(!this.isInRole("TEACHER")){
+			if (!this.isInRole("TEACHER")) {
 				cmd.setType(Constants.EVALUATION_TYPE_USER);
-			}else{
+			} else {
 				cmd.setType(Constants.EVALUATION_TYPE_SHOP);
 			}
 		}
 		return super.customSave(cmd, result, request, response, create);
 	}
-	
+
 	@DictionaryModel
 	public List<NameValueBean> _levels(HttpServletRequest request) {
 		return Evaluation.getLevelDicts();

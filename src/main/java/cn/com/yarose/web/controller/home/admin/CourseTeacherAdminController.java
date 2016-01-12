@@ -38,27 +38,34 @@ import cn.com.yarose.base.ShopService;
 import cn.com.yarose.base.validate.CourseTeacherValidator;
 import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
+import cn.com.yarose.utils.CheckMobileUtil;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
 @Controller
 @RequestMapping("/home/admin/teacher/managers")
-@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class,validator=CourseTeacherValidator.class, listable = true, createable = true, editable = true, deleteable = true, searchable = true)
+@CRUDControllerMeta(viewable = true, title = "课程安排", service = CourseTeacherService.class,validator=CourseTeacherValidator.class, listable = true, createable = true, editable = false, deleteable = true, searchable = true)
 public class CourseTeacherAdminController extends
 		BaseCRUDControllerExt<CourseTeacher, Long> {
 
 	@Resource(name = "courseService")
-	private CourseService courseService;
+	CourseService courseService;
+	
 	@Resource(name = "shopService")
-	private ShopService shopService;
+	ShopService shopService;
+	
 	@Resource(name = "account_accountService")
-	private AccountService accountService;
+	AccountService accountService;
+	
 	@Resource(name = "account_accessService")
-	private AccessService accessService;
+	AccessService accessService;
+	
 	@Resource(name = "dictionaryService")
-	private DictionaryService dictionaryService;
+	DictionaryService dictionaryService;
+	
 	@Resource(name="appointmentService")
-	private AppointmentService appointmentService;
+	AppointmentService appointmentService;
+	
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
@@ -67,8 +74,13 @@ public class CourseTeacherAdminController extends
 			return this.generateStringSortedSet("courseName", "shopName",
 					"teacherName");
 		}
+		// 考虑到手机端显示字段不宜太多
+		if(CheckMobileUtil.isMobile(request)){
+			return this.generateStringSortedSet("courseName", "teacherName",
+					"beginTime", "statusName");
+		}
 		return this.generateStringSortedSet("courseName", "teacherName",
-				"beginTime", "endTime", "lesson", "courseFee", "userId","statusName");
+				"beginTime", "endTime", "lesson", "courseFee", "statusName");
 	}
 
 	@Override

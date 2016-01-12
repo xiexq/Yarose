@@ -29,6 +29,7 @@ import cn.com.yarose.base.ShopService;
 import cn.com.yarose.card.MemberCard;
 import cn.com.yarose.card.MemberCardService;
 import cn.com.yarose.card.validator.MemberCardValidator;
+import cn.com.yarose.utils.CheckMobileUtil;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
@@ -59,8 +60,13 @@ public class MemberCardController extends
 	}
 
 	@Override
-	public Set<String> customListFields(HttpServletRequest arg0)
+	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
+		// 考虑到手机端不宜显示字段过长
+		if (CheckMobileUtil.isMobile(request)) {
+			return this.generateStringSortedSet("cardNo", "userId",
+					"purchaseLesson", "usedLesson");
+		}
 		return this.generateStringSortedSet("cardNo", "userId", "typeName",
 				"purchaseLesson", "givingLesson", "usedLesson", "totalLesson",
 				"expireDate", "price");
@@ -131,7 +137,7 @@ public class MemberCardController extends
 				Shop shop = shopService.findById(shopId);
 				cmd.setShop(shop);
 			}
-			if (create) {  
+			if (create) {
 				cmd.setCreateDate(new Date());
 				cmd.setCreator(this.getAccount());
 				// 生成卡号规则（年份+月份+门店id+序列号）

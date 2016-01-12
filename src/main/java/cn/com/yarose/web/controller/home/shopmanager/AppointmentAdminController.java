@@ -33,6 +33,7 @@ import cn.com.yarose.card.Appointment;
 import cn.com.yarose.card.AppointmentService;
 import cn.com.yarose.card.MemberCard;
 import cn.com.yarose.card.MemberCardService;
+import cn.com.yarose.utils.CheckMobileUtil;
 import cn.com.yarose.utils.Constants;
 import cn.com.yarose.web.controller.BaseCRUDControllerExt;
 
@@ -79,6 +80,10 @@ public class AppointmentAdminController extends
 	@Override
 	public Set<String> customListFields(HttpServletRequest request)
 			throws Exception {
+		if (CheckMobileUtil.isMobile(request)) {
+			return this.generateStringSortedSet("userId", "courseName",
+					"teacherName");
+		}
 		return this.generateStringSortedSet("code", "userId", "userWeiXin",
 				"userNick", "courseName", "shopName", "teacherName");
 	}
@@ -241,9 +246,9 @@ public class AppointmentAdminController extends
 					String endStr = calendar.get(Calendar.HOUR_OF_DAY) + ":"
 							+ calendar.get(Calendar.MINUTE);
 					ResponseItem item = new ResponseItem();
-					item.put("id", cc.getId()+"");
-					item.put("courseName", cc.getCourseName() + "("
-							+ beginStr + "——" + endStr + ")");
+					item.put("id", cc.getId() + "");
+					item.put("courseName", cc.getCourseName() + "(" + beginStr
+							+ "——" + endStr + ")");
 					items.add(item);
 				}
 				resp.setSuccess(true);

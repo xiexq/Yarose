@@ -204,10 +204,11 @@
 	}
 	
 	//课程安排
+	var shopId;
 	function _course_plan(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/admin/teacher/managers',initShowSearchForm:true,
+			url:'${ctxPath}/home/admin/teacher/managers',/* initShowSearchForm:true, */
 			onListSuccess:function(e,data){
 				$('.ui-action-listall.ui-button').hide();
 				$('.ui-action-reset.ui-button').hide();
@@ -218,7 +219,7 @@
 			        monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],    
 		            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
 		            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-		            buttonText: {today:'今天',month:'月',week:'周',day:'日',prev:'上一月',next:'下一月'},
+		            buttonText:{today:'今天',month:'月',week:'周',day:'日',prev:'上一月',next:'下一月'},
 					events:function(start, end, timezone, callback) {
 						var shopId = $("select[name='searchShop']",container).val();
 						_add_hover();
@@ -228,9 +229,11 @@
 			                	callback(data.courses);
 			                }
 						});
-				    },dayClick:function(date, allDay, jsEvent, view) {
+				    },dayClick:function(date,allDay,jsEvent,view) {
+				    	shopId = $("select[name='searchShop']",container).val();
 				    	_edit_event_day(date);
-		        	},eventClick: function(calEvent, jsEvent, view) {
+		        	},eventClick: function(calEvent,jsEvent,view) {
+		        		shopId = $("select[name='searchShop']",container).val();
 		        		_edit_event_day(calEvent.start);
 			        }
 				});
@@ -239,13 +242,12 @@
 	}
 	
 	function _edit_event_day(date){
-		var shopId = $("select[name='searchShop']",container).val(),div=$('<div/>');
-		div.dialog({
-			title:formatDate(new Date(date))+'课程安排',width:800,height:600
-		}).crud({
-			url:'${ctxPath }/home/admin/teacher/managers',searchFormColumn:searchFormColumn,
-			showSubviewTitle:false,showHeader:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
+		_clearContainer();
+		container.crud({
+			url:'${ctxPath }/home/admin/teacher/managers',title:formatDate(new Date(date))+'课程安排',searchFormColumn:searchFormColumn,
+			showSubviewTitle:false,searchable:false,params:{'_shop':shopId,'_date':date+""},
 			listItemActions:[{label:'预约',func:function(event){_appointment_course(event,date);},cssClass:'ui-action-statistic'}],
+			actions:[{label:'返回课程安排',func:function(){_course_plan()}}],
 			onFieldValueChange:function(data,field){
 				if(field.name=='teacher'){
 					var tid=$(this).crud("getEditFieldVal","teacher");
@@ -259,7 +261,7 @@
 						$("input[name='courseFee']").val('0');
 					}
 				}
-			},onSaveSuccess:function(event, data){
+			},onSaveSuccess:function(event,data){
 				$.get("${ctxPath }/home/admin/teacher/managers/"+data.entityID,function(d){
 					if(d&&d.success){
 						if(!data.isCreate){
@@ -274,12 +276,11 @@
 	
 	//课程预约（课程安排）
 	function _appointment_course(event,date){
-		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName'),mc=$("<div/>");
-		mc.dialog({
-			title:formatDate(new Date(date))+'课程安排',width:800,height:600
-		}).crud({
-			url:'${ctxPath }/home/admin/course/appointment',title:"“"+courseName+"”预约记录",searchFormColumn:searchFormColumn,
-			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回',func:function(){mc.dialog('close');}}]
+		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
+		_clearContainer();
+		container.crud({
+			url:'${ctxPath }/home/admin/course/appointment',title:"“"+courseName+"”预约记录",searchFormColumn:searchFormColumn,viewable:false,
+			showheader:false,params:{_courseTeacherId:id},actions:[{label:'返回上一步',func:function(){_edit_event_day(date);}}]
 		});
 	}
 	
@@ -369,17 +370,17 @@
 	function _evaluation_management(){
 		_clearContainer();
 		container.crud({
-			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},editable:false,deleteable:false,createable:false,listSelectStyle:'none',searchFormColumn:searchFormColumn,
-			listItemActions:[{label:'评价',func:function(event){_user_valuation(event,container);},cssClass:'ui-action-statistic'}]
+			url:'${ctxPath}/home/admin/teacher/managers',params:{_isEval:'isEval'},editable:false,deleteable:false,createable:false,
+			listSelectStyle:'none',searchFormColumn:searchFormColumn,title:"评价管理",
+			listItemActions:[{label:'查看评价',func:function(event){_user_valuation(event,container);},cssClass:'ui-action-statistic'}]
 		});
 	}
 	
 	function _user_valuation(event,container){
 		var li=event.data.li,id=li.data('id'),courseName=_crudHelper.getListItemFieldValue(li,'courseName');
-		var dialog=$('<div/>'),win=$(window),ww=win.width(),wh=win.height();
-		dialog.dialog({
-			title:courseName+'的评价',width:ww-100,height:wh-100,close:function(){$(this).dialog('destroy').remove();}
-		}).crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},cssClass:'room-score-rule-edit',showHeader:false,searchFormColumn:searchFormColumn,
+		_clearContainer();
+		container.crud({url:'${ctxPath}/home/shop/evaluation/manager',params:{_id:id},title:courseName+"的评价",searchFormColumn:searchFormColumn,
+			actions:[{label:'返回',func:function(){_evaluation_management();}}],
 			onSaveSuccess:function(){
 				$(this).crud('tipInfo','保存成功！','pass',null,1000);
 				setTimeout(function(){$(this).crud("refreshList");},1000);
@@ -408,7 +409,7 @@
 		var svc=new StackViewController(container),div=$("<div/>");
 		svc.push(div);
 		div.crud({url:'${ctxPath}/my/course/teacher',
-			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,listShowActionBar:false,
+			listSelectStyle:'none',title:"现在预约课程",showActionBar:false,viewTableColumn:2,listShowActionBar:false,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
 			listItemActions:[{label:'预约',func:function(event){_my_course_appoint(event,div);},cssClass:'ui-action-statistic'},
 			                 {label:'评价',func:function(event){_view_course_evlation(event,svc);},cssClass:'ui-action-statistic'}]
@@ -422,7 +423,7 @@
 		ec.crud({url:'${ctxPath}/member/course/evaluation/view',listParams:{"__cid":cid},listSelectStyle:'none',showHeader:false,
 			editable:false,createable:false,viewable:false,listShowActionBar:false,showSubviewTitle:false,
 			actions:[{label:'返回课程预约',func:function(){svc.pop();}}],
-			onListSuccess:function(){$('tbody',ec).css({'font-size':'8px'});}
+			onListSuccess:function(){$('tbody',ec).css({'font-size':'14px'});}
 		});
 	}
 	
@@ -466,14 +467,14 @@
 	// 我的会员卡
 	 function _my_member_card(){
 		 _clearContainer();
-		 container.crud({url:'${ctxPath}/my/member/card',showHeader:false,showActionBar:false,listSelectStyle:'none',listShowActionBar:false,});
+		 container.crud({url:'${ctxPath}/my/member/card',title:"我的会员卡",showActionBar:false,listSelectStyle:'none',listShowActionBar:false,});
 	 }
 	
 	// 未核销的会员预约
 	function _uncheck_member_course_appoint(){
 		_clearContainer();
 		container.crud({url:'${ctxPath}/my/course/appoint/uncheck',
-			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
+			listSelectStyle:'none',title:"已预约成功",showActionBar:false,viewTableColumn:2,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
 			listItemActions:[{label:'取消预约',func:function(event){_cancle_appointment(event,container);},cssClass:'ui-action-statistic'}]
 		});
@@ -498,7 +499,7 @@
 		var svc=new StackViewController(container),div=$("<div/>");
 		svc.push(div);
 		div.crud({url:'${ctxPath}/my/course/appoint/checked',
-			listSelectStyle:'none',showHeader:false,showActionBar:false,viewTableColumn:2,
+			listSelectStyle:'none',title:"预约历史记录",showActionBar:false,viewTableColumn:2,
 			viewStyle:'table',listShowActionBar:false,listViewLinkStyle:'__link_first_field',showSubviewTitle:false,
 			listItemActions:[{label:'评价',func:function(event){_create_course_evlation(event,div,svc);},cssClass:'ui-action-statistic'}]
 		});
